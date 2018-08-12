@@ -6,7 +6,7 @@
  * @param {Player[]} players
 */
 export default function nextPlayerIndex(currentIndex, players) {
-  const availablePlayers = players.filter(p => !p.playerBusted);
+  const availablePlayers = players.filter(p => !p.playerBusted && !p.playerFolded);
   if (availablePlayers.length < 2) {
     throw new Error(`Cannot get next player when there ${availablePlayers.length === 0 ? 'are no players' : 'is only one player'} remaining.`);
   }

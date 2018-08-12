@@ -27,6 +27,6 @@ export const SUITS = [
   SUIT_SPADES
 ];
 
-export const PLAY_LAG_MILLISECONDS = 2500;
+export const PLAY_LAG_MILLISECONDS = 750;
 export const SMALL_BLIND_AMOUNT = 1;
 export const BIG_BLIND_AMOUNT = 2;

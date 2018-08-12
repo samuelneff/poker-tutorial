@@ -1,6 +1,10 @@
 export const types = {
   BET_ADD_REQUEST: 'BET_ADD_REQUEST',
+  BET_CALL_REQUEST: 'BET_CALL_REQUEST',
+  BET_FOLD_REQUEST: 'BET_FOLD_REQUEST',
   BETS_CLEAR_REQUEST: 'BETS_CLEAR_REQUEST',
+  CARD_DEAL_TO_COMMUNITY_REQUEST: 'CARD_DEAL_TO_COMMUNITY_REQUEST',
+  CARD_DEAL_TO_PLAYER_REQUEST: 'CARD_DEAL_TO_PLAYER_REQUEST',
   BUST_PLAYER_REQUEST: 'BUST_PLAYER_REQUEST',
   COMMUNITY_CARDS_UPDATE_REQUEST: 'COMMUNITY_CARDS_UPDATE_REQUEST',
   DEALER_PLAYER_INDEX_UPDATE_REQUEST: 'DEALER_PLAYER_INDEX_UPDATE_REQUEST',
@@ -21,6 +25,24 @@ export function betAdd(player, betAmount) {
   };
 }
 
+export function betCall(player) {
+  return {
+    type: types.BET_CALL_REQUEST,
+    payloas: {
+      player
+    }
+  };
+}
+
+export function betFold(player) {
+  return {
+    type: types.BET_FOLD_REQUEST,
+    payloas: {
+      player
+    }
+  };
+}
+
 export function betsClear() {
   return {
     type: types.BETS_CLEAR_REQUEST,
@@ -33,6 +55,25 @@ export function bustPlayer(player) {
     type: types.BUST_PLAYER_REQUEST,
     payload: {
       player
+    }
+  };
+}
+
+export function cardDealToCommunity(card) {
+  return {
+    type: types.CARD_DEAL_TO_COMMUNITY_REQUEST,
+    payload: {
+      card
+    }
+  };
+}
+
+export function cardDealToPlayer(player, card) {
+  return {
+    type: types.CARD_DEAL_TO_PLAYER_REQUEST,
+    payload: {
+      player,
+      card
     }
   };
 }

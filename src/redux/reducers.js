@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { types } from './actions';
 import initialState from './initialState';
+import cardsEqual from '../utils/cardsEqual';
 
 /**
  * Helper function for reducers that need to modify one player within the players array
@@ -22,10 +23,16 @@ function modifyPlayer(players, action, modifier) {
 const reducers = {
 
   communityCards(state = initialState.communityCards, action) {
-    if (action.type !== types.COMMUNITY_CARDS_UPDATE_REQUEST) {
-      return state;
+    switch (action.type) {
+      case types.COMMUNITY_CARDS_UPDATE_REQUEST:
+        return action.payload.cards;
+
+      case types.CARD_DEAL_TO_COMMUNITY_REQUEST:
+        return [ ...state, action.payload.card ];
+
+      default:
+        return state;
     }
-    return action.payload.cards;
   },
 
   dealerPlayerIndex(state = initialState.dealerPlayerIndex, action) {
@@ -40,6 +47,12 @@ const reducers = {
       case types.DECK_UPDATE_REQUEST:
         return action.payload.deck;
 
+      case types.CARD_DEAL_TO_COMMUNITY_REQUEST:
+      case types.CARD_DEAL_TO_PLAYER_REQUEST:
+        {
+          const { card } = action.payload;
+          return state.filter(deckCard => !cardsEqual(deckCard, card));
+        }
       default:
         return state;
     }
@@ -54,12 +67,6 @@ const reducers = {
 
   players(state = initialState.players, action) {
     switch(action.type) {
-      case types.PLAYER_ADD_REQUEST:
-        return [...state, action.payload.player];
-
-      case types.PLAYERS_CLEAR_REQUEST:
-        return [];
-      
       case types.BET_ADD_REQUEST:
         return modifyPlayer(
           state,
@@ -71,19 +78,44 @@ const reducers = {
             return player;
           });
 
-      case types.BETS_CLEAR_REQUEST:
+      case types.BET_CALL_REQUEST:
+        // TODO: track bets
+        return state;
+
+      case types.BET_FOLD_REQUEST:
+        return modifyPlayer(state, action, player => player.playerFolded = true);
+
+       case types.BETS_CLEAR_REQUEST:
         return state.map(
           player => (
             {
               ...player,
-              bet: {}
+              playerBet: 0,
+              playerFolded: false
             }
           )
         );
 
+      case types.CARD_DEAL_TO_PLAYER_REQUEST:
+        return modifyPlayer(
+          state,
+          action,
+          player => (
+            {
+              ...player,
+              holeCards: [ ...player.holeCards, action.payload.card ]
+            }
+          ));
+          
       case types.BUST_PLAYER_REQUEST:
         return modifyPlayer(state, action, player => player.playerBusted = true);
 
+        case types.PLAYER_ADD_REQUEST:
+        return [...state, action.payload.player];
+
+      case types.PLAYERS_CLEAR_REQUEST:
+        return [];
+      
       default:
         return state;
     }
@@ -91,11 +123,14 @@ const reducers = {
 
   pot(state = initialState.pot, action) {
     switch(action.type) {
-      case types.POT_UPDATE_REQUEST:
-        return action.payload.pot;
-
       case types.BET_ADD_REQUEST:
         return state + action.payload.betAmount;
+
+      case types.BETS_CLEAR_REQUEST:
+        return 0;
+        
+      case types.POT_UPDATE_REQUEST:
+        return action.payload.pot;
 
       default:
         return state;

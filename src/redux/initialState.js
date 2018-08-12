@@ -9,7 +9,7 @@ const initialState = {
   deck: [],
   inTurnPlayerIndex: 0,
   players: [],
-  pot: {}
+  pot: 0
 };
 
 export default initialState;

@@ -11,7 +11,7 @@ export default ( { isDealer, isInTurn, player }) => {
   } = player;
   return (
     <div>
-      <h1>
+      <div>
         Player { playerName } ({ playerIndex })
         {
           isDealer ? ' - DEALER' : ''
@@ -19,10 +19,10 @@ export default ( { isDealer, isInTurn, player }) => {
         {
           isInTurn ? ' - IN TURN': ''
         }
-      </h1>
+      </div>
       <div className="interim-data">
-        <div>Bankroll: {playerBank}</div>
         <div><CardStack cards={holeCards} /></div>
+        <div>Bankroll: {playerBank}</div>
         <div>Bet: {playerBet}</div>
       </div>
     </div>

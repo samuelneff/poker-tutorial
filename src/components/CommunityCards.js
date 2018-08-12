@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import * as actions from '../redux/actions';
+import CardStack from './CardStack';
+
+import mapDispatchToPropsCommon from '../redux/mapDispatchToPropsCommon';
 
 export class CommunityCards extends Component {
 
@@ -12,12 +14,8 @@ export class CommunityCards extends Component {
 
     return (
       <div>
-        <h1>CommunityCards</h1>
-        {
-          communityCards.length
-            ? <div>None</div>
-            : communityCards.map(card => <div>{card.rank}-{card.suit}</div>)
-        }
+        <div>CommunityCards</div>
+        <div className="interim-data"><CardStack cards={communityCards} /></div>
       </div>
     )
   }
@@ -32,10 +30,4 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommunityCards)
+export default connect(mapStateToProps, mapDispatchToPropsCommon)(CommunityCards)
