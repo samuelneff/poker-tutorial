@@ -5,6 +5,7 @@ interface Player {
   playerBank:number;
   playerBet:number;
   holeCards:Card[];
+  playerHand:Hand;
   playerFolded:boolean;
   playerBusted:boolean;
 }

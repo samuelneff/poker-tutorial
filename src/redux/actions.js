@@ -12,6 +12,7 @@ export const types = {
   DECK_UPDATE_REQUEST: 'DECK_UPDATE_REQUEST',
   IN_TURN_PLAYER_INDEX_UPDATE_REQUEST: 'IN_TURN_PLAYER_INDEX_UPDATE_REQUEST',
   PLAYER_ADD_REQUEST: 'PLAYER_ADD_REQUEST',
+  PLAYER_HAND_UDPATE_REQUEST: 'PLAYER_HAND_UDPATE_REQUEST',
   PLAYERS_CLEAR_REQUEST: 'PLAYERS_CLEAR_REQUEST',
   POT_UPDATE_REQUEST: 'POT_UPDATE_REQUEST'
 }
@@ -117,6 +118,15 @@ export function inTurnPlayerIndexUpdate(playerIndex) {
 export function playerAdd(player) {
   return {
     type: types.PLAYER_ADD_REQUEST,
+    payload: {
+      player
+    }
+  };
+}
+
+export function playerHandUpdate(player) {
+  return {
+    type: types.PLAYER_HAND_UDPATE_REQUEST,
     payload: {
       player
     }

@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import newDeck from '../utils/newDeck';
 import * as actions from '../redux/actions';
 import asyncForEach from '../utils/asyncForEach';
+import asyncRunWithDelayBetween from '../utils/asyncRunWithDelayBetween';
+import bestHandAvailable from '../utils/bestHandAvailable';
 import { 
   BIG_BLIND_AMOUNT,
   PLAY_LAG_MILLISECONDS,
   SMALL_BLIND_AMOUNT
 } from '../utils/constants';
 import filterAvailablePlayers from '../utils/filterAvailablePlayers';
+import newDeck from '../utils/newDeck';
 import nextPlayerIndex from '../utils/nextPlayerIndex';
 import timeout from '../utils/timeout';
 
@@ -56,33 +58,15 @@ export class PlayInputs extends Component {
   }
 
   startNewDeal = async () => {
-    const {
-      actions: {
-        betsClear,
-        cardDealToPlayer,
-        communityCardsUpdate,
-        dealerPlayerIndexUpdate,
-        deckUpdate,
-        inTurnPlayerIndexUpdate,
-        playerAdd,
-        playersClear
-      },
-      dealerPlayerIndex,
-      inTurnPlayerIndex,
-      players
-    } = this.props;
 
-    await this.clearDeal();
-    await timeout(PLAY_LAG_MILLISECONDS);
-    await this.rotateDealer();
-    await timeout(PLAY_LAG_MILLISECONDS);
-    await this.dealCards();
-    await timeout(PLAY_LAG_MILLISECONDS);
-    await this.runBlind(SMALL_BLIND_AMOUNT);
-    await timeout(PLAY_LAG_MILLISECONDS);
-    await this.runBlind(BIG_BLIND_AMOUNT);
-    await timeout(PLAY_LAG_MILLISECONDS);
-    this.startThisDeal();
+    await asyncRunWithDelayBetween(
+      PLAY_LAG_MILLISECONDS,
+      this.clearDeal,
+      this.rotateDealer,
+      this.dealCards,
+      async () => this.runBlind(SMALL_BLIND_AMOUNT),
+      async () => this.runBlind(BIG_BLIND_AMOUNT),
+      this.startThisDeal);
   }
 
   clearDeal = async () => {
@@ -249,6 +233,24 @@ export class PlayInputs extends Component {
     cardDealToCommunity(deck[0]);
   };
 
+  evaluateHands = async () => {
+    const {
+      actions: {
+        playerHandUpdate
+      },
+      communityCards,
+      players
+    } = this.props;
+
+    await asyncForEach(
+      players,
+      async player => {
+        const playerHand = bestHandAvailable(communityCards.concat(player.holeCards));
+        playerHandUpdate({...player, playerHand});
+      }
+    )
+  }
+
   render() {
     const {
       currentBet
@@ -278,6 +280,9 @@ export class PlayInputs extends Component {
           <div>
             <button onClick={this.dealNextCommunityCard}>Next Card</button>
           </div>
+          <div>
+            <button onClick={this.evaluateHands}>Evaluate</button>
+          </div>
         </div>
       </div>
     )
@@ -286,17 +291,19 @@ export class PlayInputs extends Component {
 
 function mapStateToProps(state) {
   const {    
+    communityCards,
+    currentBet,
     dealerPlayerIndex,
     deck,
     inTurnPlayerIndex,
-    currentBet,
     players
   } = state;
   return {
+    communityCards,
+    currentBet,
     dealerPlayerIndex,
     deck,
     inTurnPlayerIndex,
-    currentBet,
     players
   };
 }

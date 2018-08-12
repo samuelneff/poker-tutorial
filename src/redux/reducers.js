@@ -14,8 +14,13 @@ function modifyPlayer(players, action, modifier) {
   const newPlayers = [...players];
 
   const modifyIndex = action.payload.player.playerIndex;
-  const modifiedPlayer = modifier({...newPlayers[modifyIndex]});      
-  newPlayers[modifyIndex] = modifiedPlayer;
+  const newPlayer = {...newPlayers[modifyIndex]};
+  
+  // modified can return a new player entirely (complex update) or it can change just one property (scalar change)
+  const maybeModifiedPlayer = modifier(newPlayer);
+  newPlayers[modifyIndex] = maybeModifiedPlayer && maybeModifiedPlayer.playerIndex === modifyIndex
+    ? maybeModifiedPlayer
+    : newPlayer;
   
   return newPlayers;
 }
@@ -89,7 +94,6 @@ const reducers = {
               player.playerBank -= raiseAmount;
               player.playerBet += raiseAmount;
             }
-            return player;
           });
 
       case types.BET_CALL_REQUEST:
@@ -104,8 +108,10 @@ const reducers = {
           player => (
             {
               ...player,
+              holeCards: [],
               playerBet: 0,
-              playerFolded: false
+              playerFolded: false,
+              playerHand: null
             }
           )
         );
@@ -114,18 +120,16 @@ const reducers = {
         return modifyPlayer(
           state,
           action,
-          player => (
-            {
-              ...player,
-              holeCards: [ ...player.holeCards, action.payload.card ]
-            }
-          ));
+          player => player.holeCards = [ ...player.holeCards, action.payload.card ]);
 
       case types.BUST_PLAYER_REQUEST:
         return modifyPlayer(state, action, player => player.playerBusted = true);
 
-        case types.PLAYER_ADD_REQUEST:
+      case types.PLAYER_ADD_REQUEST:
         return [...state, action.payload.player];
+
+      case types.PLAYER_HAND_UDPATE_REQUEST:
+          return modifyPlayer(state, action, player => player.playerHand = action.payload.player.playerHand);
 
       case types.PLAYERS_CLEAR_REQUEST:
         return [];

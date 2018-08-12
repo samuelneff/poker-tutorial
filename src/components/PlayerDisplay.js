@@ -6,6 +6,9 @@ export default ( { isDealer, isInTurn, player }) => {
     holeCards,
     playerBet,
     playerBank,
+    playerBusted,
+    playerFolded,
+    playerHand,
     playerIndex,
     playerName
   } = player;
@@ -19,11 +22,21 @@ export default ( { isDealer, isInTurn, player }) => {
         {
           isInTurn ? ' - IN TURN': ''
         }
+        {
+          playerFolded ? ' - FOLDED' : ''
+        }
+        {
+          playerBusted ? ' - BUSTED' : ''
+        }
       </div>
       <div className="interim-data">
         <div><CardStack cards={holeCards} /></div>
         <div>Bankroll: {playerBank}</div>
         <div>Bet: {playerBet}</div>
+        {
+          playerHand &&
+          <div>{ playerHand.handName } - <CardStack cards={playerHand.cardsInRank} /> / <CardStack cards={playerHand.kickers} /></div>
+        }
       </div>
     </div>
   );
