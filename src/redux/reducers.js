@@ -20,6 +20,11 @@ function modifyPlayer(players, action, modifier) {
   return newPlayers;
 }
 
+function getRaiseAmount(action) {
+  const { betAmount, player: { playerBet } } = action.payload;
+  return betAmount - playerBet;
+}
+
 const reducers = {
 
   communityCards(state = initialState.communityCards, action) {
@@ -33,6 +38,13 @@ const reducers = {
       default:
         return state;
     }
+  },
+
+  currentBet(state = initialState.currentBet, action) {
+    if (action.type !== types.BET_UPDATE_REQUEST) {
+      return state;
+    }
+    return Math.max(state, action.payload.betAmount);
   },
 
   dealerPlayerIndex(state = initialState.dealerPlayerIndex, action) {
@@ -67,14 +79,16 @@ const reducers = {
 
   players(state = initialState.players, action) {
     switch(action.type) {
-      case types.BET_ADD_REQUEST:
+      case types.BET_UPDATE_REQUEST:
         return modifyPlayer(
           state,
           action,
           player => {
-            const { betAmount } = action.payload;
-            player.playerBank -= betAmount;
-            player.playerBet += betAmount;
+            const raiseAmount = getRaiseAmount(action);
+            if (raiseAmount) {
+              player.playerBank -= raiseAmount;
+              player.playerBet += raiseAmount;
+            }
             return player;
           });
 
@@ -106,7 +120,7 @@ const reducers = {
               holeCards: [ ...player.holeCards, action.payload.card ]
             }
           ));
-          
+
       case types.BUST_PLAYER_REQUEST:
         return modifyPlayer(state, action, player => player.playerBusted = true);
 
@@ -123,8 +137,8 @@ const reducers = {
 
   pot(state = initialState.pot, action) {
     switch(action.type) {
-      case types.BET_ADD_REQUEST:
-        return state + action.payload.betAmount;
+      case types.BET_UPDATE_REQUEST:
+        return state + getRaiseAmount(action);
 
       case types.BETS_CLEAR_REQUEST:
         return 0;

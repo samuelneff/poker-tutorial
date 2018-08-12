@@ -1,7 +1,8 @@
 export const types = {
-  BET_ADD_REQUEST: 'BET_ADD_REQUEST',
+
   BET_CALL_REQUEST: 'BET_CALL_REQUEST',
   BET_FOLD_REQUEST: 'BET_FOLD_REQUEST',
+  BET_UPDATE_REQUEST: 'BET_UPDATE_REQUEST',
   BETS_CLEAR_REQUEST: 'BETS_CLEAR_REQUEST',
   CARD_DEAL_TO_COMMUNITY_REQUEST: 'CARD_DEAL_TO_COMMUNITY_REQUEST',
   CARD_DEAL_TO_PLAYER_REQUEST: 'CARD_DEAL_TO_PLAYER_REQUEST',
@@ -15,20 +16,10 @@ export const types = {
   POT_UPDATE_REQUEST: 'POT_UPDATE_REQUEST'
 }
 
-export function betAdd(player, betAmount) {
-  return {
-    type: types.BET_ADD_REQUEST,
-    payload: {
-      player,
-      betAmount
-    }
-  };
-}
-
 export function betCall(player) {
   return {
     type: types.BET_CALL_REQUEST,
-    payloas: {
+    payload: {
       player
     }
   };
@@ -37,8 +28,18 @@ export function betCall(player) {
 export function betFold(player) {
   return {
     type: types.BET_FOLD_REQUEST,
-    payloas: {
+    payload: {
       player
+    }
+  };
+}
+
+export function betUpdate(player, betAmount) {
+  return {
+    type: types.BET_UPDATE_REQUEST,
+    payload: {
+      player,
+      betAmount
     }
   };
 }

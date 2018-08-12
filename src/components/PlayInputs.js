@@ -18,7 +18,7 @@ export class PlayInputs extends Component {
   constructor() {
     super();
     this.state = {
-      betAmount: BIG_BLIND_AMOUNT
+      raiseAmount: BIG_BLIND_AMOUNT
     }
   };
 
@@ -153,7 +153,7 @@ export class PlayInputs extends Component {
   runBlind = async blindAmount => {
     const {
       actions: {
-        betAdd,
+        betUpdate,
         inTurnPlayerIndexUpdate
       },
       bustPlayer,
@@ -172,7 +172,7 @@ export class PlayInputs extends Component {
       return;
     }
 
-    betAdd(blindPlayer, blindAmount);
+    betUpdate(blindPlayer, blindAmount);
   }
 
   startThisDeal = async () => {
@@ -189,13 +189,9 @@ export class PlayInputs extends Component {
 
   betCall = () => {
     const {
-      actions: {
-        inTurnPlayerIndexUpdate
-      },
-      inTurnPlayerIndex,
-      players
+      currentBet
     } = this.props;
-    inTurnPlayerIndexUpdate(nextPlayerIndex(inTurnPlayerIndex, players));
+    this.placeBet(currentBet);
   }
 
   betFold = () => {
@@ -211,48 +207,76 @@ export class PlayInputs extends Component {
 
   betRaise = () => {
     const {
+      currentBet
+    } = this.props;
+    const {
+      raiseAmount
+    } = this.state;    
+    this.placeBet(currentBet + raiseAmount);
+  };
+
+  placeBet = amount => {
+    const {
       actions: {
-        betAdd,
+        betUpdate,
         inTurnPlayerIndexUpdate
       },
       inTurnPlayerIndex,
       players
     } = this.props;
-    const {
-      betAmount
-    } = this.state;
 
     const betPlayer = players[inTurnPlayerIndex];
 
-    if (betPlayer.playerBank < betAmount) {
+    if (betPlayer.playerBank < amount) {
       return;
     }
 
-    betAdd(betPlayer, betAmount);
+    betUpdate(betPlayer, amount);
     inTurnPlayerIndexUpdate(nextPlayerIndex(inTurnPlayerIndex, players));
+  }
+
+  setRaiseAmount = raiseAmount => {
+    this.setState( { raiseAmount } );
   };
 
-  setBetAmount = betAmount => {
-    this.setState( { betAmount } );
+  dealNextCommunityCard = () => {
+    const {
+      actions: {
+        cardDealToCommunity
+      },
+      deck
+    } = this.props;
+    cardDealToCommunity(deck[0]);
   };
 
   render() {
     const {
-      betAmount
+      currentBet
+    } = this.props;
+    const {
+      raiseAmount
     } = this.state;
     return (
       <div className="player-input">
         <div>PlayInputs</div>
         <div className="interim-data">
-          <button onClick={this.startNewGame}>New Game</button>
-          <button onClick={this.startNewDeal}>New Deal</button>
           <div>
+            <button onClick={this.startNewGame}>New Game</button>
+            <button onClick={this.startNewDeal}>New Deal</button>
+          </div>
+          <div>
+            <span>Bet: {currentBet} </span>
+            <button onClick={this.betCall}>Call</button>
             <input type="decimal"
-                   onChange={event => this.setBetAmount(parseInt(event.target.value))}
+                   onChange={event => this.setRaiseAmount(parseInt(event.target.value))}
                    onKeyPress={event => event.code === 'Enter' && this.betRaise()}
-                   value={betAmount}
+                   value={raiseAmount}
                    />
-            <button onClick={this.betRaise}>Place Bet</button>
+            <button onClick={this.betRaise}>Raise</button>
+            <button onClick={this.betFold}>Fold</button>
+          </div>
+          <div>
+            <button onClick={this.dealNextCommunityCard}>Next Card</button>
           </div>
         </div>
       </div>
@@ -265,12 +289,14 @@ function mapStateToProps(state) {
     dealerPlayerIndex,
     deck,
     inTurnPlayerIndex,
+    currentBet,
     players
   } = state;
   return {
     dealerPlayerIndex,
     deck,
     inTurnPlayerIndex,
+    currentBet,
     players
   };
 }

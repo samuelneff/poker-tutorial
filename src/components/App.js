@@ -12,7 +12,11 @@ class App extends Component {
     return (
       <div className="root-container">
         <div>App</div>
+        <div>&nbsp;</div>
+
         <PlayersDisplay />
+        <div>&nbsp;</div>
+
         <CommunityCards />
         <PotDisplay />
         

@@ -6,7 +6,13 @@ body {
   margin-left: 20px;
 }
 .player-input {
-  & button:not(:last-of-type) {
+
+  & div:not(:last-child) {
+    margin-bottom: 15px;
+  }
+  
+  & button:not(:last-child),
+  & input:not(:last-child) {
     margin-right: 20px;
   }
 }

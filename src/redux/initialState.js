@@ -8,6 +8,7 @@ const initialState = {
   dealerPlayerIndex: null,
   deck: [],
   inTurnPlayerIndex: 0,
+  currentBet: 0,
   players: [],
   pot: 0
 };
