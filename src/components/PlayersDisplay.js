@@ -2,21 +2,33 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PlayerDisplay from './PlayerDisplay';
 
-export class PlayersDisplay extends Component {
+class PlayersDisplay extends Component {
   render() {
     
-    const { players } = this.props;    
+    const { 
+      dealerPlayerIndex,
+      inTurnPlayerIndex,
+      players
+    } = this.props;    
 
     return players.map(player => (
       <PlayerDisplay key={player.playerName}
-                     player={player} /> 
+                     player={player}
+                     isDealer={player.playerIndex === dealerPlayerIndex} 
+                     isInTurn={player.playerIndex === inTurnPlayerIndex} /> 
     ));
   }
 }
 
 const mapStateToProps = state => {
-  const { players } = state;
+  const { 
+    dealerPlayerIndex,
+    inTurnPlayerIndex,
+    players
+  } = state;
   return {
+    dealerPlayerIndex,
+    inTurnPlayerIndex,
     players
   };
 };
