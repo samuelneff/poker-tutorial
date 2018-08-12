@@ -9,11 +9,10 @@
     "preinstall": "node tools/nodeVersionCheck.js",
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm run start-message",
-    "start": "concurrently -k -r -s first \"npm run test:watch\" \"npm run open:src\" \"npm run lint:watch\"",
+    "start": "concurrently -k -r -s first \"npm run test:watch\" \"npm run open:src\"",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
-    "lint": "esw webpack.config.* src tools --color",
-    "lint:watch": "npm run lint -- --watch",
+    "eslint": "./node_modules/.bin/eslint src",
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "rimraf ./dist",
     "prebuild": "npm run lint && npm run test && npm run clean-dist",
@@ -32,6 +31,7 @@
     "object-assign": "4.1.1",
     "react": "16.4.2",
     "react-dom": "16.4.2",
+    "react-hot-loader": "4.3.4",
     "react-redux": "5.0.7",
     "react-router-dom": "4.3.1",
     "react-router-redux": "5.0.0-alpha.6",
@@ -60,7 +60,11 @@
     "enzyme": "3.4.1",
     "enzyme-adapter-react-16": "1.2.0",
     "eslint": "5.3.0",
+    "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-import": "2.13.0",
+    "eslint-plugin-jest": "^21.21.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "7.10.0",
     "eslint-watch": "4.0.2",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
@@ -79,7 +83,6 @@
     "prompt": "1.0.0",
     "prop-types": "15.6.2",
     "raf": "3.4.0",
-    "react-hot-loader": "4.3.4",
     "react-test-renderer": "16.4.2",
     "redux-immutable-state-invariant": "2.1.0",
     "redux-mock-store": "1.5.3",
@@ -149,34 +152,5 @@
         ]
       }
     }
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "eslint:recommended",
-      "plugin:import/errors",
-      "plugin:import/warnings",
-      "plugin:react/recommended"
-    ],
-    "plugins": [
-      "react"
-    ],
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true,
-        "experimentalObjectRestSpread": true
-      }
-    },
-    "env": {
-      "es6": true,
-      "browser": true,
-      "node": true,
-      "jquery": true,
-      "jest": true
-    },
-    "globals": {}
   }
 }

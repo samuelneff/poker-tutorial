@@ -1,0 +1,3 @@
+interface InitialState {
+  players:Player[];
+}

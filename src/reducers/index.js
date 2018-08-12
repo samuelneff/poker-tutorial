@@ -1,3 +1,8 @@
-// Set up your root reducer here...
- import { combineReducers } from 'redux';
- export default combineReducers;
+import { combineReducers } from 'redux';
+import players from './playersReducer';
+
+const rootReducer = combineReducers({
+  players
+});
+
+export default rootReducer;

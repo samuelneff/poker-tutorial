@@ -1,0 +1,25 @@
+{
+  "env": {
+    "jest/globals": true
+  },
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "plugins": ["jest", "react"],
+  "rules": {
+    "implicit-arrow-linebreak": 0,
+    "padded-blocks": 0,
+    "react/prop-types": 0,
+    "react/jsx-closing-bracket-location": [
+      2,
+      {
+        "nonEmpty": "tag-aligned",
+        "selfClosing": "after-props"
+      }
+    ],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-first-prop-new-line": [1, "never"],
+    "react/jsx-indent-props": [1, "first"],
+    "react/jsx-max-props-per-line": [1, { "maximum": 1 }],
+    "react/jsx-wrap-multilines": 0
+  }
+}
