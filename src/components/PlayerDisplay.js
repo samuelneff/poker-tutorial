@@ -1,11 +1,11 @@
 import React from 'react'
 import CardStack from './CardStack';
-import ChipStacks from './ChipStacks';
 
 export default ( { isDealer, isInTurn, player }) => {
   const {
     holeCards,
-    playerChips,
+    playerBet,
+    playerBank,
     playerIndex,
     playerName
   } = player;
@@ -21,8 +21,9 @@ export default ( { isDealer, isInTurn, player }) => {
         }
       </h1>
       <div className="interim-data">
+        <div>Bankroll: {playerBank}</div>
         <div><CardStack cards={holeCards} /></div>
-        <div><ChipStacks chips={playerChips} /></div>
+        <div>Bet: {playerBet}</div>
       </div>
     </div>
   );

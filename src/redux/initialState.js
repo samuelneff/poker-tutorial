@@ -5,7 +5,7 @@
  */
 const initialState = {
   communityCards: [],
-  dealerPlayerIndex: 0,
+  dealerPlayerIndex: null,
   deck: [],
   inTurnPlayerIndex: 0,
   players: [],

@@ -4,13 +4,11 @@ import { bindActionCreators } from 'redux';
 import newDeck from '../utils/newDeck';
 import * as actions from '../redux/actions';
 import { 
-  CHIP_ONE, 
-  CHIP_FIVE,
-  CHIP_TEN, 
-  CHIP_TWENTY,
-  CHIP_HUNDRED,
-  PLAY_LAG_MILLISECONDS
+  BIG_BLIND_AMOUNT,
+  PLAY_LAG_MILLISECONDS,
+  SMALL_BLIND_AMOUNT
 } from '../utils/constants';
+import nextPlayerIndex from '../utils/nextPlayerIndex';
 import timeout from '../utils/timeout';
 
 export class PlayInputs extends Component {
@@ -28,17 +26,8 @@ export class PlayInputs extends Component {
       }
     } = this.props;
     
-    // everyone starts with $1,000
-    const defaultChips = {
-      [CHIP_ONE]: 10,
-      [CHIP_FIVE]: 10,
-      [CHIP_TEN]: 10,
-      [CHIP_TWENTY]: 12,
-      [CHIP_HUNDRED]: 6
-    };
-
     communityCardsUpdate([]);
-    dealerPlayerIndexUpdate(0);
+    dealerPlayerIndexUpdate(null);
     deckUpdate(newDeck());
     inTurnPlayerIndexUpdate(0);
     playersClear();
@@ -48,23 +37,80 @@ export class PlayInputs extends Component {
           {
             playerIndex,
             playerName,            
-            playerChips: { ...defaultChips },
-            playerBet: {},
-            holeCards: []
+            playerBank: 1000,
+            playerBet: 0,
+            holeCards: [],
+            playerBusted: false
           })
     );
-    potUpdate({ ...defaultChips });
+    potUpdate(0);
   }
 
   startNewDeal = async () => {
     const {
       actions: {
-        betsClear
-      }
+        betsClear,
+        communityCardsUpdate,
+        dealerPlayerIndexUpdate,
+        deckUpdate,
+        inTurnPlayerIndexUpdate,
+        playerAdd,
+        playersClear,
+        potUpdate
+      },
+      dealerPlayerIndex,
+      inTurnPlayerIndex,
+      players
     } = this.props;
+
+    const newDealerIndex = nextPlayerIndex(dealerPlayerIndex, players);
+    communityCardsUpdate([]);
     betsClear();
+    dealerPlayerIndexUpdate(newDealerIndex);
+    inTurnPlayerIndexUpdate(newDealerIndex);
     await timeout(PLAY_LAG_MILLISECONDS);
+    await this.runBlind(SMALL_BLIND_AMOUNT);
+    await timeout(PLAY_LAG_MILLISECONDS);
+    await this.runBlind(BIG_BLIND_AMOUNT);
+    await timeout(PLAY_LAG_MILLISECONDS);
+    this.startThisDeal();
+  }
+
+  runBlind = async blindAmount => {
+    const {
+      actions: {
+        betAdd,
+        inTurnPlayerIndexUpdate
+      },
+      bustPlayer,
+      inTurnPlayerIndex,
+      players
+    } = this.props;
+    const blindIndex = nextPlayerIndex(inTurnPlayerIndex, players);
+    const blindPlayer = players[blindIndex];
     
+    inTurnPlayerIndexUpdate(blindIndex);
+
+    if (blindPlayer.playerBank < blindAmount) {
+      bustPlayer(blindPlayer);
+      await timeout(PLAY_LAG_MILLISECONDS);
+      await this.runBlind(blindAmount);
+      return;
+    }
+
+    betAdd(blindPlayer, blindAmount);
+  }
+
+  startThisDeal = async () => {
+    const {
+      actions: {
+        inTurnPlayerIndexUpdate
+      },
+      inTurnPlayerIndex,
+      players
+    } = this.props;
+    const nextIndex = nextPlayerIndex(inTurnPlayerIndex, players);
+    inTurnPlayerIndexUpdate(nextIndex);
   }
 
   render() {
@@ -79,8 +125,15 @@ export class PlayInputs extends Component {
 }
 
 function mapStateToProps(state) {
+  const {
+    dealerPlayerIndex,
+    inTurnPlayerIndex,
+    players
+  } = state;
   return {
-  
+    dealerPlayerIndex,
+    inTurnPlayerIndex,
+    players
   };
 }
 

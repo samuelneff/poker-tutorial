@@ -2,7 +2,8 @@
 interface Player {
   playerIndex:number;
   playerName:string;
-  playerChips:ChipSet;
-  playerBet:ChipSet;
+  playerBank:number;
+  playerBet:number;
   holeCards:Card[];
+  playerBusted:boolean;
 }

@@ -2,6 +2,23 @@ import { combineReducers } from 'redux';
 import { types } from './actions';
 import initialState from './initialState';
 
+/**
+ * Helper function for reducers that need to modify one player within the players array
+ * 
+ * @param {Player[]} players 
+ * @param {{player:Player}} action 
+ * @param {function(player:Player):Player} modifier 
+ */
+function modifyPlayer(players, action, modifier) {
+  const newPlayers = [...players];
+
+  const modifyIndex = action.payload.player.playerIndex;
+  const modifiedPlayer = modifier({...newPlayers[modifyIndex]});      
+  newPlayers[modifyIndex] = modifiedPlayer;
+  
+  return newPlayers;
+}
+
 const reducers = {
 
   communityCards(state = initialState.communityCards, action) {
@@ -12,7 +29,7 @@ const reducers = {
   },
 
   dealerPlayerIndex(state = initialState.dealerPlayerIndex, action) {
-    if (action.type !== types.UPDATE_DEALER_PLAYER_INDEX) {
+    if (action.type !== types.DEALER_PLAYER_INDEX_UPDATE_REQUEST) {
       return state;
     }
     return action.payload.playerIndex;
@@ -43,6 +60,17 @@ const reducers = {
       case types.PLAYERS_CLEAR_REQUEST:
         return [];
       
+      case types.BET_ADD_REQUEST:
+        return modifyPlayer(
+          state,
+          action,
+          player => {
+            const { betAmount } = action.payload;
+            player.playerBank -= betAmount;
+            player.playerBet += betAmount;
+            return player;
+          });
+
       case types.BETS_CLEAR_REQUEST:
         return state.map(
           player => (
@@ -53,17 +81,27 @@ const reducers = {
           )
         );
 
+      case types.BUST_PLAYER_REQUEST:
+        return modifyPlayer(state, action, player => player.playerBusted = true);
+
       default:
         return state;
     }
   },
 
   pot(state = initialState.pot, action) {
-    if (action.type !== types.POT_UPDATE_REQUEST) {
-      return state;
+    switch(action.type) {
+      case types.POT_UPDATE_REQUEST:
+        return action.payload.pot;
+
+      case types.BET_ADD_REQUEST:
+        return state + action.payload.betAmount;
+
+      default:
+        return state;
     }
-    return action.payload.pot;
   }
+
 };
 
 export default combineReducers(reducers);

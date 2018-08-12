@@ -1,6 +1,7 @@
 export const types = {
   BET_ADD_REQUEST: 'BET_ADD_REQUEST',
   BETS_CLEAR_REQUEST: 'BETS_CLEAR_REQUEST',
+  BUST_PLAYER_REQUEST: 'BUST_PLAYER_REQUEST',
   COMMUNITY_CARDS_UPDATE_REQUEST: 'COMMUNITY_CARDS_UPDATE_REQUEST',
   DEALER_PLAYER_INDEX_UPDATE_REQUEST: 'DEALER_PLAYER_INDEX_UPDATE_REQUEST',
   DECK_UPDATE_REQUEST: 'DECK_UPDATE_REQUEST',
@@ -10,12 +11,12 @@ export const types = {
   POT_UPDATE_REQUEST: 'POT_UPDATE_REQUEST'
 }
 
-export function betAdd(player, chips) {
+export function betAdd(player, betAmount) {
   return {
     type: types.BET_ADD_REQUEST,
     payload: {
       player,
-      chips
+      betAmount
     }
   };
 }
@@ -25,6 +26,15 @@ export function betsClear() {
     type: types.BETS_CLEAR_REQUEST,
     payload: {}
   }
+}
+
+export function bustPlayer(player) {
+  return {
+    type: types.BUST_PLAYER_REQUEST,
+    payload: {
+      player
+    }
+  };
 }
 
 export function communityCardsUpdate(cards) {

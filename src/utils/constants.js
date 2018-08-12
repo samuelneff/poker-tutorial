@@ -15,20 +15,6 @@ export const CARD_RANKS = [
   'K'
 ];
 
-export const CHIP_ONE = 1;
-export const CHIP_FIVE = 5;
-export const CHIP_TEN = 10;
-export const CHIP_TWENTY = 20;
-export const CHIP_HUNDRED = 100;
-
-export const CHIP_DENOMINATIONS = [
-  CHIP_ONE,
-  CHIP_FIVE,
-  CHIP_TEN,
-  CHIP_TWENTY,
-  CHIP_HUNDRED
-];
-
 export const SUIT_CLUBS = 'clubs';
 export const SUIT_DIAMONDS = 'diamonds';
 export const SUIT_HEARTS = 'hearts';
@@ -41,4 +27,6 @@ export const SUITS = [
   SUIT_SPADES
 ];
 
-export const PLAY_LAG_MILLISECONDS = 500;
+export const PLAY_LAG_MILLISECONDS = 2500;
+export const SMALL_BLIND_AMOUNT = 1;
+export const BIG_BLIND_AMOUNT = 2;
