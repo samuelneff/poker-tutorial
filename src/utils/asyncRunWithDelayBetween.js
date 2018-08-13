@@ -12,8 +12,8 @@ export default async function asyncRunWithDelayBetween(miliseconds, ...funcs) {
     async (fn, index) => {
       if (index) {
         await timeout(miliseconds);
-        fn();
       }
+      fn();
     }
   );
 }

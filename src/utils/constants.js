@@ -47,7 +47,7 @@ export const SUITS = [
 
 export const SUIT_LOOKUP = toLookup(SUITS, echo, (suit, index) => index);
 
-export const PLAY_LAG_MILLISECONDS = 250;
+export const PLAY_LAG_MILLISECONDS = 100;
 export const SMALL_BLIND_AMOUNT = 1;
 export const BIG_BLIND_AMOUNT = 2;
 

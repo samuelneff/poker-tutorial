@@ -77,7 +77,7 @@ export class PlayInputs extends Component {
         deckUpdate,
       }
     } = this.props;
-
+    console.log('clearDeal');
     betsClear();
     communityCardsUpdate([]);
     deckUpdate(newDeck());
@@ -92,6 +92,7 @@ export class PlayInputs extends Component {
       dealerPlayerIndex,
       players
     } = this.props;
+    console.log('rotateDealer');
 
     const newDealerIndex = nextPlayerIndex(dealerPlayerIndex, players);
     dealerPlayerIndexUpdate(newDealerIndex);
@@ -108,6 +109,7 @@ export class PlayInputs extends Component {
       players
     } = this.props;
 
+    console.log('dealCards');
     const availablePlayers = filterAvailablePlayers(players);
     const playersLeftOfDealer = availablePlayers.filter(player => player.playerIndex > dealerPlayerIndex);
     const playersRightOfDealer = availablePlayers.filter(player => player.playerIndex <= dealerPlayerIndex);
@@ -144,6 +146,9 @@ export class PlayInputs extends Component {
       inTurnPlayerIndex,
       players
     } = this.props;
+
+    console.log('runBlind');
+
     const blindIndex = nextPlayerIndex(inTurnPlayerIndex, players);
     const blindPlayer = players[blindIndex];
     

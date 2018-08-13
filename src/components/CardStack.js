@@ -8,7 +8,7 @@ const CardStack = ( { cards } ) =>
     {
       interpolate(
         cards.map( ({rank, suit}) => {
-          const display = `${rank} ${suit}`;
+          const display = `${rank}${suit}`;
           return (
             <span key={display}>{display}</span>
           );

@@ -1,4 +1,3 @@
-import evaluateHand from './evaluateHand';
 import {
   HAND_ROYAL_FLUSH,
   HAND_STRAIGHT_FLUSH,
@@ -10,12 +9,11 @@ import {
   HAND_TWO_PAIR,
   HAND_ONE_PAIR,
   HAND_HIGH_CARD,
-  HAND_NAMES,
-  HAND_RANK_LOOKUP,
+  HAND_NAMES
 } from './constants';
+import evaluateHand from './evaluateHand';
 import cardArrayFromTextList from './test/cardArrayFromTextList';
-import cardFromText from './test/cardFromText';
-import byRankSorter from './byRankSorter';
+import handFromText from './test/handFromText';
 
 describe('utils', () => describe('evaluateHand', () => {
 
@@ -34,15 +32,13 @@ describe('utils', () => describe('evaluateHand', () => {
       }
 
       const actual = evaluateHand(cardsInHand);
-      const expected = {
-        handRef: expectedHandRef,
-        handName: HAND_NAMES[expectedHandRef],
-        handRank: HAND_RANK_LOOKUP[expectedHandRef],
-        highCard: cardFromText(expectedHighCardText),
-        cardsInHand: cardsInHand.slice().sort(byRankSorter),
-        cardsInRank: cardArrayFromTextList(expectedCardsInRankText),
-        kickers: cardArrayFromTextList(expectedKickersText)
-      };
+      const expected = handFromText(
+        cardsInHandText,
+        expectedHandRef,
+        expectedCardsInRankText,
+        expectedKickersText,
+        expectedHighCardText
+      );
       expect(actual).toEqual(expected);
     });
   }
@@ -52,7 +48,7 @@ describe('utils', () => describe('evaluateHand', () => {
     HAND_HIGH_CARD,
     'KC',
     '4S, 5C, 9S, 0C',
-    '0C');
+    '');
 
   testEvaluateHand(
     'KC, 5D, 5S, QC, AH',

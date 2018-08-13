@@ -20,7 +20,9 @@ export default function createHand(partialHand = {}) {
 
   if (kickers.length) {
     kickers.sort(byRankSorter);
-    highCard = kickers[kickers.length - 1];
+    if (cardsInRank.length > 1) {
+      highCard = kickers[kickers.length - 1];
+    }
   }
   return {
     handRef,

@@ -46,10 +46,17 @@ const reducers = {
   },
 
   currentBet(state = initialState.currentBet, action) {
-    if (action.type !== types.BET_UPDATE_REQUEST) {
-      return state;
+    switch(action.type) {
+      
+      case types.BET_UPDATE_REQUEST: 
+        return Math.max(state, action.payload.betAmount);
+      
+      case types.BETS_CLEAR_REQUEST:
+        return 0;
+
+      default:
+        return state;
     }
-    return Math.max(state, action.payload.betAmount);
   },
 
   dealerPlayerIndex(state = initialState.dealerPlayerIndex, action) {

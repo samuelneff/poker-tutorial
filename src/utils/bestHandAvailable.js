@@ -11,7 +11,11 @@ export default function bestHandAvailable(allCards) {
   const len = allCards.length;
   for(let skipOne = 0; skipOne < len; skipOne++) {
     for(let skipTwo = skipOne + 1; skipTwo < len; skipTwo++) {
-      const hand = evaluateHand(allCards.filter((card, index) => index !== skipOne && index !== skipTwo));
+      const cardsInHand = allCards.filter((card, index) => index !== skipOne && index !== skipTwo);
+      const cardsText = cardsInHand.map(c => `${c.rank}${c.suit}`);
+      debugger;
+      const hand = evaluateHand(cardsInHand);
+      console.log(`${cardsText} -> ${hand.handName}`);
       const compared = handSorter(bestHand, hand);
       if (compared > 0) {
         bestHand = hand;

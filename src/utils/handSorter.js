@@ -22,7 +22,8 @@ function compareHandsByRankAtIndex(x, y, index) {
 function compareHandsHighCard(x, y) {
   const xRank = cardRankIndex(x.highCard);
   const yRank = cardRankIndex(y.highCard);
-  return xRank - yRank;
+  // higher is better, so reverse rank here
+  return yRank - xRank;
 }
 
 const equalHandComparers = {
