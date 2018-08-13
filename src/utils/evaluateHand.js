@@ -1,3 +1,4 @@
+import byRankDescSorter from './byRankDescSorter';
 import byRankSorter from './byRankSorter';
 import createHand from './createHand';
 import {
@@ -23,8 +24,8 @@ import threeOfAKind from './threeOfAKind';
 
 const handEvaluators = {
   [HAND_ROYAL_FLUSH]: function handRoyalFlush(cards) {
-    return isStraight(cards) && isFlush(cards) && cards[4].rank === RANK_ACE
-      ? { cardsInRank:  cards.slice() }
+    return isStraight(cards) && isFlush(cards) && cards.slice().sort(byRankSorter)[4].rank === RANK_ACE
+      ? { cardsInRank: cards.slice() }
       :  null;
   },
 
@@ -35,7 +36,10 @@ const handEvaluators = {
   },
 
   [HAND_FOUR_OF_A_KIND]: function handFourOfAKind(cards) {
-    return fourOfAKind(cards);
+    const four = fourOfAKind(cards);
+    return four === null 
+      ? null
+      : { cardsInRank: four };
   },
 
   [HAND_FULL_HOUSE]: function handFullHouse(cards) {
@@ -45,7 +49,7 @@ const handEvaluators = {
     }
     const rest = restOfHand(cards, threes);
     return rest[0].rank === rest[1].rank
-      ? { cardsInRank:  threes.concat(rest) }
+      ? { cardsInRank: threes.sort(byRankSorter).concat(rest.sort(byRankSorter)) }
       : null;
   },
 
@@ -77,7 +81,7 @@ const handEvaluators = {
     const secondPair = pair(rest);
     return secondPair === null
       ? null
-      : { cardsInRank: firstPair.concat(secondPair) };
+      : { cardsInRank: firstPair.concat(secondPair).sort(byRankDescSorter) };
   },
 
   [HAND_ONE_PAIR]: function handOnePair(cards) {

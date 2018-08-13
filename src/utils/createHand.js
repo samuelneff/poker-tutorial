@@ -1,5 +1,5 @@
 import byRankSorter from './byRankSorter';
-import { HAND_NAMES, HAND_RANK_LOOKUP } from './constants';
+import { HAND_NAMES, HAND_RANK_LOOKUP, HANDS_WITH_SPECIAL_SORT } from './constants';
 import restOfHand from './restOfHand';
 
 /**
@@ -23,10 +23,14 @@ export default function createHand(partialHand = {}) {
     highCard = kickers[kickers.length - 1];
   }
   return {
+    handRef,
     handName: HAND_NAMES[handRef],
     handRank: HAND_RANK_LOOKUP[handRef],
     highCard,
-    kickers,
-    ...partialHand
+    cardsInHand: cardsInHand.slice().sort(byRankSorter),
+    cardsInRank: HANDS_WITH_SPECIAL_SORT[handRef]
+      ? cardsInRank
+      : cardsInRank.slice().sort(byRankSorter),
+    kickers
   };
 }

@@ -10,9 +10,9 @@ interface Card {
     '7' |
     '8' |
     '9' |
-    '10' |
+    '0' |
     'J' |
     'Q' |
-    'K',
-  suit: 'clubs' | 'diamonds' | 'hearts' | 'spades'
+    'K';
+  suit: 'C' | 'D' | 'H' | 'S';
 }

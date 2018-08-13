@@ -9,7 +9,7 @@ export const RANK_SIX = '6';
 export const RANK_SEVEN = '7';
 export const RANK_EIGHT = '8';
 export const RANK_NINE = '9';
-export const RANK_TEN = '10';
+export const RANK_TEN = '0';
 export const RANK_JACK = 'J';
 export const RANK_QUEEN = 'Q';
 export const RANK_KING = 'K';
@@ -33,10 +33,10 @@ export const CARD_RANKS = [
 
 export const CARD_RANK_INDEX_LOOKUP = toLookup(CARD_RANKS, echo, (rank, index) => index);
 
-export const SUIT_CLUBS = 'Clubs';
-export const SUIT_DIAMONDS = 'Diamonds';
-export const SUIT_HEARTS = 'Hearts';
-export const SUIT_SPADES = 'Spades';
+export const SUIT_CLUBS = 'C';
+export const SUIT_DIAMONDS = 'D';
+export const SUIT_HEARTS = 'H';
+export const SUIT_SPADES = 'S';
 
 export const SUITS = [
   SUIT_CLUBS,
@@ -44,6 +44,8 @@ export const SUITS = [
   SUIT_HEARTS,
   SUIT_SPADES
 ];
+
+export const SUIT_LOOKUP = toLookup(SUITS, echo, (suit, index) => index);
 
 export const PLAY_LAG_MILLISECONDS = 250;
 export const SMALL_BLIND_AMOUNT = 1;
@@ -76,6 +78,7 @@ export const HANDS_RANKED = [
 export const HAND_RANK_LOOKUP = toLookup(HANDS_RANKED, echo, (hand, index) => index);
 
 export const HAND_NAMES = {
+  [HAND_ROYAL_FLUSH]: 'Royal Flush',
   [HAND_STRAIGHT_FLUSH]: 'Straight Flush',
   [HAND_FOUR_OF_A_KIND]: 'Four of a Kind',
   [HAND_FULL_HOUSE]: 'Full House',
@@ -86,3 +89,8 @@ export const HAND_NAMES = {
   [HAND_ONE_PAIR]: 'One Pair',
   [HAND_HIGH_CARD]: 'High Card'
 };
+
+export const HANDS_WITH_SPECIAL_SORT = {
+  [HAND_TWO_PAIR]: true,
+  [HAND_FULL_HOUSE]: true
+}

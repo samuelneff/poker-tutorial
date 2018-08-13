@@ -2,16 +2,18 @@ import mixinBaseSorter from './mixinBaseSorter';
 import { CARD_RANK_INDEX_LOOKUP, SUIT_LOOKUP } from './constants';
 
 /**
- * Determins sort order for cards by rank
+ * Determins sort order for cards by descending rank (highest rank first). Not
+ * exactly the opposite of byRankSorter because while ranks are sorted highest
+ * to lowest, suits are still sorted alphabetically.
  * 
  * @param {Card} x First card
  * @param {Card} y Second card
  */
-function byRankSorter(x, y) {
+function byRankDescSorter(x, y) {
   const xIndex = CARD_RANK_INDEX_LOOKUP[x.rank];
   const yIndex = CARD_RANK_INDEX_LOOKUP[y.rank];
   if (xIndex !== yIndex) {
-    return xIndex - yIndex;
+    return yIndex - xIndex;
   }
 
   // cards are technical equal now, but for consistency we'll sort
@@ -21,4 +23,4 @@ function byRankSorter(x, y) {
   return xSuit - ySuit;
 }
 
-export default mixinBaseSorter(byRankSorter);
+export default mixinBaseSorter(byRankDescSorter);

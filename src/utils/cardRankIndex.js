@@ -7,5 +7,5 @@ import { CARD_RANK_INDEX_LOOKUP } from './constants'
 export default function cardRankIndex(card) {
   return typeof card === 'string'
     ? CARD_RANK_INDEX_LOOKUP[card]
-    : card && CARD_RANK_INDEX_LOOKUP[card.cardRank];
+    : card && CARD_RANK_INDEX_LOOKUP[card.rank];
 }
