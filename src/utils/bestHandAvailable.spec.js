@@ -130,7 +130,7 @@ describe('utils', () =>
       '2H, 8C, JC, AH, 5D, 0H, 5H',
       HAND_ONE_PAIR,
       '5D, 5H',
-      ''
+      'AH'
     );
 
   }));

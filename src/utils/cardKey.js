@@ -4,5 +4,5 @@
  * @param {Card} card The card to convert to a key
  */
 export default function cardKey(card) {
-  return card && `${card.rank} ${card.suit}`;
+  return card && `${card.rank}${card.suit}`;
 }
