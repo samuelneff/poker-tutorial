@@ -93,4 +93,4 @@ export const HAND_NAMES = {
 export const HANDS_WITH_SPECIAL_SORT = {
   [HAND_TWO_PAIR]: true,
   [HAND_FULL_HOUSE]: true
-}
+};

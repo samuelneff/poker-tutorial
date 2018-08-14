@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+// methods are ordered logically by when they are used, so don't alphabetize
+/* eslint-disable react/sort-comp */
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../redux/actions';
 import asyncForEach from '../utils/asyncForEach';
@@ -15,14 +17,14 @@ import newDeck from '../utils/newDeck';
 import nextPlayerIndex from '../utils/nextPlayerIndex';
 import timeout from '../utils/timeout';
 
-export class PlayInputs extends Component {
+class PlayInputs extends Component {
 
   constructor() {
     super();
     this.state = {
       raiseAmount: BIG_BLIND_AMOUNT
-    }
-  };
+    };
+  }
 
   startNewGame = () => {
     const {
@@ -42,7 +44,7 @@ export class PlayInputs extends Component {
     deckUpdate(newDeck());
     inTurnPlayerIndexUpdate(0);
     playersClear();
-    ["Sam", "Charlotte", "Caitlin", "Cole", "Caden", "Claire"].forEach(
+    ['Sam', 'Charlotte', 'Caitlin', 'Cole', 'Caden', 'Claire'].forEach(
       (playerName, playerIndex) =>
         playerAdd(
           {
@@ -55,7 +57,7 @@ export class PlayInputs extends Component {
           })
     );
     potUpdate(0);
-  }
+  };
 
   startNewDeal = async () => {
 
@@ -67,7 +69,7 @@ export class PlayInputs extends Component {
       async () => this.runBlind(SMALL_BLIND_AMOUNT),
       async () => this.runBlind(BIG_BLIND_AMOUNT),
       this.startThisDeal);
-  }
+  };
 
   clearDeal = async () => {
     const {
@@ -77,11 +79,10 @@ export class PlayInputs extends Component {
         deckUpdate,
       }
     } = this.props;
-    console.log('clearDeal');
     betsClear();
     communityCardsUpdate([]);
     deckUpdate(newDeck());
-  }
+  };
 
   rotateDealer = async () => {
     const {
@@ -92,12 +93,10 @@ export class PlayInputs extends Component {
       dealerPlayerIndex,
       players
     } = this.props;
-    console.log('rotateDealer');
-
     const newDealerIndex = nextPlayerIndex(dealerPlayerIndex, players);
     dealerPlayerIndexUpdate(newDealerIndex);
     inTurnPlayerIndexUpdate(newDealerIndex);
-  }
+  };
 
   dealCards = async () => {
     const {
@@ -108,8 +107,6 @@ export class PlayInputs extends Component {
       dealerPlayerIndex,
       players
     } = this.props;
-
-    console.log('dealCards');
     const availablePlayers = filterAvailablePlayers(players);
     const playersLeftOfDealer = availablePlayers.filter(player => player.playerIndex > dealerPlayerIndex);
     const playersRightOfDealer = availablePlayers.filter(player => player.playerIndex <= dealerPlayerIndex);
@@ -126,15 +123,22 @@ export class PlayInputs extends Component {
         // cannot destructure outside lambda since we're in async
         const { deck } = this.props;
         cardDealToPlayer(player, deck[0]);
-        await timeout(PLAY_LAG_MILLISECONDS)
+        await timeout(PLAY_LAG_MILLISECONDS);
       }
     );
 
-    await timeout(PLAY_LAG_MILLISECONDS)
+    await timeout(PLAY_LAG_MILLISECONDS);
+    // Don't use destructuring because it will be cached when the function is split up due to async/await
+    // and that's not what we want
+    // eslint-disable-next-line react/destructuring-assignment
     cardDealToCommunity(this.props.deck[0]);
-    await timeout(PLAY_LAG_MILLISECONDS)
+
+    await timeout(PLAY_LAG_MILLISECONDS);
+    // ditto on not using destructuring
+    // eslint-disable-next-line react/destructuring-assignment
     cardDealToCommunity(this.props.deck[0]);
-  }
+
+  };
 
   runBlind = async blindAmount => {
     const {
@@ -146,8 +150,6 @@ export class PlayInputs extends Component {
       inTurnPlayerIndex,
       players
     } = this.props;
-
-    console.log('runBlind');
 
     const blindIndex = nextPlayerIndex(inTurnPlayerIndex, players);
     const blindPlayer = players[blindIndex];
@@ -162,7 +164,7 @@ export class PlayInputs extends Component {
     }
 
     betUpdate(blindPlayer, blindAmount);
-  }
+  };
 
   startThisDeal = async () => {
     const {
@@ -174,14 +176,14 @@ export class PlayInputs extends Component {
     } = this.props;
     const nextIndex = nextPlayerIndex(inTurnPlayerIndex, players);
     inTurnPlayerIndexUpdate(nextIndex);
-  }
+  };
 
   betCall = () => {
     const {
       currentBet
     } = this.props;
     this.placeBet(currentBet);
-  }
+  };
 
   betFold = () => {
     const {
@@ -192,7 +194,7 @@ export class PlayInputs extends Component {
       players
     } = this.props;
     inTurnPlayerIndexUpdate(nextPlayerIndex(inTurnPlayerIndex, players));
-  }
+  };
 
   betRaise = () => {
     const {
@@ -222,10 +224,10 @@ export class PlayInputs extends Component {
 
     betUpdate(betPlayer, amount);
     inTurnPlayerIndexUpdate(nextPlayerIndex(inTurnPlayerIndex, players));
-  }
+  };
 
   setRaiseAmount = raiseAmount => {
-    this.setState( { raiseAmount } );
+    this.setState({ raiseAmount });
   };
 
   dealNextCommunityCard = () => {
@@ -253,8 +255,8 @@ export class PlayInputs extends Component {
         const playerHand = bestHandAvailable(communityCards.concat(player.holeCards));
         playerHandUpdate({...player, playerHand});
       }
-    )
-  }
+    );
+  };
 
   render() {
     const {
@@ -265,32 +267,59 @@ export class PlayInputs extends Component {
     } = this.state;
     return (
       <div className="player-input">
-        <div>PlayInputs</div>
+        <div>
+          PlayInputs
+        </div>
         <div className="interim-data">
           <div>
-            <button onClick={this.startNewGame}>New Game</button>
-            <button onClick={this.startNewDeal}>New Deal</button>
+            <button onClick={this.startNewGame}
+                    type="button">
+              New Game
+            </button>
+            <button onClick={this.startNewDeal}
+                    type="button">
+              New Deal
+            </button>
           </div>
           <div>
-            <span>Bet: {currentBet} </span>
-            <button onClick={this.betCall}>Call</button>
+            <span>
+              Bet:
+              { ' ' }
+              {currentBet}
+              { ' ' }
+            </span>
+            <button onClick={this.betCall}
+                    type="button">
+              Call
+            </button>
             <input type="decimal"
                    onChange={event => this.setRaiseAmount(parseInt(event.target.value))}
                    onKeyPress={event => event.code === 'Enter' && this.betRaise()}
-                   value={raiseAmount}
-                   />
-            <button onClick={this.betRaise}>Raise</button>
-            <button onClick={this.betFold}>Fold</button>
+                   value={raiseAmount} />
+            <button onClick={this.betRaise}
+                    type="button">
+              Raise
+            </button>
+            <button onClick={this.betFold}
+                    type="button">
+              Fold
+            </button>
           </div>
           <div>
-            <button onClick={this.dealNextCommunityCard}>Next Card</button>
+            <button onClick={this.dealNextCommunityCard}
+                    type="button">
+              Next Card
+            </button>
           </div>
           <div>
-            <button onClick={this.evaluateHands}>Evaluate</button>
+            <button onClick={this.evaluateHands}
+                    type="button">
+              Evaluate
+            </button>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -319,5 +348,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlayInputs)
-
+export default connect(mapStateToProps, mapDispatchToProps)(PlayInputs);

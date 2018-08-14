@@ -10,5 +10,5 @@ export default function mixinBaseSorter(sorter) {
     return base === null
       ? sorter(x, y)
       : base;
-  }  
+  };
 }

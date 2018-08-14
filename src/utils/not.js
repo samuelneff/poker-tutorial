@@ -5,5 +5,5 @@
 export default function not(fn) {
   return function negate(...args) {
     return !fn.apply(this, args);
-  }
+  };
 }

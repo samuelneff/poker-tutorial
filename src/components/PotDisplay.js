@@ -1,18 +1,19 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 import mapDispatchToPropsCommon from '../redux/mapDispatchToPropsCommon';
 
-export class PotDisplay extends Component {
-  render() {
-    const { pot } = this.props;
-    return (
-      <div>
-        <div>Pot</div>
-        <div className="interim-data">Value: {pot}</div>
-      </div>
-    )
-  }
-}
+
+const PotDisplay = ({ pot }) =>
+  <div>
+    <div>
+      Pot
+    </div>
+    <div className="interim-data">
+      Value:
+      { ' ' }
+      { pot }
+    </div>
+  </div>;
 
 function mapStateToProps(state) {
   const {
@@ -20,7 +21,7 @@ function mapStateToProps(state) {
   } = state;
   return {
     pot
-  }
+  };
 }
 
-export default connect(mapStateToProps,  mapDispatchToPropsCommon)(PotDisplay)
+export default connect(mapStateToProps, mapDispatchToPropsCommon)(PotDisplay);

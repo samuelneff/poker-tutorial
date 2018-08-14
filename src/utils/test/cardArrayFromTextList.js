@@ -7,7 +7,7 @@ import cardFromText from './cardFromText';
  */
 export default function cardArrayFromTextList(cardsText) {
   if (typeof cardsText !== 'string') {
-    throw new Error(`Requested convert cardTextToArray but cardText is not a string, it is '${typeof cardsText}': ${cardsText}`);
+    throw new Error(`Provided cardText is not a string, it's a(n) '${typeof cardsText}': ${cardsText}`);
   }  
 
   if (cardsText.length === 0) {

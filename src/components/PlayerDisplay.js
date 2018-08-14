@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import CardStack from './CardStack';
 
-export default ( { isDealer, isInTurn, player }) => {
+const PlayerDisplay = ({ isDealer, isInTurn, player }) => {
   const {
     holeCards,
     playerBet,
@@ -20,7 +20,7 @@ export default ( { isDealer, isInTurn, player }) => {
           isDealer ? ' - DEALER' : ''
         }
         {
-          isInTurn ? ' - IN TURN': ''
+          isInTurn ? ' - IN TURN' : ''
         }
         {
           playerFolded ? ' - FOLDED' : ''
@@ -35,9 +35,17 @@ export default ( { isDealer, isInTurn, player }) => {
         <div>Bet: {playerBet}</div>
         {
           playerHand &&
-          <div>{ playerHand.handName } - <CardStack cards={playerHand.cardsInRank} /> / <CardStack cards={playerHand.kickers} /></div>
+          <div>
+            { playerHand.handName }
+            { ' - ' }
+            <CardStack cards={playerHand.cardsInRank} />
+            { ' / ' }
+            <CardStack cards={playerHand.kickers} />
+          </div>
         }
       </div>
     </div>
   );
-}
+};
+
+export default PlayerDisplay;

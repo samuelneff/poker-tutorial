@@ -1,5 +1,6 @@
 import byRankDescSorter from './byRankDescSorter';
 import byRankSorter from './byRankSorter';
+import cardKey from './cardKey';
 import createHand from './createHand';
 import {
   HAND_ROYAL_FLUSH,
@@ -26,13 +27,13 @@ const handEvaluators = {
   [HAND_ROYAL_FLUSH]: function handRoyalFlush(cards) {
     return isStraight(cards) && isFlush(cards) && cards.slice().sort(byRankSorter)[4].rank === RANK_ACE
       ? { cardsInRank: cards.slice() }
-      :  null;
+      : null;
   },
 
   [HAND_STRAIGHT_FLUSH]: function handStraightFlush(cards) {
     return isStraight(cards) && isFlush(cards)
-      ? { cardsInRank:  cards.slice() }
-      :  null;
+      ? { cardsInRank: cards.slice() }
+      : null;
   },
 
   [HAND_FOUR_OF_A_KIND]: function handFourOfAKind(cards) {
@@ -96,25 +97,25 @@ const handEvaluators = {
     return { cardsInRank: [ high ] };
   },
   
-}
+};
 
 /**
  * Calculates the best hand for a given set of cards
- * @param {*} cards 
+ * @param {Card[]} cardsInHand
  */
 export default function evaluateHand(cardsInHand) {
   const handsCount = HANDS_RANKED.length;
-  for(let i=0; i<handsCount; i++) {
+  for (let i = 0; i < handsCount; i++) {
     const handRef = HANDS_RANKED[i];
     const partialHand = handEvaluators[handRef](cardsInHand);
     if (partialHand !== null) {
       return createHand(
-          {
-            cardsInHand,
-            handRef,
-            ...partialHand,
-          }
-        );
+        {
+          cardsInHand,
+          handRef,
+          ...partialHand,
+        }
+      );
     }
   }
 

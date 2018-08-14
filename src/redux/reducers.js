@@ -7,7 +7,7 @@ import cardsEqual from '../utils/cardsEqual';
  * Helper function for reducers that need to modify one player within the players array
  * 
  * @param {Player[]} players 
- * @param {{player:Player}} action 
+ * @param {{payload:{player:Player}}} action
  * @param {function(player:Player):Player} modifier 
  */
 function modifyPlayer(players, action, modifier) {
@@ -46,7 +46,7 @@ const reducers = {
   },
 
   currentBet(state = initialState.currentBet, action) {
-    switch(action.type) {
+    switch (action.type) {
       
       case types.BET_UPDATE_REQUEST: 
         return Math.max(state, action.payload.betAmount);
@@ -67,16 +67,15 @@ const reducers = {
   },
 
   deck(state = initialState.deck, action) {
-    switch(action.type) {
+    switch (action.type) {
       case types.DECK_UPDATE_REQUEST:
         return action.payload.deck;
 
       case types.CARD_DEAL_TO_COMMUNITY_REQUEST:
-      case types.CARD_DEAL_TO_PLAYER_REQUEST:
-        {
-          const { card } = action.payload;
-          return state.filter(deckCard => !cardsEqual(deckCard, card));
-        }
+      case types.CARD_DEAL_TO_PLAYER_REQUEST: {
+        const { card } = action.payload;
+        return state.filter(deckCard => !cardsEqual(deckCard, card));
+      }
       default:
         return state;
     }
@@ -90,27 +89,41 @@ const reducers = {
   },
 
   players(state = initialState.players, action) {
-    switch(action.type) {
+    switch (action.type) {
       case types.BET_UPDATE_REQUEST:
         return modifyPlayer(
           state,
           action,
           player => {
+            let { playerBank, playerBet } = player;
             const raiseAmount = getRaiseAmount(action);
             if (raiseAmount) {
-              player.playerBank -= raiseAmount;
-              player.playerBet += raiseAmount;
+              playerBank -= raiseAmount;
+              playerBet += raiseAmount;
             }
-          });
+            return {
+              ...player,
+              playerBank,
+              playerBet
+            };
+          }
+        );
 
       case types.BET_CALL_REQUEST:
         // TODO: track bets
         return state;
 
       case types.BET_FOLD_REQUEST:
-        return modifyPlayer(state, action, player => player.playerFolded = true);
+        return modifyPlayer(
+          state,
+          action,
+          player => ({
+            ...player,
+            playerFolded: true
+          })
+        );
 
-       case types.BETS_CLEAR_REQUEST:
+      case types.BETS_CLEAR_REQUEST:
         return state.map(
           player => (
             {
@@ -127,16 +140,34 @@ const reducers = {
         return modifyPlayer(
           state,
           action,
-          player => player.holeCards = [ ...player.holeCards, action.payload.card ]);
+          player => ({
+            ...player,
+            holeCards: [ ...player.holeCards, action.payload.card ]
+          })
+        );
 
       case types.BUST_PLAYER_REQUEST:
-        return modifyPlayer(state, action, player => player.playerBusted = true);
+        return modifyPlayer(
+          state,
+          action,
+          player => ({
+            ...player,
+            playerBusted: true
+          })
+        );
 
       case types.PLAYER_ADD_REQUEST:
         return [...state, action.payload.player];
 
-      case types.PLAYER_HAND_UDPATE_REQUEST:
-          return modifyPlayer(state, action, player => player.playerHand = action.payload.player.playerHand);
+      case types.PLAYER_HAND_UPDATE_REQUEST:
+        return modifyPlayer(
+          state,
+          action,
+          player => ({
+            ...player,
+            playerHand: action.payload.player.playerHand
+          })
+        );
 
       case types.PLAYERS_CLEAR_REQUEST:
         return [];
@@ -147,7 +178,7 @@ const reducers = {
   },
 
   pot(state = initialState.pot, action) {
-    switch(action.type) {
+    switch (action.type) {
       case types.BET_UPDATE_REQUEST:
         return state + getRaiseAmount(action);
 

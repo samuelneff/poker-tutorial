@@ -1,4 +1,5 @@
 interface InitialState {
+  currentBet: number;
   communityCards: Card[];
   dealerPlayerIndex: number;
   deck: Card[];

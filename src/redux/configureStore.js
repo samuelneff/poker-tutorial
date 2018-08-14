@@ -1,5 +1,5 @@
 import {
-  applyMiddleware ,
+  applyMiddleware,
   compose, 
   createStore,
 } from 'redux';
@@ -29,13 +29,14 @@ function configureStoreDev(initialState) {
   const middlewares = [
     // Add other middleware on this line...
 
-    // Redux middleware that spits an error on you when you try to mutate your state either inside a dispatch or between dispatches.
+    // Error on invalidly mutated state
     reduxImmutableStateInvariant(),
 
     reactRouterMiddleware,
   ];
 
-  const composeEnhancers =    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // add support for Redux dev tools
+  // eslint-disable-next-line no-underscore-dangle
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // add support for Redux dev tools
   const store = createStore(
     reducers,
     initialState,
@@ -53,8 +54,8 @@ function configureStoreDev(initialState) {
   return store;
 }
 
-const configureStore =  process.env.NODE_ENV === 'production'
-    ? configureStoreProd
-    : configureStoreDev;
+const configureStore = process.env.NODE_ENV === 'production'
+  ? configureStoreProd
+  : configureStoreDev;
 
 export default configureStore;

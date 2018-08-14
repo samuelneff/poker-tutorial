@@ -1,3 +1,6 @@
+// several functions follow a defined pattern and not all
+// use the arguments, but best to keep consistent so turning off eslint rule
+/* eslint-disable no-unused-vars */
 import cardRankIndex from './cardRankIndex';
 import {
   HAND_ROYAL_FLUSH,
@@ -31,11 +34,11 @@ const equalHandComparers = {
     return 0;
   },
 
-  [HAND_STRAIGHT_FLUSH]: function compareHandsWithStraightFlush(x,y) {
+  [HAND_STRAIGHT_FLUSH]: function compareHandsWithStraightFlush(x, y) {
     return 0;
   },
 
-  [HAND_FOUR_OF_A_KIND]: function compareHandsWithFourOfAKind(x,y) {
+  [HAND_FOUR_OF_A_KIND]: function compareHandsWithFourOfAKind(x, y) {
     const rankCompare = compareHandsByRankAtIndex(x, y, 0);
     if (rankCompare !== 0) {
       return rankCompare;
@@ -43,29 +46,29 @@ const equalHandComparers = {
     return compareHandsHighCard(x, y);
   },
 
-  [HAND_FULL_HOUSE]: function compareHandsWithFullHouse(x,y) {
+  [HAND_FULL_HOUSE]: function compareHandsWithFullHouse(x, y) {
     const threeCompare = compareHandsByRankAtIndex(x, y, 0);
     return threeCompare === 0
       ? compareHandsByRankAtIndex(x, y, 3)
-      :  threeCompare;
+      : threeCompare;
   },
 
-  [HAND_FLUSH]: function compareHandsWithFlush(x,y) {
+  [HAND_FLUSH]: function compareHandsWithFlush(x, y) {
     return compareHandsByRankAtIndex(x, y, 0);
   },
 
-  [HAND_STRAIGHT]: function compareHandsWithStraight(x,y) {
+  [HAND_STRAIGHT]: function compareHandsWithStraight(x, y) {
     return compareHandsByRankAtIndex(x, y, 4);
   },
 
-  [HAND_THREE_OF_A_KIND]: function compareHandsWithThreeOfAKind(x,y) {
+  [HAND_THREE_OF_A_KIND]: function compareHandsWithThreeOfAKind(x, y) {
     const threeCompare = compareHandsByRankAtIndex(x, y, 0);
     return threeCompare === 0
       ? compareHandsHighCard(x, y)
-      :  threeCompare;
+      : threeCompare;
   },
 
-  [HAND_TWO_PAIR]: function compareHandsWithTwoPair(x,y) {
+  [HAND_TWO_PAIR]: function compareHandsWithTwoPair(x, y) {
     const xFirstRank = cardRankIndex(x.cardsInRank[0]);
     const yFirstRank = cardRankIndex(y.cardsInRank[0]);
     const xSecondRank = cardRankIndex(x.cardsInRank[2]);
@@ -87,18 +90,18 @@ const equalHandComparers = {
     return compareHandsHighCard(x, y);    
   },
 
-  [HAND_ONE_PAIR]: function compareHandsWithOnePair(x,y) {
+  [HAND_ONE_PAIR]: function compareHandsWithOnePair(x, y) {
     const pairCompare = compareHandsByRankAtIndex(x, y, 0);
     return pairCompare === 0
       ? compareHandsHighCard(x, y)
-      :  pairCompare;
+      : pairCompare;
   },
 
-  [HAND_HIGH_CARD]: function compareHandsWithHighCard(x,y) {
+  [HAND_HIGH_CARD]: function compareHandsWithHighCard(x, y) {
     return compareHandsHighCard(x, y);
   },
   
-}
+};
 
 /**
  * Evaluates which hand is better, for sorting or comparison

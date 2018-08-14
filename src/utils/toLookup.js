@@ -13,9 +13,10 @@ export default function toLookup(array, keyGenerator = echo, valueGenerator = ec
   return array.reduce(
     (lookup, item, index) => {
       const key = keyGenerator(item, index);
-      const value = valueGenerator(item, index);
-      lookup[key] = value;
+      // eslint-disable-next-line no-param-reassign
+      lookup[key] = valueGenerator(item, index);
       return lookup;
     },
-    {});
+    {}
+  );
 }

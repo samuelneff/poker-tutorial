@@ -16,6 +16,6 @@ export default function interpolate(array, generator) {
         interpolated.push(generator(item, interpolated.length));
       }
     }
-  )
+  );
   return interpolated;
 }

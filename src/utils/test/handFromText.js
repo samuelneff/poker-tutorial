@@ -13,7 +13,7 @@ export default function handFromText(
   kickersText,
   highCardText) {
   return {
-    handRef: handRef,
+    handRef,
     handName: HAND_NAMES[handRef],
     handRank: HAND_RANK_LOOKUP[handRef],
     highCard: cardFromText(highCardText),

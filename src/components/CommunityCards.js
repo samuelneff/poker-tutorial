@@ -1,25 +1,14 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux';
+import React from 'react';
+import { connect } from 'react-redux';
 import CardStack from './CardStack';
 
 import mapDispatchToPropsCommon from '../redux/mapDispatchToPropsCommon';
 
-export class CommunityCards extends Component {
-
-  render() {
-    const {
-      communityCards
-    } = this.props;
-
-    return (
-      <div>
-        <div>CommunityCards</div>
-        <div className="interim-data"><CardStack cards={communityCards} /></div>
-      </div>
-    )
-  }
-}
+const CommunityCards = ({ communityCards }) =>
+  <div>
+    <div>CommunityCards</div>
+    <div className="interim-data"><CardStack cards={communityCards} /></div>
+  </div>;
 
 function mapStateToProps(state) {
   const {
@@ -30,4 +19,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToPropsCommon)(CommunityCards)
+export default connect(mapStateToProps, mapDispatchToPropsCommon)(CommunityCards);

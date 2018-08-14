@@ -3,16 +3,31 @@
     "jest/globals": true
   },
   "extends": "airbnb",
+  "globals": {
+    "document": true,
+    "require": true,
+    "window": true
+  },
   "parser": "babel-eslint",
   "plugins": ["jest", "react"],
   "rules": {
+    "array-bracket-spacing": 0,
+    "arrow-parens": 0,
+    "comma-dangle": 0,
+    "function-paren-newline": 0,
     "implicit-arrow-linebreak": 0,
+    "max-len": [2, {"code": 120, "ignoreStrings": true, "ignoreTrailingComments": true}],
+    "no-plusplus": 0,
+    "no-trailing-spaces": 0,
+    "object-curly-spacing": 0,
+    "operator-linebreak": 0,
     "padded-blocks": 0,
+    "radix": 0,
     "react/prop-types": 0,
     "react/jsx-closing-bracket-location": [
       2,
       {
-        "nonEmpty": "tag-aligned",
+        "nonEmpty": "after-props",
         "selfClosing": "after-props"
       }
     ],
@@ -20,6 +35,7 @@
     "react/jsx-first-prop-new-line": [1, "never"],
     "react/jsx-indent-props": [1, "first"],
     "react/jsx-max-props-per-line": [1, { "maximum": 1 }],
+    "react/jsx-one-expression-per-line": 0,
     "react/jsx-wrap-multilines": 0
   }
 }

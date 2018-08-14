@@ -1,4 +1,4 @@
-import { CARD_RANK_INDEX_LOOKUP } from './constants'
+import { CARD_RANK_INDEX_LOOKUP } from './constants';
 
 /**
  * Given a card or rank, returns the index of that rank.

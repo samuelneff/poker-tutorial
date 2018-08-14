@@ -2,7 +2,7 @@ import mixinBaseSorter from './mixinBaseSorter';
 import { CARD_RANK_INDEX_LOOKUP, SUIT_LOOKUP } from './constants';
 
 /**
- * Determins sort order for cards by rank
+ * Determines sort order for cards by rank
  * 
  * @param {Card} x First card
  * @param {Card} y Second card

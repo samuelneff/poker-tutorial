@@ -4,6 +4,6 @@
  * @param {Card[]} cards 
  */
 export default function isFlush(cards) {
-  let firstSuit = cards[0].suit;
+  const firstSuit = cards[0].suit;
   return cards.every(card => card.suit === firstSuit);
 }

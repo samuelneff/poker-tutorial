@@ -6,8 +6,8 @@
  * @param {number} targetCount Number of cards to match
  */
 export default function someOfAKind(cards, targetCount) {
-  for(let i=0; i<targetCount; i++) {
-    const rank = cards[i].rank;
+  for (let i = 0; i < targetCount; i++) {
+    const { rank } = cards[i];
     const inKind = cards.filter(card => card.rank === rank);
     if (inKind.length === targetCount) {
       return inKind;

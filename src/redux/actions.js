@@ -1,5 +1,4 @@
 export const types = {
-
   BET_CALL_REQUEST: 'BET_CALL_REQUEST',
   BET_FOLD_REQUEST: 'BET_FOLD_REQUEST',
   BET_UPDATE_REQUEST: 'BET_UPDATE_REQUEST',
@@ -12,10 +11,10 @@ export const types = {
   DECK_UPDATE_REQUEST: 'DECK_UPDATE_REQUEST',
   IN_TURN_PLAYER_INDEX_UPDATE_REQUEST: 'IN_TURN_PLAYER_INDEX_UPDATE_REQUEST',
   PLAYER_ADD_REQUEST: 'PLAYER_ADD_REQUEST',
-  PLAYER_HAND_UDPATE_REQUEST: 'PLAYER_HAND_UDPATE_REQUEST',
+  PLAYER_HAND_UPDATE_REQUEST: 'PLAYER_HAND_UPDATE_REQUEST',
   PLAYERS_CLEAR_REQUEST: 'PLAYERS_CLEAR_REQUEST',
   POT_UPDATE_REQUEST: 'POT_UPDATE_REQUEST'
-}
+};
 
 export function betCall(player) {
   return {
@@ -49,7 +48,7 @@ export function betsClear() {
   return {
     type: types.BETS_CLEAR_REQUEST,
     payload: {}
-  }
+  };
 }
 
 export function bustPlayer(player) {
@@ -86,8 +85,8 @@ export function communityCardsUpdate(cards) {
     payload: {
       cards
     }
-  }
-};
+  };
+}
 
 export function dealerPlayerIndexUpdate(playerIndex) {
   return {
@@ -126,7 +125,7 @@ export function playerAdd(player) {
 
 export function playerHandUpdate(player) {
   return {
-    type: types.PLAYER_HAND_UDPATE_REQUEST,
+    type: types.PLAYER_HAND_UPDATE_REQUEST,
     payload: {
       player
     }
@@ -137,8 +136,8 @@ export function playersClear() {
   return {
     type: types.PLAYERS_CLEAR_REQUEST,
     payload: {}
-  }
-};
+  };
+}
 
 export function potUpdate(pot) {
   return {

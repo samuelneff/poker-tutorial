@@ -2,7 +2,7 @@ import mixinBaseSorter from './mixinBaseSorter';
 import { CARD_RANK_INDEX_LOOKUP, SUIT_LOOKUP } from './constants';
 
 /**
- * Determins sort order for cards by descending rank (highest rank first). Not
+ * Determines sort order for cards by descending rank (highest rank first). Not
  * exactly the opposite of byRankSorter because while ranks are sorted highest
  * to lowest, suits are still sorted alphabetically.
  * 

@@ -9,7 +9,7 @@ import toLookup from './toLookup';
 export default function restOfHand(cardsInHand, cardsToRemove) {
 
   if (cardsToRemove.length === cardsInHand.length) {
-      return [];
+    return [];
   }
 
   const cardsToRemoveLookup = toLookup(cardsToRemove, cardKey);

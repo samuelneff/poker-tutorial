@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /**
  * util for sorters to test for undefined, null, and exact quality.
  * @param {any} x

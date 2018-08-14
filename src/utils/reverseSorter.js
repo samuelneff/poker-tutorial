@@ -6,6 +6,6 @@
  */
 export default function reverseSorter(sorter) {
   return function reverseSortImpl(x, y) {
-    return - sorter(x, y);
+    return -sorter(x, y);
   };
 }

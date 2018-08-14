@@ -28,7 +28,7 @@ describe('utils', () => describe('evaluateHand', () => {
 
       const cardsInHand = cardArrayFromTextList(cardsInHandText);
       if (cardsInHand.length !== 5) {
-        throw new Error(`Invalid cardInHand test text, expected 5 cards, got ${cardsInHand.length}: ${cardsInHandText}`);
+        throw new Error(`Invalid cardInHand text, expected 5 cards, got ${cardsInHand.length}: ${cardsInHandText}`);
       }
 
       const actual = evaluateHand(cardsInHand);
@@ -127,4 +127,4 @@ describe('utils', () => describe('evaluateHand', () => {
     '',
     '');
 
-    }));
+}));
