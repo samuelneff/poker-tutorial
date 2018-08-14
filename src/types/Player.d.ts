@@ -8,4 +8,5 @@ interface Player {
   playerHand:Hand;
   playerFolded:boolean;
   playerBusted:boolean;
+  playerWinner:boolean;
 }

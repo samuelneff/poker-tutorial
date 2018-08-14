@@ -14,5 +14,5 @@ export default function cardArrayFromTextList(cardsText) {
     return [];
   }
   
-  return cardsText.split(/,\s*/).map(cardFromText);
+  return cardsText.split(/, ?| /).map(cardFromText);
 }

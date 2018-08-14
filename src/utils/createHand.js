@@ -1,4 +1,4 @@
-import byRankSorter from './byRankSorter';
+import byRankAndSuitSorter from './byRankAndSuitSorter';
 import { HAND_NAMES, HAND_RANK_LOOKUP, HANDS_WITH_SPECIAL_SORT } from './constants';
 import restOfHand from './restOfHand';
 
@@ -19,7 +19,7 @@ export default function createHand(partialHand = {}) {
   let highCard = null;
 
   if (kickers.length) {
-    kickers.sort(byRankSorter);
+    kickers.sort(byRankAndSuitSorter);
     if (cardsInRank.length > 1) {
       highCard = kickers[kickers.length - 1];
     }
@@ -29,10 +29,10 @@ export default function createHand(partialHand = {}) {
     handName: HAND_NAMES[handRef],
     handRank: HAND_RANK_LOOKUP[handRef],
     highCard,
-    cardsInHand: cardsInHand.slice().sort(byRankSorter),
+    cardsInHand: cardsInHand.slice().sort(byRankAndSuitSorter),
     cardsInRank: HANDS_WITH_SPECIAL_SORT[handRef]
       ? cardsInRank
-      : cardsInRank.slice().sort(byRankSorter),
+      : cardsInRank.slice().sort(byRankAndSuitSorter),
     kickers
   };
 }

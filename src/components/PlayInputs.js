@@ -13,6 +13,7 @@ import {
   SMALL_BLIND_AMOUNT
 } from '../utils/constants';
 import filterAvailablePlayers from '../utils/filterAvailablePlayers';
+import findWinners from '../utils/findWinners';
 import newDeck from '../utils/newDeck';
 import nextPlayerIndex from '../utils/nextPlayerIndex';
 import timeout from '../utils/timeout';
@@ -256,7 +257,23 @@ class PlayInputs extends Component {
         playerHandUpdate({...player, playerHand});
       }
     );
+
+    await this.evaluateWinners();
   };
+
+  evaluateWinners = async () => {
+    const {
+      actions: {
+        playerWinnerUpdate
+      },
+      players
+    } = this.props;
+    const winners = findWinners(players);
+    if (winners.length === 0) {
+      console.error('No winners ?!?');
+    }
+    winners.forEach(playerWinnerUpdate);
+  }
 
   render() {
     const {

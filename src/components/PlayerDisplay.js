@@ -10,7 +10,8 @@ const PlayerDisplay = ({ isDealer, isInTurn, player }) => {
     playerFolded,
     playerHand,
     playerIndex,
-    playerName
+    playerName,
+    playerWinner
   } = player;
   return (
     <div>
@@ -27,6 +28,9 @@ const PlayerDisplay = ({ isDealer, isInTurn, player }) => {
         }
         {
           playerBusted ? ' - BUSTED' : ''
+        }
+        {
+          playerWinner ? ' - WINNER' : ''
         }
       </div>
       <div className="interim-data">

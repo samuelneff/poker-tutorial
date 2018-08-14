@@ -1,4 +1,4 @@
-import byRankSorter from '../byRankSorter';
+import byRankAndSuitSorter from '../byRankAndSuitSorter';
 import cardArrayFromTextList from './cardArrayFromTextList';
 import cardFromText from './cardFromText';
 import {
@@ -17,7 +17,7 @@ export default function handFromText(
     handName: HAND_NAMES[handRef],
     handRank: HAND_RANK_LOOKUP[handRef],
     highCard: cardFromText(highCardText),
-    cardsInHand: cardArrayFromTextList(cardsInHandText).sort(byRankSorter),
+    cardsInHand: cardArrayFromTextList(cardsInHandText).sort(byRankAndSuitSorter),
     cardsInRank: cardArrayFromTextList(cardsInRankText),
     kickers: cardArrayFromTextList(kickersText)
   };

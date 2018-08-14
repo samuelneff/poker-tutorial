@@ -5,8 +5,7 @@
  */
 export default function shuffle(array) {
   const shuffled = array.slice();
-  const max = shuffled - 1;
-  for (let i = max; i; i--) {
+  for (let i = shuffled.length - 1; i; i--) {
     const j = Math.trunc(Math.random() * (i + 1));
     const swap = shuffled[i];
     shuffled[i] = shuffled[j];

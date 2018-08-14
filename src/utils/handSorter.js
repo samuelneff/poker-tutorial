@@ -19,7 +19,8 @@ import mixinBaseSorter from './mixinBaseSorter';
 function compareHandsByRankAtIndex(x, y, index) {
   const xRank = cardRankIndex(x.cardsInRank[index]);
   const yRank = cardRankIndex(y.cardsInRank[index]);
-  return xRank - yRank;
+  // when comparing hands, we want to sort better hand first, so higher rank first
+  return yRank - xRank;
 }
 
 function compareHandsHighCard(x, y) {
@@ -35,7 +36,7 @@ const equalHandComparers = {
   },
 
   [HAND_STRAIGHT_FLUSH]: function compareHandsWithStraightFlush(x, y) {
-    return 0;
+    return compareHandsByRankAtIndex(x, y, 0);
   },
 
   [HAND_FOUR_OF_A_KIND]: function compareHandsWithFourOfAKind(x, y) {
@@ -104,7 +105,7 @@ const equalHandComparers = {
 };
 
 /**
- * Evaluates which hand is better, for sorting or comparison
+ * Evaluates which hand is better, for sorting or comparison; better hand first.
  * @param {Hand} x 
  * @param {Hand} y 
  */

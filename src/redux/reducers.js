@@ -131,7 +131,8 @@ const reducers = {
               holeCards: [],
               playerBet: 0,
               playerFolded: false,
-              playerHand: null
+              playerHand: null,
+              playerWinner: false
             }
           )
         );
@@ -166,6 +167,16 @@ const reducers = {
           player => ({
             ...player,
             playerHand: action.payload.player.playerHand
+          })
+        );
+
+      case types.PLAYER_WINNER_UPDATE_REQUEST:
+        return modifyPlayer(
+          state,
+          action,
+          player => ({
+            ...player,
+            playerWinner: true
           })
         );
 

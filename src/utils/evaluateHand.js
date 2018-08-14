@@ -1,5 +1,5 @@
-import byRankDescSorter from './byRankDescSorter';
-import byRankSorter from './byRankSorter';
+import byRankAndSuitDescSorter from './byRankAndSuitDescSorter';
+import byRankAndSuitSorter from './byRankAndSuitSorter';
 import cardKey from './cardKey';
 import createHand from './createHand';
 import {
@@ -25,7 +25,7 @@ import threeOfAKind from './threeOfAKind';
 
 const handEvaluators = {
   [HAND_ROYAL_FLUSH]: function handRoyalFlush(cards) {
-    return isStraight(cards) && isFlush(cards) && cards.slice().sort(byRankSorter)[4].rank === RANK_ACE
+    return isStraight(cards) && isFlush(cards) && cards.slice().sort(byRankAndSuitSorter)[4].rank === RANK_ACE
       ? { cardsInRank: cards.slice() }
       : null;
   },
@@ -50,7 +50,7 @@ const handEvaluators = {
     }
     const rest = restOfHand(cards, threes);
     return rest[0].rank === rest[1].rank
-      ? { cardsInRank: threes.sort(byRankSorter).concat(rest.sort(byRankSorter)) }
+      ? { cardsInRank: threes.sort(byRankAndSuitSorter).concat(rest.sort(byRankAndSuitSorter)) }
       : null;
   },
 
@@ -62,7 +62,7 @@ const handEvaluators = {
 
   [HAND_STRAIGHT]: function handStraight(cards) {
     return isStraight(cards)
-      ? { cardsInRank: cards.slice().sort(byRankSorter) }
+      ? { cardsInRank: cards.slice().sort(byRankAndSuitSorter) }
       : null;
   },
 
@@ -82,7 +82,7 @@ const handEvaluators = {
     const secondPair = pair(rest);
     return secondPair === null
       ? null
-      : { cardsInRank: firstPair.concat(secondPair).sort(byRankDescSorter) };
+      : { cardsInRank: firstPair.concat(secondPair).sort(byRankAndSuitDescSorter) };
   },
 
   [HAND_ONE_PAIR]: function handOnePair(cards) {
@@ -93,7 +93,7 @@ const handEvaluators = {
   },
 
   [HAND_HIGH_CARD]: function handHighCard(cards) {
-    const high = cards.slice().sort(byRankSorter)[cards.length - 1];
+    const high = cards.slice().sort(byRankAndSuitSorter)[cards.length - 1];
     return { cardsInRank: [ high ] };
   },
   

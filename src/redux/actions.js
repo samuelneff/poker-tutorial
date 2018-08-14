@@ -12,6 +12,7 @@ export const types = {
   IN_TURN_PLAYER_INDEX_UPDATE_REQUEST: 'IN_TURN_PLAYER_INDEX_UPDATE_REQUEST',
   PLAYER_ADD_REQUEST: 'PLAYER_ADD_REQUEST',
   PLAYER_HAND_UPDATE_REQUEST: 'PLAYER_HAND_UPDATE_REQUEST',
+  PLAYER_WINNER_UPDATE_REQUEST: 'PLAYER_WINNER_UPDATE_REQUEST',
   PLAYERS_CLEAR_REQUEST: 'PLAYERS_CLEAR_REQUEST',
   POT_UPDATE_REQUEST: 'POT_UPDATE_REQUEST'
 };
@@ -126,6 +127,15 @@ export function playerAdd(player) {
 export function playerHandUpdate(player) {
   return {
     type: types.PLAYER_HAND_UPDATE_REQUEST,
+    payload: {
+      player
+    }
+  };
+}
+
+export function playerWinnerUpdate(player) {
+  return {
+    type: types.PLAYER_WINNER_UPDATE_REQUEST,
     payload: {
       player
     }
