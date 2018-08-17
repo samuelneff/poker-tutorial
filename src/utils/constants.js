@@ -95,10 +95,38 @@ export const HANDS_WITH_SPECIAL_SORT = {
   [HAND_FULL_HOUSE]: true
 };
 
-export const GAME_NOT_STARTED = 1;
-export const GAME_READY_TO_DEAL = 2;
-export const GAME_CAN_CALL = 4;
-export const GAME_CAN_RAISE = 8;
-export const GAME_CAN_FOLD = 16;
-export const GAME_READY_FOR_CARD = 32;
-export const GAME_READY_TO_EVALUATE = 64;
+export const GAME_STAGE_NOT_STARTED = 'GAME_STAGE_NOT_STARTED';
+export const GAME_STAGE_NEW_HAND = 'GAME_STAGE_NEW_HAND';
+export const GAME_STAGE_FIRST_BET = 'GAME_STAGE_FIRST_BET';
+export const GAME_STAGE_FLOP = 'GAME_STAGE_FLOP';
+export const GAME_STAGE_SECOND_BET = 'GAME_STAGE_SECOND_BET';
+export const GAME_STAGE_TURN = 'GAME_STAGE_TURN';
+export const GAME_STAGE_THIRD_BET = 'GAME_STAGE_THIRD_BET';
+export const GAME_STAGE_RIVER = 'GAME_STAGE_RIVER';
+export const GAME_STAGE_FINAL_BET = 'GAME_STAGE_FINAL_BET';
+export const GAME_STAGE_EVALUATE = 'GAME_STAGE_EVALUATE';
+
+export const GAME_STAGES_LIST = [
+  GAME_STAGE_NOT_STARTED,
+  GAME_STAGE_NEW_HAND,
+  GAME_STAGE_FIRST_BET,
+  GAME_STAGE_FLOP,
+  GAME_STAGE_SECOND_BET,
+  GAME_STAGE_TURN,
+  GAME_STAGE_THIRD_BET,
+  GAME_STAGE_RIVER,
+  GAME_STAGE_FINAL_BET,
+  GAME_STAGE_EVALUATE
+];
+
+export const GAME_STAGE_INDEX_LOOKUP = toLookup(GAME_STAGES_LIST, echo, (stage, index) => index);
+
+export const CAN_START_GAME = 1;
+export const CAN_START_HAND = 2;
+export const CAN_DEAL_CARD = 4;
+export const CAN_CHECK = 8;
+export const CAN_CALL = 16;
+export const CAN_RAISE = 32;
+export const CAN_ALL_IN = 64;
+export const CAN_FOLD = 128;
+export const CAN_EVALUATE = 256;

@@ -1,21 +1,34 @@
 export const types = {
+  BET_BLIND: 'BET_BLIND',
   BET_CALL: 'BET_CALL',
   BET_FOLD: 'BET_FOLD',
   BET_RAISE: 'BET_RAISE',
   BETS_CLEAR: 'BETS_CLEAR',
-  CARD_DEAL_TO_COMMUNITY: 'CARD_DEAL_TO_COMMUNITY',
-  CARD_DEAL_TO_PLAYER: 'CARD_DEAL_TO_PLAYER',
-  BUST_PLAYER: 'BUST_PLAYER',
-  COMMUNITY_CARDS_UPDATE: 'COMMUNITY_CARDS_UPDATE',
+  DEAL_START: 'DEAL_START',
+  DEAL_TO_COMMUNITY: 'DEAL_TO_COMMUNITY',
+  DEAL_TO_PLAYER: 'DEAL_TO_PLAYER',
   DEALER_PLAYER_INDEX_UPDATE: 'DEALER_PLAYER_INDEX_UPDATE',
   DECK_UPDATE: 'DECK_UPDATE',
+  GAME_START: 'GAME_START',
+  GAME_STAGE_UPDATE: 'GAME_STAGE_UPDATE',
   IN_TURN_PLAYER_INDEX_UPDATE: 'IN_TURN_PLAYER_INDEX_UPDATE',
   PLAYER_ADD: 'PLAYER_ADD',
+  PLAYER_BUST: 'PLAYER_BUST',
   PLAYER_HAND_UPDATE: 'PLAYER_HAND_UPDATE',
   PLAYER_WINNER_UPDATE: 'PLAYER_WINNER_UPDATE',
   PLAYERS_CLEAR: 'PLAYERS_CLEAR',
   POT_UPDATE: 'POT_UPDATE'
 };
+
+export function betBlind(player, blindAmount) {
+  return {
+    type: types.BET_BLIND,
+    payload: {
+      player,
+      blindAmount
+    }
+  };
+}
 
 export function betCall(player, callAmount) {
   return {
@@ -66,37 +79,35 @@ export function betsClear() {
 
 export function bustPlayer(player) {
   return {
-    type: types.BUST_PLAYER,
+    type: types.PLAYER_BUST,
     payload: {
       player
     }
   };
 }
 
-export function cardDealToCommunity(card) {
+export function dealStart() {
   return {
-    type: types.CARD_DEAL_TO_COMMUNITY,
+    type: types.DEAL_START,
+    payload: {}
+  };
+}
+
+export function dealToCommunity(card) {
+  return {
+    type: types.DEAL_TO_COMMUNITY,
     payload: {
       card
     }
   };
 }
 
-export function cardDealToPlayer(player, card) {
+export function dealToPlayer(player, card) {
   return {
-    type: types.CARD_DEAL_TO_PLAYER,
+    type: types.DEAL_TO_PLAYER,
     payload: {
       player,
       card
-    }
-  };
-}
-
-export function communityCardsUpdate(cards) {
-  return {
-    type: types.COMMUNITY_CARDS_UPDATE,
-    payload: {
-      cards
     }
   };
 }
@@ -115,6 +126,22 @@ export function deckUpdate(deck) {
     payload: {
       deck
     }
+  };
+}
+
+export function gameStageUpdate(gameStage) {
+  return {
+    type: types.GAME_STAGE_UPDATE,
+    payload: {
+      gameStage
+    }
+  };
+}
+
+export function gameStart() {
+  return {
+    type: types.GAME_START,
+    payload: {}
   };
 }
 

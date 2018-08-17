@@ -7,17 +7,28 @@ import * as actions from '../redux/actions';
 import asyncForEach from '../utils/asyncForEach';
 import asyncRunWithDelayBetween from '../utils/asyncRunWithDelayBetween';
 import bestHandAvailable from '../utils/bestHandAvailable';
-import { 
+import {
   BIG_BLIND_AMOUNT,
-  // GAME_NOT_STARTED,
-  // GAME_READY_TO_DEAL,
-  // GAME_CAN_CALL,
-  // GAME_CAN_RAISE,
-  // GAME_CAN_FOLD,
-  // GAME_READY_FOR_CARD,
-  // GAME_READY_TO_EVALUATE,
+  CAN_START_GAME,
+  CAN_START_HAND,
+  CAN_DEAL_CARD,
+  CAN_CHECK,
+  CAN_CALL,
+  CAN_RAISE,
+  CAN_ALL_IN,
+  CAN_FOLD,
+  CAN_EVALUATE,
+  GAME_STAGE_NOT_STARTED,
+  GAME_STAGE_FIRST_BET,
+  GAME_STAGE_FLOP,
+  GAME_STAGE_SECOND_BET,
+  GAME_STAGE_TURN,
+  GAME_STAGE_THIRD_BET,
+  GAME_STAGE_RIVER,
+  GAME_STAGE_FINAL_BET,
+  GAME_STAGE_EVALUATE,
   PLAY_LAG_MILLISECONDS,
-  SMALL_BLIND_AMOUNT
+  SMALL_BLIND_AMOUNT, GAME_STAGE_NEW_HAND
 } from '../utils/constants';
 import filterAvailablePlayers from '../utils/filterAvailablePlayers';
 import findWinners from '../utils/findWinners';
@@ -37,20 +48,14 @@ class PlayInputs extends Component {
   startNewGame = () => {
     const {
       actions: {
-        communityCardsUpdate,
-        dealerPlayerIndexUpdate,
-        deckUpdate,
-        inTurnPlayerIndexUpdate,
+        gameStart,
         playerAdd,
-        playersClear,
-        potUpdate
+        playersClear
       }
     } = this.props;
-    
-    communityCardsUpdate([]);
-    dealerPlayerIndexUpdate(null);
-    deckUpdate(newDeck());
-    inTurnPlayerIndexUpdate(0);
+
+    gameStart();
+
     playersClear();
     ['Sam', 'Charlotte', 'Caitlin', 'Cole', 'Caden', 'Claire'].forEach(
       (playerName, playerIndex) =>
@@ -64,10 +69,14 @@ class PlayInputs extends Component {
             playerBusted: false
           })
     );
-    potUpdate(0);
   };
 
-  startNewDeal = async () => {
+  startNewHand = async () => {
+    const {
+      actions: {
+        gameStageUpdate
+      }
+    } = this.props;
 
     await asyncRunWithDelayBetween(
       PLAY_LAG_MILLISECONDS,
@@ -76,20 +85,19 @@ class PlayInputs extends Component {
       this.dealCards,
       async () => this.runBlind(SMALL_BLIND_AMOUNT),
       async () => this.runBlind(BIG_BLIND_AMOUNT),
-      this.goToNextPlayer);
+      this.goToNextPlayer,
+      () => gameStageUpdate(GAME_STAGE_FIRST_BET));
   };
 
   clearDeal = async () => {
     const {
       actions: {
         betsClear,
-        communityCardsUpdate,
         deckUpdate,
       }
     } = this.props;
-    betsClear();
-    communityCardsUpdate([]);
     deckUpdate(newDeck());
+    betsClear();
   };
 
   rotateDealer = async () => {
@@ -109,8 +117,7 @@ class PlayInputs extends Component {
   dealCards = async () => {
     const {
       actions: {
-        cardDealToCommunity,
-        cardDealToPlayer
+        dealToPlayer
       },
       dealerPlayerIndex,
       players
@@ -130,28 +137,16 @@ class PlayInputs extends Component {
       async player => {
         // cannot destructure outside lambda since we're in async
         const { deck } = this.props;
-        cardDealToPlayer(player, deck[0]);
+        dealToPlayer(player, deck[0]);
         await timeout(PLAY_LAG_MILLISECONDS);
       }
     );
-
-    await timeout(PLAY_LAG_MILLISECONDS);
-    // Don't use destructuring because it will be cached when the function is split up due to async/await
-    // and that's not what we want
-    // eslint-disable-next-line react/destructuring-assignment
-    cardDealToCommunity(this.props.deck[0]);
-
-    await timeout(PLAY_LAG_MILLISECONDS);
-    // ditto on not using destructuring
-    // eslint-disable-next-line react/destructuring-assignment
-    cardDealToCommunity(this.props.deck[0]);
-
   };
 
   runBlind = async blindAmount => {
     const {
       actions: {
-        betRaise,
+        betBlind,
         inTurnPlayerIndexUpdate
       },
       bustPlayer,
@@ -171,7 +166,7 @@ class PlayInputs extends Component {
       return;
     }
 
-    betRaise(blindPlayer, blindAmount);
+    betBlind(blindPlayer, blindAmount);
   };
 
   betCall = () => {
@@ -240,6 +235,10 @@ class PlayInputs extends Component {
     this.goToNextPlayer();
   };
 
+  betAllIn = () => {
+
+  };
+
   goToNextPlayer = () => {
     const {
       actions: {
@@ -258,11 +257,11 @@ class PlayInputs extends Component {
   dealNextCommunityCard = () => {
     const {
       actions: {
-        cardDealToCommunity
+        dealToCommunity
       },
       deck
     } = this.props;
-    cardDealToCommunity(deck[0]);
+    dealToCommunity(deck[0]);
   };
 
   evaluateHands = async () => {
@@ -300,34 +299,77 @@ class PlayInputs extends Component {
     winners.forEach(playerWinnerUpdate);
   };
 
-  // getGameState = () => {
-  //   const {
-  //     communityCards,
-  //     currentBet,
-  //     dealerPlayerIndex,
-  //     deck,
-  //     inTurnPlayerIndex,
-  //     players
-  //   } = this.props;
-  //
-  //   if (players.length === 0) {
-  //     return GAME_NOT_STARTED;
-  //   }
-  //
-  //   if (players[0].holeCards.length === 0) {
-  //     return GAME_READY_TO_DEAL;
-  //   }
-  //
-  //
-  // };
+  getAvailableActions = () => {
+    const { gameStage } = this.props;
+
+    switch (gameStage) {
+      case GAME_STAGE_NOT_STARTED:
+        return CAN_START_GAME;
+
+      case GAME_STAGE_NEW_HAND:
+        return CAN_START_HAND;
+
+      case GAME_STAGE_FIRST_BET:
+      case GAME_STAGE_SECOND_BET:
+      case GAME_STAGE_THIRD_BET:
+      case GAME_STAGE_FINAL_BET:
+        return this.getAvailableBetActions();
+
+      case GAME_STAGE_FLOP:
+      case GAME_STAGE_TURN:
+      case GAME_STAGE_RIVER:
+        return CAN_DEAL_CARD;
+
+      case GAME_STAGE_EVALUATE:
+        return CAN_EVALUATE;
+
+      default:
+        console.error(`Unrecognized game stage '${gameStage}'.`);
+        return 0;
+    }
+  };
+
+  getAvailableBetActions = () => {
+    const {
+      currentBet,
+      inTurnPlayerIndex,
+      lastRaiseAmount,
+      players
+    } = this.props;
+
+    // const allBetsDone = players.every(p => p.playerBusted || p.playerFolded || p.playerBet === currentBet) &&
+    //   inTurnPlayerIndex === lastRaisePlayerIndex + 1;
+
+    const player = players[inTurnPlayerIndex];
+    const { playerBank, playerBet } = player;
+    const callAmount = currentBet - playerBet;
+    const minRaiseAmount = callAmount + (lastRaiseAmount * 2);
+
+    let canDo = CAN_FOLD | CAN_ALL_IN;
+
+    if (callAmount === 0) {
+      canDo |= CAN_CHECK;
+    } else if (playerBank >= callAmount) {
+      canDo |= CAN_CALL;
+    }
+
+    if (playerBank >= minRaiseAmount) {
+      canDo |= CAN_RAISE;
+    }
+
+    return canDo;
+  };
 
   render() {
     const {
-      currentBet
+      currentBet,
+      lastRaiseAmount
     } = this.props;
     const {
       raiseAmount
     } = this.state;
+    const canDo = this.getAvailableActions();
+
     return (
       <div className="player-input">
         <div>
@@ -335,27 +377,38 @@ class PlayInputs extends Component {
         </div>
         <div className="interim-data">
           <div>
-            <button onClick={this.startNewGame}
+            {`Current Bet: $${currentBet} Min. Raise: $${lastRaiseAmount}`}
+          </div>
+          <div>
+            <button disabled={(canDo & CAN_START_GAME) === 0}
+                    onClick={this.startNewGame}
                     type="button">
               New Game
             </button>
-            <button onClick={this.startNewDeal}
+            <button disabled={(canDo & CAN_START_HAND) === 0}
+                    onClick={this.startNewHand}
                     type="button">
-              New Deal
+              New Hand
+            </button>
+            <button disabled={(canDo & CAN_DEAL_CARD) === 0}
+                    onClick={this.dealNextCommunityCard}
+                    type="button">
+              Next Card
+            </button>
+            <button disabled={(canDo & CAN_EVALUATE) === 0}
+                    onClick={this.evaluateHands}
+                    type="button">
+              Evaluate
             </button>
           </div>
           <div>
-            <span>
-              Bet:
-              { ' ' }
-              {currentBet}
-              { ' ' }
-            </span>
-            <button onClick={this.betCheck}
+            <button disabled={(canDo & CAN_CHECK) === 0}
+                    onClick={this.betCheck}
                     type="button">
               Check
             </button>
-            <button onClick={this.betCall}
+            <button disabled={(canDo & CAN_CALL) === 0}
+                    onClick={this.betCall}
                     type="button">
               Call
             </button>
@@ -363,25 +416,20 @@ class PlayInputs extends Component {
                    onChange={event => this.setRaiseAmount(parseInt(event.target.value))}
                    onKeyPress={event => event.code === 'Enter' && this.betRaise()}
                    value={raiseAmount} />
-            <button onClick={this.betRaise}
+            <button disabled={(canDo & CAN_RAISE) === 0}
+                    onClick={this.betRaise}
                     type="button">
               Raise
             </button>
-            <button onClick={this.betFold}
+            <button disabled={(canDo & CAN_ALL_IN) === 0}
+                    onClick={this.betAllIn}
+                    type="button">
+              All-In
+            </button>
+            <button disabled={(canDo & CAN_FOLD) === 0}
+                    onClick={this.betFold}
                     type="button">
               Fold
-            </button>
-          </div>
-          <div>
-            <button onClick={this.dealNextCommunityCard}
-                    type="button">
-              Next Card
-            </button>
-          </div>
-          <div>
-            <button onClick={this.evaluateHands}
-                    type="button">
-              Evaluate
             </button>
           </div>
         </div>
@@ -396,7 +444,10 @@ function mapStateToProps(state) {
     currentBet,
     dealerPlayerIndex,
     deck,
+    gameStage,
     inTurnPlayerIndex,
+    lastRaiseAmount,
+    lastRaisePlayerIndex,
     players
   } = state;
   return {
@@ -404,7 +455,10 @@ function mapStateToProps(state) {
     currentBet,
     dealerPlayerIndex,
     deck,
+    gameStage,
     inTurnPlayerIndex,
+    lastRaiseAmount,
+    lastRaisePlayerIndex,
     players
   };
 }

@@ -17,6 +17,8 @@
     "function-paren-newline": 0,
     "implicit-arrow-linebreak": 0,
     "max-len": [2, {"code": 120, "ignoreStrings": true, "ignoreTrailingComments": true}],
+    "no-bitwise": 0,
+    "no-console": 0,
     "no-nested-ternary": 0,
     "no-plusplus": 0,
     "no-trailing-spaces": 0,

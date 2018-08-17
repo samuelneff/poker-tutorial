@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import {GAME_STAGE_NEW_HAND, GAME_STAGE_NOT_STARTED} from '../utils/constants';
 import { types } from './actions';
 import initialState from './initialState';
 import cardsEqual from '../utils/cardsEqual';
@@ -29,11 +30,14 @@ const reducers = {
 
   communityCards(state = initialState.communityCards, action) {
     switch (action.type) {
-      case types.COMMUNITY_CARDS_UPDATE:
-        return action.payload.cards;
+      case types.DEAL_START:
+        return [];
 
-      case types.CARD_DEAL_TO_COMMUNITY:
+      case types.DEAL_TO_COMMUNITY:
         return [ ...state, action.payload.card ];
+
+      case types.GAME_START:
+        return [];
 
       default:
         return state;
@@ -43,10 +47,17 @@ const reducers = {
   currentBet(state = initialState.currentBet, action) {
     switch (action.type) {
       
+      case types.BET_BLIND:
+        return action.payload.blindAmount;
+
       case types.BET_RAISE:
         return state + action.payload.raiseAmount;
       
       case types.BETS_CLEAR:
+      case types.DEAL_START:
+        return 0;
+
+      case types.DEAL_TO_COMMUNITY:
         return 0;
 
       default:
@@ -55,10 +66,17 @@ const reducers = {
   },
 
   dealerPlayerIndex(state = initialState.dealerPlayerIndex, action) {
-    if (action.type !== types.DEALER_PLAYER_INDEX_UPDATE) {
-      return state;
+    switch (action.type) {
+
+      case types.DEALER_PLAYER_INDEX_UPDATE:
+        return action.payload.playerIndex;
+
+      case types.GAME_START:
+        return null;
+
+      default:
+        return state;
     }
-    return action.payload.playerIndex;
   },
 
   deck(state = initialState.deck, action) {
@@ -66,39 +84,96 @@ const reducers = {
       case types.DECK_UPDATE:
         return action.payload.deck;
 
-      case types.CARD_DEAL_TO_COMMUNITY:
-      case types.CARD_DEAL_TO_PLAYER: {
+      case types.DEAL_TO_COMMUNITY:
+      case types.DEAL_TO_PLAYER: {
         const { card } = action.payload;
-        return state.filter(deckCard => !cardsEqual(deckCard, card));
+        return cardsEqual(state[0], card)
+          ? state.slice(1)
+          : state.filter(deckCard => !cardsEqual(deckCard, card));
       }
+
+      case types.GAME_START:
+        return [];
+
+      default:
+        return state;
+    }
+  },
+
+  gameStage(state = initialState.gameStage, action) {
+    switch (action.type) {
+
+      case types.GAME_START:
+        return GAME_STAGE_NEW_HAND;
+
+      case types.GAME_STAGE_UPDATE:
+        return action.payload.gameStage;
+
       default:
         return state;
     }
   },
 
   inTurnPlayerIndex(state = initialState.inTurnPlayerIndex, action) {
-    if (action.type !== types.IN_TURN_PLAYER_INDEX_UPDATE) {
-      return state;
+    switch (action.type) {
+      case types.IN_TURN_PLAYER_INDEX_UPDATE:
+        return action.payload.playerIndex;
+
+      case types.GAME_START:
+        return null;
+
+      default:
+        return state;
     }
-    return action.payload.playerIndex;
   },
 
   lastRaiseAmount(state = initialState.lastRaiseAmount, action) {
-    if (action.type !== types.BET_RAISE) {
-      return state;
+    switch (action.type) {
+      case types.BET_BLIND:
+        return action.payload.blindAmount;
+
+      case types.BET_RAISE:
+        return action.payload.raiseAmount;
+
+      case types.DEAL_TO_COMMUNITY:
+        return 0;
+
+      default:
+        return state;
     }
-    return action.payload.raiseAmount;
   },
 
   lastRaisePlayerIndex(state = initialState.lastRaisePlayerIndex, action) {
-    if (action.type !== types.BET_RAISE) {
-      return state;
+    switch (action.type) {
+      case types.BET_BLIND:
+      case types.BET_RAISE:
+        return action.payload.player.playerIndex;
+
+      default:
+        return state;
     }
-    return action.payload.player.playerIndex;
   },
 
   players(state = initialState.players, action) {
     switch (action.type) {
+
+      case types.BET_BLIND:
+        return modifyPlayer(
+          state,
+          action,
+          player => {
+            let { playerBank, playerBet } = player;
+            const { blindAmount } = action.payload;
+            playerBank -= blindAmount;
+            playerBet += blindAmount;
+            return {
+              ...player,
+              playerBank,
+              playerBet
+            };
+          }
+        );
+
       case types.BET_RAISE:
         return modifyPlayer(
           state,
@@ -123,6 +198,9 @@ const reducers = {
           player => {
             let { playerBank, playerBet } = player;
             const { callAmount } = action.payload;
+            if (callAmount === 0) {
+              return player;
+            }
             playerBank -= callAmount;
             playerBet += callAmount;
             return {
@@ -157,7 +235,7 @@ const reducers = {
           )
         );
 
-      case types.CARD_DEAL_TO_PLAYER:
+      case types.DEAL_TO_PLAYER:
         return modifyPlayer(
           state,
           action,
@@ -167,7 +245,7 @@ const reducers = {
           })
         );
 
-      case types.BUST_PLAYER:
+      case types.PLAYER_BUST:
         return modifyPlayer(
           state,
           action,
@@ -210,6 +288,9 @@ const reducers = {
 
   pot(state = initialState.pot, action) {
     switch (action.type) {
+      case types.BET_BLIND:
+        return state + action.payload.blindAmount;
+        
       case types.BET_CALL:
         return state + action.payload.callAmount;
 
@@ -218,7 +299,10 @@ const reducers = {
 
       case types.BETS_CLEAR:
         return 0;
-        
+
+      case types.GAME_START:
+        return 0;
+
       case types.POT_UPDATE:
         return action.payload.pot;
 
