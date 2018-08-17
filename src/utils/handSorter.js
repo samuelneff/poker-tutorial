@@ -55,7 +55,7 @@ const equalHandComparers = {
   },
 
   [HAND_FLUSH]: function compareHandsWithFlush(x, y) {
-    return compareHandsByRankAtIndex(x, y, 0);
+    return compareHandsByRankAtIndex(x, y, 4);
   },
 
   [HAND_STRAIGHT]: function compareHandsWithStraight(x, y) {
@@ -79,7 +79,7 @@ const equalHandComparers = {
     const yMaxRank = Math.max(yFirstRank, ySecondRank);
 
     if (xMaxRank !== yMaxRank) {
-      return xMaxRank - yMaxRank;
+      return yMaxRank - xMaxRank;
     }
 
     const xMinRank = Math.min(xFirstRank, xSecondRank);
@@ -99,7 +99,7 @@ const equalHandComparers = {
   },
 
   [HAND_HIGH_CARD]: function compareHandsWithHighCard(x, y) {
-    return compareHandsHighCard(x, y);
+    return compareHandsByRankAtIndex(x, y, 0);
   },
   
 };

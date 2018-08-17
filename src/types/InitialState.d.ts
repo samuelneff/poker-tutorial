@@ -4,6 +4,8 @@ interface InitialState {
   dealerPlayerIndex: number;
   deck: Card[];
   inTurnPlayerIndex: number;
+  lastRaiseAmount: number;
+  lastRaisePlayerIndex: number;
   players:Player[];
   pot: number;
 }

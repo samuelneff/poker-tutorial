@@ -9,6 +9,13 @@ import asyncRunWithDelayBetween from '../utils/asyncRunWithDelayBetween';
 import bestHandAvailable from '../utils/bestHandAvailable';
 import { 
   BIG_BLIND_AMOUNT,
+  // GAME_NOT_STARTED,
+  // GAME_READY_TO_DEAL,
+  // GAME_CAN_CALL,
+  // GAME_CAN_RAISE,
+  // GAME_CAN_FOLD,
+  // GAME_READY_FOR_CARD,
+  // GAME_READY_TO_EVALUATE,
   PLAY_LAG_MILLISECONDS,
   SMALL_BLIND_AMOUNT
 } from '../utils/constants';
@@ -69,7 +76,7 @@ class PlayInputs extends Component {
       this.dealCards,
       async () => this.runBlind(SMALL_BLIND_AMOUNT),
       async () => this.runBlind(BIG_BLIND_AMOUNT),
-      this.startThisDeal);
+      this.goToNextPlayer);
   };
 
   clearDeal = async () => {
@@ -144,7 +151,7 @@ class PlayInputs extends Component {
   runBlind = async blindAmount => {
     const {
       actions: {
-        betUpdate,
+        betRaise,
         inTurnPlayerIndexUpdate
       },
       bustPlayer,
@@ -164,66 +171,83 @@ class PlayInputs extends Component {
       return;
     }
 
-    betUpdate(blindPlayer, blindAmount);
-  };
-
-  startThisDeal = async () => {
-    const {
-      actions: {
-        inTurnPlayerIndexUpdate
-      },
-      inTurnPlayerIndex,
-      players
-    } = this.props;
-    const nextIndex = nextPlayerIndex(inTurnPlayerIndex, players);
-    inTurnPlayerIndexUpdate(nextIndex);
+    betRaise(blindPlayer, blindAmount);
   };
 
   betCall = () => {
     const {
-      currentBet
+      actions: {
+        betCall
+      },
+      currentBet,
+      inTurnPlayerIndex,
+      players
     } = this.props;
-    this.placeBet(currentBet);
+
+    const player = players[inTurnPlayerIndex];
+
+    betCall(
+      player,
+      currentBet - player.playerBet);
+
+    this.goToNextPlayer();
+  };
+
+  betCheck = () => {
+    const {
+      actions: {
+        betCheck
+      },
+      inTurnPlayerIndex,
+      players
+    } = this.props;
+    betCheck(players[inTurnPlayerIndex]);
+    this.goToNextPlayer();
   };
 
   betFold = () => {
     const {
       actions: {
-        inTurnPlayerIndexUpdate
+        betFold
       },
       inTurnPlayerIndex,
       players
     } = this.props;
-    inTurnPlayerIndexUpdate(nextPlayerIndex(inTurnPlayerIndex, players));
+    betFold(players[inTurnPlayerIndex]);
+    this.goToNextPlayer();
   };
 
   betRaise = () => {
     const {
-      currentBet
+      actions: {
+        betRaise
+      },
+      currentBet,
+      inTurnPlayerIndex,
+      players
     } = this.props;
     const {
       raiseAmount
-    } = this.state;    
-    this.placeBet(currentBet + raiseAmount);
+    } = this.state;
+
+    const player = players[inTurnPlayerIndex];
+
+    betRaise(
+      player,
+      raiseAmount,
+      currentBet + raiseAmount - player.playerBet);
+
+    this.goToNextPlayer();
   };
 
-  placeBet = amount => {
+  goToNextPlayer = () => {
     const {
       actions: {
-        betUpdate,
         inTurnPlayerIndexUpdate
       },
       inTurnPlayerIndex,
       players
     } = this.props;
-
-    const betPlayer = players[inTurnPlayerIndex];
-
-    if (betPlayer.playerBank < amount) {
-      return;
-    }
-
-    betUpdate(betPlayer, amount);
     inTurnPlayerIndexUpdate(nextPlayerIndex(inTurnPlayerIndex, players));
   };
 
@@ -270,10 +294,32 @@ class PlayInputs extends Component {
     } = this.props;
     const winners = findWinners(players);
     if (winners.length === 0) {
+      // eslint-disable-next-line no-console
       console.error('No winners ?!?');
     }
     winners.forEach(playerWinnerUpdate);
-  }
+  };
+
+  // getGameState = () => {
+  //   const {
+  //     communityCards,
+  //     currentBet,
+  //     dealerPlayerIndex,
+  //     deck,
+  //     inTurnPlayerIndex,
+  //     players
+  //   } = this.props;
+  //
+  //   if (players.length === 0) {
+  //     return GAME_NOT_STARTED;
+  //   }
+  //
+  //   if (players[0].holeCards.length === 0) {
+  //     return GAME_READY_TO_DEAL;
+  //   }
+  //
+  //
+  // };
 
   render() {
     const {
@@ -305,6 +351,10 @@ class PlayInputs extends Component {
               {currentBet}
               { ' ' }
             </span>
+            <button onClick={this.betCheck}
+                    type="button">
+              Check
+            </button>
             <button onClick={this.betCall}
                     type="button">
               Call

@@ -25,19 +25,14 @@ function modifyPlayer(players, action, modifier) {
   return newPlayers;
 }
 
-function getRaiseAmount(action) {
-  const { betAmount, player: { playerBet } } = action.payload;
-  return betAmount - playerBet;
-}
-
 const reducers = {
 
   communityCards(state = initialState.communityCards, action) {
     switch (action.type) {
-      case types.COMMUNITY_CARDS_UPDATE_REQUEST:
+      case types.COMMUNITY_CARDS_UPDATE:
         return action.payload.cards;
 
-      case types.CARD_DEAL_TO_COMMUNITY_REQUEST:
+      case types.CARD_DEAL_TO_COMMUNITY:
         return [ ...state, action.payload.card ];
 
       default:
@@ -48,10 +43,10 @@ const reducers = {
   currentBet(state = initialState.currentBet, action) {
     switch (action.type) {
       
-      case types.BET_UPDATE_REQUEST: 
-        return Math.max(state, action.payload.betAmount);
+      case types.BET_RAISE:
+        return state + action.payload.raiseAmount;
       
-      case types.BETS_CLEAR_REQUEST:
+      case types.BETS_CLEAR:
         return 0;
 
       default:
@@ -60,7 +55,7 @@ const reducers = {
   },
 
   dealerPlayerIndex(state = initialState.dealerPlayerIndex, action) {
-    if (action.type !== types.DEALER_PLAYER_INDEX_UPDATE_REQUEST) {
+    if (action.type !== types.DEALER_PLAYER_INDEX_UPDATE) {
       return state;
     }
     return action.payload.playerIndex;
@@ -68,11 +63,11 @@ const reducers = {
 
   deck(state = initialState.deck, action) {
     switch (action.type) {
-      case types.DECK_UPDATE_REQUEST:
+      case types.DECK_UPDATE:
         return action.payload.deck;
 
-      case types.CARD_DEAL_TO_COMMUNITY_REQUEST:
-      case types.CARD_DEAL_TO_PLAYER_REQUEST: {
+      case types.CARD_DEAL_TO_COMMUNITY:
+      case types.CARD_DEAL_TO_PLAYER: {
         const { card } = action.payload;
         return state.filter(deckCard => !cardsEqual(deckCard, card));
       }
@@ -82,25 +77,37 @@ const reducers = {
   },
 
   inTurnPlayerIndex(state = initialState.inTurnPlayerIndex, action) {
-    if (action.type !== types.IN_TURN_PLAYER_INDEX_UPDATE_REQUEST) {
+    if (action.type !== types.IN_TURN_PLAYER_INDEX_UPDATE) {
       return state;
     }
     return action.payload.playerIndex;
   },
 
+  lastRaiseAmount(state = initialState.lastRaiseAmount, action) {
+    if (action.type !== types.BET_RAISE) {
+      return state;
+    }
+    return action.payload.raiseAmount;
+  },
+
+  lastRaisePlayerIndex(state = initialState.lastRaisePlayerIndex, action) {
+    if (action.type !== types.BET_RAISE) {
+      return state;
+    }
+    return action.payload.player.playerIndex;
+  },
+
   players(state = initialState.players, action) {
     switch (action.type) {
-      case types.BET_UPDATE_REQUEST:
+      case types.BET_RAISE:
         return modifyPlayer(
           state,
           action,
           player => {
             let { playerBank, playerBet } = player;
-            const raiseAmount = getRaiseAmount(action);
-            if (raiseAmount) {
-              playerBank -= raiseAmount;
-              playerBet += raiseAmount;
-            }
+            const { raiseAmount } = action.payload;
+            playerBank -= raiseAmount;
+            playerBet += raiseAmount;
             return {
               ...player,
               playerBank,
@@ -109,11 +116,24 @@ const reducers = {
           }
         );
 
-      case types.BET_CALL_REQUEST:
-        // TODO: track bets
-        return state;
+      case types.BET_CALL:
+        return modifyPlayer(
+          state,
+          action,
+          player => {
+            let { playerBank, playerBet } = player;
+            const { callAmount } = action.payload;
+            playerBank -= callAmount;
+            playerBet += callAmount;
+            return {
+              ...player,
+              playerBank,
+              playerBet
+            };
+          }
+        );
 
-      case types.BET_FOLD_REQUEST:
+      case types.BET_FOLD:
         return modifyPlayer(
           state,
           action,
@@ -123,7 +143,7 @@ const reducers = {
           })
         );
 
-      case types.BETS_CLEAR_REQUEST:
+      case types.BETS_CLEAR:
         return state.map(
           player => (
             {
@@ -137,7 +157,7 @@ const reducers = {
           )
         );
 
-      case types.CARD_DEAL_TO_PLAYER_REQUEST:
+      case types.CARD_DEAL_TO_PLAYER:
         return modifyPlayer(
           state,
           action,
@@ -147,7 +167,7 @@ const reducers = {
           })
         );
 
-      case types.BUST_PLAYER_REQUEST:
+      case types.BUST_PLAYER:
         return modifyPlayer(
           state,
           action,
@@ -157,10 +177,10 @@ const reducers = {
           })
         );
 
-      case types.PLAYER_ADD_REQUEST:
+      case types.PLAYER_ADD:
         return [...state, action.payload.player];
 
-      case types.PLAYER_HAND_UPDATE_REQUEST:
+      case types.PLAYER_HAND_UPDATE:
         return modifyPlayer(
           state,
           action,
@@ -170,7 +190,7 @@ const reducers = {
           })
         );
 
-      case types.PLAYER_WINNER_UPDATE_REQUEST:
+      case types.PLAYER_WINNER_UPDATE:
         return modifyPlayer(
           state,
           action,
@@ -180,7 +200,7 @@ const reducers = {
           })
         );
 
-      case types.PLAYERS_CLEAR_REQUEST:
+      case types.PLAYERS_CLEAR:
         return [];
       
       default:
@@ -190,13 +210,16 @@ const reducers = {
 
   pot(state = initialState.pot, action) {
     switch (action.type) {
-      case types.BET_UPDATE_REQUEST:
-        return state + getRaiseAmount(action);
+      case types.BET_CALL:
+        return state + action.payload.callAmount;
 
-      case types.BETS_CLEAR_REQUEST:
+      case types.BET_RAISE:
+        return state + action.payload.raiseAmount;
+
+      case types.BETS_CLEAR:
         return 0;
         
-      case types.POT_UPDATE_REQUEST:
+      case types.POT_UPDATE:
         return action.payload.pot;
 
       default:

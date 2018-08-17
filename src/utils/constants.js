@@ -94,3 +94,11 @@ export const HANDS_WITH_SPECIAL_SORT = {
   [HAND_TWO_PAIR]: true,
   [HAND_FULL_HOUSE]: true
 };
+
+export const GAME_NOT_STARTED = 1;
+export const GAME_READY_TO_DEAL = 2;
+export const GAME_CAN_CALL = 4;
+export const GAME_CAN_RAISE = 8;
+export const GAME_CAN_FOLD = 16;
+export const GAME_READY_FOR_CARD = 32;
+export const GAME_READY_TO_EVALUATE = 64;
