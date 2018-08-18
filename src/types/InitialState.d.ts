@@ -3,7 +3,7 @@ interface InitialState {
   communityCards: Card[];
   dealerPlayerIndex: number;
   deck: Card[];
-  gameStageUpdate: string;
+  gameStage: string;
   inTurnPlayerIndex: number;
   lastRaiseAmount: number;
   lastRaisePlayerIndex: number;

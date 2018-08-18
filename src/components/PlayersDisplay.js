@@ -8,6 +8,7 @@ class PlayersDisplay extends Component {
     const { 
       dealerPlayerIndex,
       inTurnPlayerIndex,
+      lastRaisePlayerIndex,
       players
     } = this.props;    
 
@@ -15,7 +16,8 @@ class PlayersDisplay extends Component {
       <PlayerDisplay key={player.playerName}
                      player={player}
                      isDealer={player.playerIndex === dealerPlayerIndex} 
-                     isInTurn={player.playerIndex === inTurnPlayerIndex} /> 
+                     isInTurn={player.playerIndex === inTurnPlayerIndex}
+                     lastRaisePlayerIndex={lastRaisePlayerIndex} />
     ));
   }
 }
@@ -24,11 +26,13 @@ const mapStateToProps = state => {
   const { 
     dealerPlayerIndex,
     inTurnPlayerIndex,
+    lastRaisePlayerIndex,
     players
   } = state;
   return {
     dealerPlayerIndex,
     inTurnPlayerIndex,
+    lastRaisePlayerIndex,
     players
   };
 };

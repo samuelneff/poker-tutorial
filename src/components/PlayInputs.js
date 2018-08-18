@@ -27,6 +27,8 @@ import {
   GAME_STAGE_RIVER,
   GAME_STAGE_FINAL_BET,
   GAME_STAGE_EVALUATE,
+  GAME_STAGES_LIST,
+  GAME_STAGE_INDEX_LOOKUP,
   PLAY_LAG_MILLISECONDS,
   SMALL_BLIND_AMOUNT, GAME_STAGE_NEW_HAND
 } from '../utils/constants';
@@ -169,7 +171,19 @@ class PlayInputs extends Component {
     betBlind(blindPlayer, blindAmount);
   };
 
-  betCall = () => {
+  betCheck = async () => {
+    const {
+      actions: {
+        betCheck
+      },
+      inTurnPlayerIndex,
+      players
+    } = this.props;
+    await betCheck(players[inTurnPlayerIndex]);
+    await this.goToNextPlayer();
+  };
+
+  betCall = async () => {
     const {
       actions: {
         betCall
@@ -181,38 +195,11 @@ class PlayInputs extends Component {
 
     const player = players[inTurnPlayerIndex];
 
-    betCall(
-      player,
-      currentBet - player.playerBet);
-
-    this.goToNextPlayer();
+    await betCall(player, currentBet - player.playerBet);
+    await this.goToNextPlayer();
   };
 
-  betCheck = () => {
-    const {
-      actions: {
-        betCheck
-      },
-      inTurnPlayerIndex,
-      players
-    } = this.props;
-    betCheck(players[inTurnPlayerIndex]);
-    this.goToNextPlayer();
-  };
-
-  betFold = () => {
-    const {
-      actions: {
-        betFold
-      },
-      inTurnPlayerIndex,
-      players
-    } = this.props;
-    betFold(players[inTurnPlayerIndex]);
-    this.goToNextPlayer();
-  };
-
-  betRaise = () => {
+  betRaise = async () => {
     const {
       actions: {
         betRaise
@@ -227,41 +214,83 @@ class PlayInputs extends Component {
 
     const player = players[inTurnPlayerIndex];
 
-    betRaise(
+    await betRaise(
       player,
       raiseAmount,
       currentBet + raiseAmount - player.playerBet);
 
-    this.goToNextPlayer();
+    await this.goToNextPlayer();
   };
 
   betAllIn = () => {
 
   };
 
-  goToNextPlayer = () => {
+  betFold = async () => {
     const {
       actions: {
-        inTurnPlayerIndexUpdate
+        betFold
       },
       inTurnPlayerIndex,
       players
     } = this.props;
-    inTurnPlayerIndexUpdate(nextPlayerIndex(inTurnPlayerIndex, players));
+    await betFold(players[inTurnPlayerIndex]);
+    await this.goToNextPlayer();
+  };
+
+  goToNextPlayer = async () => {
+    const {
+      actions: {
+        gameStageUpdate,
+        inTurnPlayerIndexUpdate
+      },
+      currentBet,
+      gameStage,
+      inTurnPlayerIndex,
+      lastRaisePlayerIndex,
+      players
+    } = this.props;
+    const next = nextPlayerIndex(inTurnPlayerIndex, players);
+    await inTurnPlayerIndexUpdate(next);
+
+    const allBetsDone = players.every(p => p.playerBusted || p.playerFolded || p.playerBet === currentBet) &&
+      next === lastRaisePlayerIndex;
+
+    if (allBetsDone) {
+      const currentStageIndex = GAME_STAGE_INDEX_LOOKUP[gameStage];
+      const nextGameStage = GAME_STAGES_LIST[currentStageIndex + 1];
+      await gameStageUpdate(nextGameStage);
+    }
   };
 
   setRaiseAmount = raiseAmount => {
     this.setState({ raiseAmount });
   };
 
-  dealNextCommunityCard = () => {
+  dealNextCommunityCard = async () => {
     const {
       actions: {
-        dealToCommunity
+        dealToCommunity,
+        gameStageUpdate
       },
-      deck
+      communityCards,
+      deck,
+      gameStage
     } = this.props;
-    dealToCommunity(deck[0]);
+    if (communityCards.length === 0) {
+      await asyncRunWithDelayBetween(
+        PLAY_LAG_MILLISECONDS,
+        () => dealToCommunity(deck[0]),
+        () => dealToCommunity(deck[1]),
+        () => dealToCommunity(deck[2])
+      );
+    } else {
+      await dealToCommunity(deck[0]);
+    }
+
+    const nextGameStageIndex = GAME_STAGE_INDEX_LOOKUP[gameStage] + 1;
+    const nextGameStage = GAME_STAGES_LIST[nextGameStageIndex];
+    gameStageUpdate(nextGameStage);
   };
 
   evaluateHands = async () => {
@@ -287,6 +316,7 @@ class PlayInputs extends Component {
   evaluateWinners = async () => {
     const {
       actions: {
+        gameStageUpdate,
         playerWinnerUpdate
       },
       players
@@ -297,6 +327,7 @@ class PlayInputs extends Component {
       console.error('No winners ?!?');
     }
     winners.forEach(playerWinnerUpdate);
+    gameStageUpdate(GAME_STAGE_NEW_HAND);
   };
 
   getAvailableActions = () => {
@@ -336,9 +367,6 @@ class PlayInputs extends Component {
       lastRaiseAmount,
       players
     } = this.props;
-
-    // const allBetsDone = players.every(p => p.playerBusted || p.playerFolded || p.playerBet === currentBet) &&
-    //   inTurnPlayerIndex === lastRaisePlayerIndex + 1;
 
     const player = players[inTurnPlayerIndex];
     const { playerBank, playerBet } = player;

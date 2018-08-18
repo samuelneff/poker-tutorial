@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import {GAME_STAGE_NEW_HAND, GAME_STAGE_NOT_STARTED} from '../utils/constants';
+import {GAME_STAGE_NEW_HAND} from '../utils/constants';
 import { types } from './actions';
 import initialState from './initialState';
 import cardsEqual from '../utils/cardsEqual';
@@ -55,9 +55,6 @@ const reducers = {
       
       case types.BETS_CLEAR:
       case types.DEAL_START:
-        return 0;
-
-      case types.DEAL_TO_COMMUNITY:
         return 0;
 
       default:
@@ -146,6 +143,11 @@ const reducers = {
   lastRaisePlayerIndex(state = initialState.lastRaisePlayerIndex, action) {
     switch (action.type) {
       case types.BET_BLIND:
+        // for blinds, we the blind better gets to check or raise after
+        // everyone else has a turn, so treat last raise as person
+        // after the blind to give the big blind a chance to check/raise
+        return action.payload.player.playerIndex + 1;
+
       case types.BET_RAISE:
         return action.payload.player.playerIndex;
 

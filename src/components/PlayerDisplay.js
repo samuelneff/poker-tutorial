@@ -1,7 +1,13 @@
 import React from 'react';
 import CardStack from './CardStack';
 
-const PlayerDisplay = ({ isDealer, isInTurn, player }) => {
+const PlayerDisplay = (
+  {
+    isDealer,
+    isInTurn,
+    lastRaisePlayerIndex,
+    player
+  }) => {
   const {
     holeCards,
     playerBet,
@@ -22,6 +28,9 @@ const PlayerDisplay = ({ isDealer, isInTurn, player }) => {
         }
         {
           isInTurn ? ' - IN TURN' : ''
+        }
+        {
+          (lastRaisePlayerIndex === playerIndex) ? ' - LAST RAISE' : ''
         }
         {
           playerFolded ? ' - FOLDED' : ''
