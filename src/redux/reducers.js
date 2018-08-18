@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import {GAME_STAGE_NEW_HAND} from '../utils/constants';
+import { GAME_STAGE_NEW_HAND } from '../utils/constants';
 import { types } from './actions';
 import initialState from './initialState';
 import cardsEqual from '../utils/cardsEqual';
@@ -53,7 +53,6 @@ const reducers = {
       case types.BET_RAISE:
         return state + action.payload.raiseAmount;
       
-      case types.BETS_CLEAR:
       case types.DEAL_START:
         return 0;
 
@@ -78,8 +77,8 @@ const reducers = {
 
   deck(state = initialState.deck, action) {
     switch (action.type) {
-      case types.DECK_UPDATE:
-        return action.payload.deck;
+      case types.DEAL_START:
+        return action.payload.newDeck;
 
       case types.DEAL_TO_COMMUNITY:
       case types.DEAL_TO_PLAYER: {
@@ -132,7 +131,7 @@ const reducers = {
       case types.BET_RAISE:
         return action.payload.raiseAmount;
 
-      case types.DEAL_TO_COMMUNITY:
+      case types.DEAL_START:
         return 0;
 
       default:
@@ -223,7 +222,7 @@ const reducers = {
           })
         );
 
-      case types.BETS_CLEAR:
+      case types.DEAL_START:
         return state.map(
           player => (
             {
@@ -276,13 +275,24 @@ const reducers = {
           action,
           player => ({
             ...player,
+            playerBank: player.playerBank + action.payload.distributionAmount,
             playerWinner: true
           })
         );
 
       case types.PLAYERS_CLEAR:
         return [];
-      
+
+      case types.POT_DISTRIBUTE:
+        return modifyPlayer(
+          state,
+          action,
+          player => ({
+            ...player,
+            playerBank: player.playerBank + action.payload.distributionAmount
+          })
+        );
+
       default:
         return state;
     }
@@ -299,7 +309,7 @@ const reducers = {
       case types.BET_RAISE:
         return state + action.payload.raiseAmount;
 
-      case types.BETS_CLEAR:
+      case types.DEAL_START:
         return 0;
 
       case types.GAME_START:

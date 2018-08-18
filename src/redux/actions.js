@@ -3,12 +3,10 @@ export const types = {
   BET_CALL: 'BET_CALL',
   BET_FOLD: 'BET_FOLD',
   BET_RAISE: 'BET_RAISE',
-  BETS_CLEAR: 'BETS_CLEAR',
   DEAL_START: 'DEAL_START',
   DEAL_TO_COMMUNITY: 'DEAL_TO_COMMUNITY',
   DEAL_TO_PLAYER: 'DEAL_TO_PLAYER',
   DEALER_PLAYER_INDEX_UPDATE: 'DEALER_PLAYER_INDEX_UPDATE',
-  DECK_UPDATE: 'DECK_UPDATE',
   GAME_START: 'GAME_START',
   GAME_STAGE_UPDATE: 'GAME_STAGE_UPDATE',
   IN_TURN_PLAYER_INDEX_UPDATE: 'IN_TURN_PLAYER_INDEX_UPDATE',
@@ -17,6 +15,7 @@ export const types = {
   PLAYER_HAND_UPDATE: 'PLAYER_HAND_UPDATE',
   PLAYER_WINNER_UPDATE: 'PLAYER_WINNER_UPDATE',
   PLAYERS_CLEAR: 'PLAYERS_CLEAR',
+  POT_DISTRIBUTE: 'POT_DISTRIBUTION',
   POT_UPDATE: 'POT_UPDATE'
 };
 
@@ -70,13 +69,6 @@ export function betRaise(player, raiseAmount, totalBetAmount) {
   };
 }
 
-export function betsClear() {
-  return {
-    type: types.BETS_CLEAR,
-    payload: {}
-  };
-}
-
 export function bustPlayer(player) {
   return {
     type: types.PLAYER_BUST,
@@ -86,10 +78,12 @@ export function bustPlayer(player) {
   };
 }
 
-export function dealStart() {
+export function dealStart(newDeck) {
   return {
     type: types.DEAL_START,
-    payload: {}
+    payload: {
+      newDeck
+    }
   };
 }
 
@@ -120,15 +114,6 @@ export function dealerPlayerIndexUpdate(playerIndex) {
     }
   };
 }
-export function deckUpdate(deck) {
-  return {
-    type: types.DECK_UPDATE,
-    payload: {
-      deck
-    }
-  };
-}
-
 export function gameStageUpdate(gameStage) {
   return {
     type: types.GAME_STAGE_UPDATE,
@@ -172,11 +157,12 @@ export function playerHandUpdate(player) {
   };
 }
 
-export function playerWinnerUpdate(player) {
+export function playerWinnerUpdate(player, distributionAmount) {
   return {
     type: types.PLAYER_WINNER_UPDATE,
     payload: {
-      player
+      player,
+      distributionAmount
     }
   };
 }
@@ -185,6 +171,16 @@ export function playersClear() {
   return {
     type: types.PLAYERS_CLEAR,
     payload: {}
+  };
+}
+
+export function potDistribute(player, distributionAmount) {
+  return {
+    type: types.POT_DISTRIBUTE,
+    payload: {
+      player,
+      distributionAmount
+    }
   };
 }
 

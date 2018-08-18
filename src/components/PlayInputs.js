@@ -82,7 +82,7 @@ class PlayInputs extends Component {
 
     await asyncRunWithDelayBetween(
       PLAY_LAG_MILLISECONDS,
-      this.clearDeal,
+      this.dealStart,
       this.rotateDealer,
       this.dealCards,
       async () => this.runBlind(SMALL_BLIND_AMOUNT),
@@ -91,15 +91,13 @@ class PlayInputs extends Component {
       () => gameStageUpdate(GAME_STAGE_FIRST_BET));
   };
 
-  clearDeal = async () => {
+  dealStart = async () => {
     const {
       actions: {
-        betsClear,
-        deckUpdate,
+        dealStart
       }
     } = this.props;
-    deckUpdate(newDeck());
-    betsClear();
+    return dealStart(newDeck());
   };
 
   rotateDealer = async () => {
@@ -317,16 +315,26 @@ class PlayInputs extends Component {
     const {
       actions: {
         gameStageUpdate,
-        playerWinnerUpdate
+        playerWinnerUpdate,
+        potDistribute
       },
-      players
+      dealerPlayerIndex,
+      players,
+      pot
     } = this.props;
     const winners = findWinners(players);
     if (winners.length === 0) {
-      // eslint-disable-next-line no-console
-      console.error('No winners ?!?');
+      winners.splice(0, 0, players);
     }
-    winners.forEach(playerWinnerUpdate);
+
+    const distributionAmount = Math.trunc(pot / winners.length);
+    let remainder = pot - (distributionAmount * winners.length);
+    let remainderDistributionIndex = dealerPlayerIndex;
+    while (remainder--) {
+      remainderDistributionIndex = nextPlayerIndex(remainderDistributionIndex, players);
+      potDistribute(players[remainderDistributionIndex], 1);
+    }
+    winners.forEach(player => playerWinnerUpdate(player, distributionAmount));
     gameStageUpdate(GAME_STAGE_NEW_HAND);
   };
 
@@ -476,7 +484,8 @@ function mapStateToProps(state) {
     inTurnPlayerIndex,
     lastRaiseAmount,
     lastRaisePlayerIndex,
-    players
+    players,
+    pot
   } = state;
   return {
     communityCards,
@@ -487,7 +496,8 @@ function mapStateToProps(state) {
     inTurnPlayerIndex,
     lastRaiseAmount,
     lastRaisePlayerIndex,
-    players
+    players,
+    pot
   };
 }
 
