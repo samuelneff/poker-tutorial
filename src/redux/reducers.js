@@ -182,9 +182,9 @@ const reducers = {
           action,
           player => {
             let { playerBank, playerBet } = player;
-            const { raiseAmount } = action.payload;
-            playerBank -= raiseAmount;
-            playerBet += raiseAmount;
+            const { totalBetAmount } = action.payload;
+            playerBank -= totalBetAmount;
+            playerBet += totalBetAmount;
             return {
               ...player,
               playerBank,
