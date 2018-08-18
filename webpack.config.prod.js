@@ -102,17 +102,8 @@ export default {
         ]
       },
       {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              mimetype: 'image/svg+xml',
-              name: '[name].[ext]'
-            }
-          }
-        ]
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
       },
       {
         test: /\.(jpe?g|png|gif|ico)$/i,

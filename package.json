@@ -42,6 +42,7 @@
     "redux-immutable-state-invariant": "2.1.0"
   },
   "devDependencies": {
+    "@svgr/webpack": "^2.2.1",
     "autoprefixer": "9.1.0",
     "babel-cli": "6.26.0",
     "babel-core": "6.26.3",
