@@ -48,8 +48,8 @@ export const SUITS = [
 export const SUIT_LOOKUP = toLookup(SUITS, echo, (suit, index) => index);
 
 export const PLAY_LAG_MILLISECONDS = 50;
-export const SMALL_BLIND_AMOUNT = 1;
-export const BIG_BLIND_AMOUNT = 2;
+export const SMALL_BLIND_AMOUNT = 5;
+export const BIG_BLIND_AMOUNT = 10;
 
 export const HAND_ROYAL_FLUSH = 'HAND_ROYAL_FLUSH';
 export const HAND_STRAIGHT_FLUSH = 'HAND_STRAIGHT_FLUSH';

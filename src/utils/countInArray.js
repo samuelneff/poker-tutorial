@@ -1,10 +1,12 @@
 /**
  * Counts how many of items in the array the predicate returns true.
- * 
- * @param {any[]} array 
- * @param {Function} predicate 
+ *
+ * @param {any[]} array
+ * @param {Function} predicate
  */
-export default function countInArray(array, predicate) {
+import echo from './echo';
+
+export default function countInArray(array, predicate = echo) {
   if (!Array.isArray(array)) {
     return 0;
   }
