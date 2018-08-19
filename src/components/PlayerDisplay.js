@@ -1,6 +1,7 @@
 import React from 'react';
 import CardStack from './CardStack';
 import Chips from './Chips';
+import * as images from '../images';
 
 const PlayerDisplay = (
   {
@@ -20,8 +21,10 @@ const PlayerDisplay = (
     playerName,
     playerWinner
   } = player;
+  const playerClass = `player-${playerIndex}`;
+  const Avatar = images[`Avatar${playerIndex}`];
   return (
-    <div className={`player-container player-${playerIndex}`}>
+    <div className={`player-container ${playerClass}`}>
       <div className="player-inner-container">
         <div style={{ display: 'none'}}>
           Player { playerName } ({ playerIndex })
@@ -44,21 +47,15 @@ const PlayerDisplay = (
             playerWinner ? ' - WINNER' : ''
           }
         </div>
-        <div className="interim-data">
-          <Chips className={`player-chips player-${playerIndex}`}
-                 amount={playerBank} />
-          <Chips className={`player-bet player-${playerIndex}`}
-                 amount={playerBet} />
-          {
-            !playerHand &&
-            <CardStack cards={holeCards}
-                       className={`player-${playerIndex}`} />
-          }
-          {
-            playerHand &&
-            <CardStack cards={playerHand.cardsInRank.concat(playerHand.kickers)} />
-          }
-        </div>
+        <Chips className={`player-chips ${playerClass}`}
+               amount={playerBank} />
+        <Chips className={`player-bet ${playerClass}`}
+               amount={playerBet} />
+        {
+          <CardStack cards={playerHand ? playerHand.cardsInRank.concat(playerHand.kickers) : holeCards}
+                     className={`${playerClass}`} />
+        }
+        <Avatar className={`avatar ${playerClass} ${isInTurn ? 'in-turn' : ''}`} />
       </div>
     </div>
   );

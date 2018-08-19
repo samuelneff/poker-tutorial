@@ -18,6 +18,7 @@
     "implicit-arrow-linebreak": 0,
     "max-len": [2, {"code": 120, "ignoreStrings": true, "ignoreTrailingComments": true}],
     "no-bitwise": 0,
+    "no-cond-assign": 0,
     "no-console": 0,
     "no-nested-ternary": 0,
     "no-plusplus": 0,
