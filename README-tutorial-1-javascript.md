@@ -61,3 +61,21 @@ The tutorial will review these modern JavaScript concepts:
 . Follow the instructions to create and use a `shuffle` function to shuffle the deck
 . Use `while`, `Math.random()` and `Math.trunc()`
 . Run the test and iterate the shuffle until it passes
+
+## Object deconstruction and the spread operator
+
+. Open `src/utils/recordPlayerBet.js`
+. Follow instructions to implement the function
+  * Use object deconstruction to create local variables
+  * Use spread operator to create a new return object
+. Run tests `src/utils/recordPlayerBet.spec.js`
+. If implemented properly, all tests should pass.
+
+## Callback loop
+
+
+
+# Maybe?
+
+`isFlush` for `every`
+`timeout` for `Promise`

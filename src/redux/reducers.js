@@ -3,6 +3,7 @@ import { GAME_STAGE_NEW_HAND } from '../utils/constants';
 import { types } from './actions';
 import initialState from './initialState';
 import cardsEqual from '../utils/cardsEqual';
+import recordPlayerBet from '../utils/recordPlayerBet';
 
 /**
  * Helper function for reducers that need to modify one player within the players array
@@ -196,21 +197,7 @@ const reducers = {
         return modifyPlayer(
           state,
           action,
-          player => {
-            let { playerBank, playerBet } = player;
-            const { callAmount } = action.payload;
-            if (callAmount === 0) {
-              return player;
-            }
-            playerBank -= callAmount;
-            playerBet += callAmount;
-            return {
-              ...player,
-              playerBank,
-              playerBet
-            };
-          }
-        );
+          player => recordPlayerBet(player, action.payload.callAmount));
 
       case types.BET_FOLD:
         return modifyPlayer(
