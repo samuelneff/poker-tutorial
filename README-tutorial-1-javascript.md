@@ -11,7 +11,7 @@ The tutorial will review these modern JavaScript concepts:
 . object and array destructuring, spread 
 . everything is asynchronous: callbacks, promises, `asyc`/`await`
 . objects, classes, inheritance, object methods
-. `for` loops, `forEach`, `filter`, `map`, `every`, `some`, `reduce`, `keys`, `values`, `entries`
+. `every`, `some`, `reduce`, `keys`, `values`, `entries`
 . HTTP calls
 . best practices, eslint, airbnb
 . Debugging
@@ -91,6 +91,24 @@ The tutorial will review these modern JavaScript concepts:
 . Run the script and enter some bets, verify interaction
   * `node src/model/Player.js`
 . No unit tests for this one (it uses stdin).
+
+## Objects and object methods
+
+. Open `src/model/Player2.js`
+. Create `human` and `computer` objects with same requirements as the previous example but as individual objects, not classes.
+. Run the script and enter some bets, verify interaction
+  * `node src/model/Player2.js`
+. No unit tests for this one (it uses stdin).
+
+## Array methods
+
+### `every()`
+. Open `src/utils/isFlush.js`
+. Implement the method `isFlush`
+. Open `src/utils/isFlush.spec.js`
+. Run the unit tests, verify they pass
+
+### `some()`
 
 
 # Maybe?

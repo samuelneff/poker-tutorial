@@ -4,6 +4,16 @@
  * @param {Card[]} cards 
  */
 export default function isFlush(cards) {
-  const firstSuit = cards[0].suit;
-  return cards.every(card => card.suit === firstSuit);
+
+  // /////////////////////////////////////////
+  //
+  // TUTORIAL
+  //
+  // Implement method to verify all
+  // cards have the same suit using
+  // Array's every() method
+  //
+
+
+
 }
