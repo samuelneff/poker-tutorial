@@ -125,6 +125,21 @@ The tutorial will review these modern JavaScript concepts:
   * Use `await`
 . Run tests in `src/utils/getPlayer.spec.js`
 
+# Discussion points
+
+. best practices, eslint, airbnb
+. Debugging
+. JSDoc
+. TypeScript
+. MDN
+
+# Homework
+
+. Open `src/utils/evaluateHand.js`
+. Review what it does--it's fully implemented (but buggy)
+. Open `src/utils/evaluateHands.spec.js`
+. Implement unit tests to handle all edge cases of `evaluateHand`
+. Identify and debug the errors in `evaluateHand`
 
 
 # Maybe?
