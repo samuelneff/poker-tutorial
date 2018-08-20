@@ -15,7 +15,7 @@ The tutorial will review these modern JavaScript concepts:
 7. HTTP calls
 8. best practices, eslint, airbnb
 9. Debugging
-10. JSDocke
+10. JSDoc
 11. TypeScript
 12. MDN
 
