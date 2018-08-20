@@ -83,6 +83,14 @@ The tutorial will review these modern JavaScript concepts:
 . Comment out the promises implementation and re-write with `async` and `await`
 . Verify method still works properly
 
+## Classes and inheritance
+
+. Open `src/model/Player.js`
+. Review the existing `AbstractPlayer` class
+. Implement `HumanPlayer` and `ComputerPlayer` per directions
+. Run the script and enter some bets, verify interaction
+  * `node src/model/Player.js`
+. No unit tests for this one (it uses stdin).
 
 
 # Maybe?
