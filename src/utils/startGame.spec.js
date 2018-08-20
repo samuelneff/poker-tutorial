@@ -87,18 +87,19 @@ it('Asynchronous tests of startGame', () =>
       pot: 0,
       inTurnPlayerIndex: 0
     };
-    let callbackTriggered = false;
+    const start = Date.now();
 
+    let callbackTriggered = false;
     const errors = [];
     const expectations = {
       
-      240() {
+      200() {
         expect(gameState.deck.length).toBe(51);
         expect(gameState.players[0].holeCards.length).toBe(1);
         expect(gameState.players[1].holeCards.length).toBe(0);
       },
 
-      260() {
+      300() {
         expect(gameState.deck.length).toBe(50);
         expect(gameState.players[0].holeCards.length).toBe(1);
         expect(gameState.players[1].holeCards.length).toBe(1);
@@ -106,13 +107,14 @@ it('Asynchronous tests of startGame', () =>
       },
 
 
-      490() {
+      450() {
         expect(gameState.deck.length).toBe(50);
         expect(gameState.players[0].holeCards.length).toBe(1);
-        expect(gameState.players[1].holeCards.length).toBe(0);
+        expect(gameState.players[1].holeCards.length).toBe(1);
+        expect(gameState.players[2].holeCards.length).toBe(0);
       },
 
-      510() {
+      550() {
         expect(gameState.deck.length).toBe(49);
         expect(gameState.players[0].holeCards.length).toBe(1);
         expect(gameState.players[1].holeCards.length).toBe(1);
@@ -121,23 +123,15 @@ it('Asynchronous tests of startGame', () =>
       },
 
 
-      1010() {
-        expect(gameState.deck.length).toBe(48);
-        expect(gameState.players[0].holeCards.length).toBe(1);
+      1050() {
+        expect(gameState.deck.length).toBe(47);
+        expect(gameState.players[0].holeCards.length).toBe(2);
         expect(gameState.players[1].holeCards.length).toBe(1);
         expect(gameState.players[2].holeCards.length).toBe(1);
         expect(gameState.players[3].holeCards.length).toBe(1);
       },
 
-      1990() {
-        expect(gameState.deck.length).toBe(45);
-        expect(gameState.players[0].holeCards.length).toBe(2);
-        expect(gameState.players[1].holeCards.length).toBe(2);
-        expect(gameState.players[2].holeCards.length).toBe(2);
-        expect(gameState.players[3].holeCards.length).toBe(1);
-      },
-
-      2010() {
+      1950() {
         expect(gameState.deck.length).toBe(44);
         expect(gameState.players[0].holeCards.length).toBe(2);
         expect(gameState.players[1].holeCards.length).toBe(2);
@@ -146,51 +140,60 @@ it('Asynchronous tests of startGame', () =>
         expect(gameState.communityCards.length).toBe(0);
       },
 
-      2240() {
-        expect(gameState.deck.length).toBe(44);
-        expect(gameState.communityCards.length).toBe(0);
+      2050() {
+        expect(gameState.deck.length).toBe(43);
+        expect(gameState.players[0].holeCards.length).toBe(2);
+        expect(gameState.players[1].holeCards.length).toBe(2);
+        expect(gameState.players[2].holeCards.length).toBe(2);
+        expect(gameState.players[3].holeCards.length).toBe(2);
+        expect(gameState.communityCards.length).toBe(1);
       },
 
-      2260() {
+      2200() {
         expect(gameState.deck.length).toBe(43);
         expect(gameState.communityCards.length).toBe(1);
       },
 
-      2490() {
-        expect(gameState.deck.length).toBe(43);
-        expect(gameState.communityCards.length).toBe(1);
-      },
-
-      2510() {
+      2300() {
         expect(gameState.deck.length).toBe(42);
         expect(gameState.communityCards.length).toBe(2);
       },
 
-      2990() {
+      2450() {
+        expect(gameState.deck.length).toBe(42);
+        expect(gameState.communityCards.length).toBe(2);
+      },
+
+      2550() {
+        expect(gameState.deck.length).toBe(41);
+        expect(gameState.communityCards.length).toBe(3);
+      },
+
+      2700() {
         expect(gameState.pot).toBe(0);
       },
 
-      3010() {
+      2800() {
         expect(gameState.pot).toBe(5);
       },
 
-      3240() {
+      2950() {
         expect(gameState.pot).toBe(5);
       },
 
-      3260() {
+      3050() {
         expect(gameState.pot).toBe(15);
       },
 
-      3490() {
+      3200() {
         expect(callbackTriggered).toBe(false);
       },
 
-      3510() {
+      3450() {
         expect(callbackTriggered).toBe(true);
       },
 
-      3750() {
+      3550() {
         if (errors.length) {
           reject(errors);
         } else {
@@ -199,14 +202,11 @@ it('Asynchronous tests of startGame', () =>
       }
     };
 
-    // NOTE: gameStart will run alongside all of our tests
-    startGame(gameState, () => callbackTriggered = true);
-
     Object.entries(expectations).forEach(([ delay, fn ]) => {
       setTimeout(
         () => {
           try {
-            console.log(`Testing ${delay}`);
+            console.log(`${Date.now() - start} - Testing ${delay}`);
             fn();
           } catch (err) {
             errors.push({[delay]: err});
@@ -214,4 +214,8 @@ it('Asynchronous tests of startGame', () =>
         },
         parseInt(delay));
     });
+
+    // NOTE: gameStart will run alongside all of our tests
+    startGame(gameState, () => callbackTriggered = true);
+
   }));

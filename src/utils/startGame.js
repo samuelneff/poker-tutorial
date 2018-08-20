@@ -7,27 +7,98 @@
  * @param {Function} callback
  */
 function startGame(gameState, callback) {
-/*
-  dealPlayerCards(
-    gameState,
-    () => dealCommunityCards(
-      gameState,
-      () => runBlinds(
-        gameState,
-        callback)));
-*/
-  /*
-  dealPlayerCards(gameState)
-    .then(() => dealCommunityCards(gameState))
-    .then(() => runBlinds(gameState));
-    */
 
-  (async () => {
-    await dealPlayerCards(gameState);
-    await dealCommunityCards(gameState);
-    await runBlinds(gameState);
-    callback();
-  })();
+  // /////////////////////////////////////////
+  //
+  // TUTORIAL
+  //
+  // To start a poker game we have three actions:
+  // (1) Deal cards to players
+  // (2) Deal community cards
+  // (3) First two payers make blind bets
+  //
+  // This file has a method already implemented for each of these.
+  // Implement startGame(gameState, callback) to call
+  // each of these methods in sequence and then trigger
+  // the callback.
+  //
+  // Basically like this:
+  //
+  //     dealPlayerCards(gameState, ?)
+  //     dealCommunityCards(gameState, ?)
+  //     runBlinds(gameState, ?)
+  //
+  // But use callbacks to make the methods run sequentially.
+  //
+  // Run this file to execute and verify the sequential behavior
+  //
+  //   node src/utils/startGame.js
+  //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // /////////////////////////////////////////
+  //
+  // TUTORIAL
+  //
+  // With the above task all complete and tests passing,
+  // comment out all of the code you just wrote, and do
+  // it again but this time using promises.
+  //
+  // All of the three functions return a promise (the
+  // callback argument is optional).
+  //
+  // Promises have a then() method that takes a function
+  // that is triggered when the promise is resolved.
+  // Chain the then methods to run promises sequentially.
+  //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // /////////////////////////////////////////
+  //
+  // TUTORIAL
+  //
+  // With the above task all complete and tests passing,
+  // comment out all of the code you just wrote (again),
+  // and do it a third time but this time using async and await.
+  //
+  // async and await use promises under the hood so any
+  // function that returns a promise can be 'await'ed upon.
+  //
+  // We don't want to change the signature to startGame() so
+  // to use async and await we'll need to create a new async
+  // function and then immediately invoke it.
+  //
+  // An async function has the `async` keyword before `function`
+  // and then can use `await` on any method that returns a promise
+  // to essentially halt execution until that method returns
+  //
+
+
+
 }
 
 /**
@@ -59,7 +130,7 @@ function dealPlayerCards(gameState, callback) {
     }
     const card = gameState.deck.shift();
     const player = gameState.players[index];
-    console.log(`Dealing ${card.rank}${card.suit} to ${player.playerName}`);
+    log(`Dealing ${card.rank}${card.suit} to ${player.playerName}`);
     player.holeCards.push(card);
     setTimeout(() => dealPlayerCard(index + 1, next), 250);
   }
@@ -86,7 +157,7 @@ function dealCommunityCards(gameState, callback = noop) {
     return new Promise((resolve, reject) => {
       try {
         const card = gameState.deck.shift();
-        console.log(`Dealing ${card.rank}${card.suit} to community cards`);
+        log(`Dealing ${card.rank}${card.suit} to community cards`);
         gameState.communityCards.push(card);
         resolve();
       } catch (err) {
@@ -106,7 +177,7 @@ function dealCommunityCards(gameState, callback = noop) {
 function runBlinds(gameState, callback = noop) {
   async function runBlindsImpl() {
     async function bet(player, amount) {
-      console.log(`Player ${player.playerName} bets ${amount}`);
+      log(`Player ${player.playerName} bets ${amount}`);
       player.playerBank -= amount;
       player.playerBet += amount;
       gameState.pot += amount;
@@ -129,8 +200,17 @@ function timeout(milliseconds) {
   return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
+let start;
+function log(message) {
+  if (start === undefined) {
+    start = Date.now();
+  }
+  console.log(`${(Date.now() - start).toString().padStart(4, ' ')} - ${message}`);
+}
+
 if (require.main === module) {
-  console.log('Starting game');
+
+  log('Starting game');
   const gameState = {
     deck: [
       {rank: '2', suit: 'C'},
@@ -175,7 +255,8 @@ if (require.main === module) {
     pot: 0,
     inTurnPlayerIndex: 0
   };
-  startGame(gameState, () => console.log('Ready to play now'));
+  startGame(gameState, () => log('Ready to play now'));
 } else {
   module.exports = startGame;
 }
+

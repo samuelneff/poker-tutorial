@@ -71,7 +71,17 @@ The tutorial will review these modern JavaScript concepts:
 . Run tests `src/utils/recordPlayerBet.spec.js`
 . If implemented properly, all tests should pass.
 
-## Callback loop
+## Callbacks, Promises, and `async` / `await`
+
+. Open `src/utils/startGame.js`
+. Follow the instructions to implement `startGame()` using callbacks
+. Run in terminal to see how it runs with delays
+  * `node src/utils/startGame.js`
+. Run unit test `startGame.spec.js` to verify timing
+. Comment out the implementation you just wrote and re-write using promises
+. Verify method still works properly
+. Comment out the promises implementation and re-write with `async` and `await`
+. Verify method still works properly
 
 
 
