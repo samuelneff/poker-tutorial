@@ -100,21 +100,30 @@ The tutorial will review these modern JavaScript concepts:
   * `node src/model/Player2.js`
 . No unit tests for this one (it uses stdin).
 
-## Array methods
-
-### `every()`
+## `Array.every()`
 . Open `src/utils/isFlush.js`
 . Implement the method `isFlush`
 . Open `src/utils/isFlush.spec.js`
 . Run the unit tests, verify they pass
 
-### `reduce()`
+## `Array.reduce()`
 
 . Open `src/utils/countInArray.js`
 . Implement the function using `reduce` as described
 . Open `src/utils/countInArray.spec.js`
 . Run unit tests and make sure they all pass
 
+## `Object.keys`
+
+. Open `src/utils/keysMatching.js`
+
+## fetch
+
+. Open `src/utsils/getPlayer.js`
+. Follow instructions to implement `getPlayers()` to make an API call
+  * Use the `fetch` API
+  * Use `await`
+. Run tests in `src/utils/getPlayer.spec.js`
 
 
 
