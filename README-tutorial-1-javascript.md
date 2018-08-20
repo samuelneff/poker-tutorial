@@ -108,7 +108,14 @@ The tutorial will review these modern JavaScript concepts:
 . Open `src/utils/isFlush.spec.js`
 . Run the unit tests, verify they pass
 
-### `some()`
+### `reduce()`
+
+. Open `src/utils/countInArray.js`
+. Implement the function using `reduce` as described
+. Open `src/utils/countInArray.spec.js`
+. Run unit tests and make sure they all pass
+
+
 
 
 # Maybe?
