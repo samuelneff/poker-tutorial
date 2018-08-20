@@ -26,17 +26,17 @@ The tutorial will review these modern JavaScript concepts:
 1. Open `src/utils/newDeck.js`
 2. Use a traditional `for` loop to create a deck of cards
 3. Run the file as a node script
-  * `node src/utils/newDeck.js`
-4. Notice the output shoudl be an array of objects.
+   * `node src/utils/newDeck.js`
+4. Notice the output should be an array of objects.
 
 ## Running unit tests
 
 1. Open `src/utils/newDeck.spec.js` (ideally in adjacent IDE pane)
 2. Run the tests; the first two tests should pass: `shouldReturnArray` and `shouldReturn52Cards`
-  * Ideally run within IDE
-    1. Right-click on the file tab
-    2. Select *Run 'newDeck.spec.js'*
-  * Run in terminal with `npm test newDeck`
+   * Ideally run within IDE
+     1. Right-click on the file tab
+     2. Select *Run 'newDeck.spec.js'*
+   * Run in terminal with `npm test newDeck`
 
 ## `forEach` loops   
 
@@ -64,19 +64,19 @@ The tutorial will review these modern JavaScript concepts:
 
 ## Object deconstruction and the spread operator
 
-. Open `src/utils/recordPlayerBet.js`
-. Follow instructions to implement the function
-  * Use object deconstruction to create local variables
-  * Use spread operator to create a new return object
-. Run tests `src/utils/recordPlayerBet.spec.js`
-. If implemented properly, all tests should pass.
+1. Open `src/utils/recordPlayerBet.js`
+2. Follow instructions to implement the function
+   * Use object deconstruction to create local variables
+   * Use spread operator to create a new return object
+3. Run tests `src/utils/recordPlayerBet.spec.js`
+4. If implemented properly, all tests should pass.
 
 ## Callbacks, Promises, and `async` / `await`
 
 1. Open `src/utils/startGame.js`
 2. Follow the instructions to implement `startGame()` using callbacks
 3. Run in terminal to see how it runs with delays
-  * `node src/utils/startGame.js`
+   * `node src/utils/startGame.js`
 4. Run unit test `startGame.spec.js` to verify timing
 5. Comment out the implementation you just wrote and re-write using promises
 6. Verify method still works properly
@@ -89,7 +89,7 @@ The tutorial will review these modern JavaScript concepts:
 2. Review the existing `AbstractPlayer` class
 3. Implement `HumanPlayer` and `ComputerPlayer` per directions
 4. Run the script and enter some bets, verify interaction
-  * `node src/model/Player.js`
+   * `node src/model/Player.js`
 5. No unit tests for this one (it uses stdin).
 
 ## Objects and object methods
@@ -97,7 +97,7 @@ The tutorial will review these modern JavaScript concepts:
 1. Open `src/model/Player2.js`
 2. Create `human` and `computer` objects with same requirements as the previous example but as individual objects, not classes.
 3. Run the script and enter some bets, verify interaction
-  * `node src/model/Player2.js`
+   * `node src/model/Player2.js`
 4. No unit tests for this one (it uses stdin).
 
 ## `Array.every()`
@@ -123,8 +123,8 @@ The tutorial will review these modern JavaScript concepts:
 
 1. Open `src/utsils/getPlayer.js`
 2. Follow instructions to implement `getPlayers()` to make an API call
-  * Use the `fetch` API
-  * Use `await`
+   * Use the `fetch` API
+   * Use `await`
 3. Run tests in `src/utils/getPlayer.spec.js`
 
 # Discussion points
