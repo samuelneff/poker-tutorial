@@ -4,6 +4,7 @@ import echo from './echo';
  * Given an object,
  * @param {object} obj
  * @param {function(i:any):boolean} predicate
+ * @returns {Array.<string>}
  */
 export default function keysMatching(obj, predicate = echo) {
 

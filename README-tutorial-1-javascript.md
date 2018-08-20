@@ -116,6 +116,8 @@ The tutorial will review these modern JavaScript concepts:
 ## `Object.keys`
 
 1. Open `src/utils/keysMatching.js`
+2. Follow instructions to implement method to get keys, filter, and return array
+3. Run unit tests `keysMatching`
 
 ## fetch
 
