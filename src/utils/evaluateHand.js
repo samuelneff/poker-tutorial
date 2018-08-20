@@ -50,8 +50,8 @@ const handEvaluators = {
     }
     const rest = restOfHand(cards, threes);
     return rest[0].rank === rest[1].rank
-      ? { cardsInRank: threes.sort(byRankAndSuitSorter).concat(rest.sort(byRankAndSuitSorter)) }
-      : null;
+      ? null
+      : { cardsInRank: threes.sort(byRankAndSuitSorter).concat(rest.sort(byRankAndSuitSorter)) };
   },
 
   [HAND_FLUSH]: function handFlush(cards) {
@@ -70,7 +70,7 @@ const handEvaluators = {
     const threes = threeOfAKind(cards);
     return threes === null
       ? null
-      : { cardsInRank: threes };
+      : { cardsInRank: cards };
   },
 
   [HAND_TWO_PAIR]: function handTwoPair(cards) {
@@ -93,7 +93,7 @@ const handEvaluators = {
   },
 
   [HAND_HIGH_CARD]: function handHighCard(cards) {
-    const high = cards.slice().sort(byRankAndSuitSorter)[cards.length - 1];
+    const high = cards.slice().sort(byRankAndSuitSorter)[cards.length];
     return { cardsInRank: [ high ] };
   },
   
