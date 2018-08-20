@@ -6,18 +6,18 @@ For this tutorial you'll review a number of incomplete functions and unit tests.
 
 The tutorial will review these modern JavaScript concepts:
 
-. `let`, `const`
-. functional first, functions and arrow functions
-. object and array destructuring, spread 
-. everything is asynchronous: callbacks, promises, `asyc`/`await`
-. objects, classes, inheritance, object methods
-. `every`, `some`, `reduce`, `keys`, `values`, `entries`
-. HTTP calls
-. best practices, eslint, airbnb
-. Debugging
-. JSDoc
-. TypeScript
-. MDN
+1. `let`, `const`
+2. functional first, functions and arrow functions
+3. object and array destructuring, spread 
+4. everything is asynchronous: callbacks, promises, `asyc`/`await`
+5. objects, classes, inheritance, object methods
+6. `every`, `some`, `reduce`, `keys`, `values`, `entries`
+7. HTTP calls
+8. best practices, eslint, airbnb
+9. Debugging
+10. JSDocke
+11. TypeScript
+12. MDN
 
 # Tutorial Steps
 
@@ -40,27 +40,27 @@ The tutorial will review these modern JavaScript concepts:
 
 ## `forEach` loops   
 
-. Scroll to `function shouldReturn13OfEachSuit()` within IDE tab
-. Implement the center of the function to count how many card of each suit there are
-. Use `forEach` to loop over the deck
-. Use `if` / `else` to determine which suit to increment
-. Run the the tests, it should pass now
+1. Scroll to `function shouldReturn13OfEachSuit()` within IDE tab
+2. Implement the center of the function to count how many card of each suit there are
+3. Use `forEach` to loop over the deck
+4. Use `if` / `else` to determine which suit to increment
+5. Run the the tests, it should pass now
 
 ## Chaining `map` and `forEach`
 
-. Scroll to the next test `function shouldReturnFourOfEachRank`
-. Use `map()` to convert the card array to an array of ranks
-. Use `forEach()` to loop over the ranks
-. Use property access and a ternary to assign the right value
-. Run the test, it should pass now
+1. Scroll to the next test `function shouldReturnFourOfEachRank`
+2. Use `map()` to convert the card array to an array of ranks
+3. Use `forEach()` to loop over the ranks
+4. Use property access and a ternary to assign the right value
+5. Run the test, it should pass now
 
 ## `while` and `Math`
 
-. Scroll to the last test `function shouldBeShuffled`
-. This test is fully implemented but fails
-. Follow the instructions to create and use a `shuffle` function to shuffle the deck
-. Use `while`, `Math.random()` and `Math.trunc()`
-. Run the test and iterate the shuffle until it passes
+1. Scroll to the last test `function shouldBeShuffled`
+2. This test is fully implemented but fails
+3. Follow the instructions to create and use a `shuffle` function to shuffle the deck
+4. Use `while`, `Math.random()` and `Math.trunc()`
+5. Run the test and iterate the shuffle until it passes
 
 ## Object deconstruction and the spread operator
 
@@ -73,76 +73,71 @@ The tutorial will review these modern JavaScript concepts:
 
 ## Callbacks, Promises, and `async` / `await`
 
-. Open `src/utils/startGame.js`
-. Follow the instructions to implement `startGame()` using callbacks
-. Run in terminal to see how it runs with delays
+1. Open `src/utils/startGame.js`
+2. Follow the instructions to implement `startGame()` using callbacks
+3. Run in terminal to see how it runs with delays
   * `node src/utils/startGame.js`
-. Run unit test `startGame.spec.js` to verify timing
-. Comment out the implementation you just wrote and re-write using promises
-. Verify method still works properly
-. Comment out the promises implementation and re-write with `async` and `await`
-. Verify method still works properly
+4. Run unit test `startGame.spec.js` to verify timing
+5. Comment out the implementation you just wrote and re-write using promises
+6. Verify method still works properly
+7. Comment out the promises implementation and re-write with `async` and `await`
+8. Verify method still works properly
 
 ## Classes and inheritance
 
-. Open `src/model/Player.js`
-. Review the existing `AbstractPlayer` class
-. Implement `HumanPlayer` and `ComputerPlayer` per directions
-. Run the script and enter some bets, verify interaction
+1. Open `src/model/Player.js`
+2. Review the existing `AbstractPlayer` class
+3. Implement `HumanPlayer` and `ComputerPlayer` per directions
+4. Run the script and enter some bets, verify interaction
   * `node src/model/Player.js`
-. No unit tests for this one (it uses stdin).
+5. No unit tests for this one (it uses stdin).
 
 ## Objects and object methods
 
-. Open `src/model/Player2.js`
-. Create `human` and `computer` objects with same requirements as the previous example but as individual objects, not classes.
-. Run the script and enter some bets, verify interaction
+1. Open `src/model/Player2.js`
+2. Create `human` and `computer` objects with same requirements as the previous example but as individual objects, not classes.
+3. Run the script and enter some bets, verify interaction
   * `node src/model/Player2.js`
-. No unit tests for this one (it uses stdin).
+4. No unit tests for this one (it uses stdin).
 
 ## `Array.every()`
-. Open `src/utils/isFlush.js`
-. Implement the method `isFlush`
-. Open `src/utils/isFlush.spec.js`
-. Run the unit tests, verify they pass
+1. Open `src/utils/isFlush.js`
+2. Implement the method `isFlush`
+3. Open `src/utils/isFlush.spec.js`
+4. Run the unit tests, verify they pass
 
 ## `Array.reduce()`
 
-. Open `src/utils/countInArray.js`
-. Implement the function using `reduce` as described
-. Open `src/utils/countInArray.spec.js`
-. Run unit tests and make sure they all pass
+1. Open `src/utils/countInArray.js`
+2. Implement the function using `reduce` as described
+3. Open `src/utils/countInArray.spec.js`
+4. Run unit tests and make sure they all pass
 
 ## `Object.keys`
 
-. Open `src/utils/keysMatching.js`
+1. Open `src/utils/keysMatching.js`
 
 ## fetch
 
-. Open `src/utsils/getPlayer.js`
-. Follow instructions to implement `getPlayers()` to make an API call
+1. Open `src/utsils/getPlayer.js`
+2. Follow instructions to implement `getPlayers()` to make an API call
   * Use the `fetch` API
   * Use `await`
-. Run tests in `src/utils/getPlayer.spec.js`
+3. Run tests in `src/utils/getPlayer.spec.js`
 
 # Discussion points
 
-. best practices, eslint, airbnb
-. Debugging
-. JSDoc
-. TypeScript
-. MDN
+1. best practices, eslint, airbnb
+2. Debugging
+3. JSDoc
+4. TypeScript
+5. MDN
 
 # Homework
 
-. Open `src/utils/evaluateHand.js`
-. Review what it does--it's fully implemented (but buggy)
-. Open `src/utils/evaluateHands.spec.js`
-. Implement unit tests to handle all edge cases of `evaluateHand`
-. Identify and debug the errors in `evaluateHand`
+1. Open `src/utils/evaluateHand.js`
+2. Review what it does--it's fully implemented (but buggy)
+3. Open `src/utils/evaluateHands.spec.js`
+4. Implement unit tests to handle all edge cases of `evaluateHand`
+5. Identify and debug the errors in `evaluateHand`
 
-
-# Maybe?
-
-`isFlush` for `every`
-`timeout` for `Promise`
