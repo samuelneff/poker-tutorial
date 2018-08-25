@@ -2,6 +2,12 @@
 
 For this tutorial you'll review a number of incomplete functions and unit tests.
 
+# Setup
+
+1. Clone repo `https://github.com/samuelneff/poker-tutorial`
+2. Checkout branch `git checkout `tutorial-1-javascript`
+3. Run `npm install`
+
 # Concepts
 
 The tutorial will review these modern JavaScript concepts:
