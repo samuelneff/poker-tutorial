@@ -70,12 +70,12 @@ export default {
           }
         ]
       },
+      // {
+      //   test: /\.svg$/,
+      //   use: ['@svgr/webpack'],
+      // },
       {
-        test: /\.svg$/,
-        use: ['@svgr/webpack'],
-      },
-      {
-        test: /\.(jpe?g|png|gif|ico)$/i,
+        test: /\.(svg|jpe?g|png|gif|ico)$/i,
         use: [
           {
             loader: 'file-loader',
