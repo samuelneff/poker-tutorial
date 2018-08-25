@@ -82,6 +82,10 @@ $avatar-default-size: 8vw;
     border: 2px solid black;
     border-radius: 50%;
   }
+  &.folded {
+    filter: grayscale(100%);
+    opacity: .6;
+  }
   &.player-0 {
     top: calc(#{$player-box-height / 2} - #{$avatar-default-size / 2});
     left: -6vw;

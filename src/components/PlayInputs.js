@@ -37,6 +37,7 @@ import findWinners from '../utils/findWinners';
 import newDeck from '../utils/newDeck';
 import nextPlayerIndex from '../utils/nextPlayerIndex';
 import timeout from '../utils/timeout';
+import toLookup from '../utils/toLookup';
 
 class PlayInputs extends Component {
 
@@ -303,6 +304,9 @@ class PlayInputs extends Component {
     await asyncForEach(
       players,
       async player => {
+        if (player.playerFolded || player.playerBusted) {
+          return;
+        }
         const playerHand = bestHandAvailable(communityCards.concat(player.holeCards));
         playerHandUpdate({...player, playerHand});
       }
@@ -315,6 +319,7 @@ class PlayInputs extends Component {
     const {
       actions: {
         gameStageUpdate,
+        playerLost,
         playerWinnerUpdate,
         potDistribute
       },
@@ -325,6 +330,9 @@ class PlayInputs extends Component {
     const winners = findWinners(players);
     if (winners.length === 0) {
       winners.splice(0, 0, players);
+    } else {
+      const winnerIndexes = toLookup(winners, winner => winner.playerIndex);
+      players.forEach(player => !winnerIndexes[player.playerIndex] && playerLost(player));
     }
 
     const distributionAmount = Math.trunc(pot / winners.length);

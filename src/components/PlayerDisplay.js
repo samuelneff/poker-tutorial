@@ -55,7 +55,7 @@ const PlayerDisplay = (
           <CardStack cards={playerHand ? playerHand.cardsInRank.concat(playerHand.kickers) : holeCards}
                      className={`${playerClass}`} />
         }
-        <Avatar className={`avatar ${playerClass} ${isInTurn ? 'in-turn' : ''}`} />
+        <Avatar className={`avatar ${playerClass} ${isInTurn ? 'in-turn' : ''} ${playerFolded ? 'folded' : ''}`} />
       </div>
     </div>
   );

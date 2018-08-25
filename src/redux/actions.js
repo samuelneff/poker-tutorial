@@ -13,6 +13,7 @@ export const types = {
   PLAYER_ADD: 'PLAYER_ADD',
   PLAYER_BUST: 'PLAYER_BUST',
   PLAYER_HAND_UPDATE: 'PLAYER_HAND_UPDATE',
+  PLAYER_LOST: 'PLAYER_LOST',
   PLAYER_WINNER_UPDATE: 'PLAYER_WINNER_UPDATE',
   PLAYERS_CLEAR: 'PLAYERS_CLEAR',
   POT_DISTRIBUTE: 'POT_DISTRIBUTION',
@@ -151,6 +152,15 @@ export function playerAdd(player) {
 export function playerHandUpdate(player) {
   return {
     type: types.PLAYER_HAND_UPDATE,
+    payload: {
+      player
+    }
+  };
+}
+
+export function playerLost(player) {
+  return {
+    type: types.PLAYER_LOST,
     payload: {
       player
     }

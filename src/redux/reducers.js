@@ -218,6 +218,7 @@ const reducers = {
           action,
           player => ({
             ...player,
+            holeCards: [],
             playerFolded: true
           })
         );
@@ -269,6 +270,16 @@ const reducers = {
           })
         );
 
+      case types.PLAYER_LOST:
+        return modifyPlayer(
+          state,
+          action,
+          player => ({
+            ...player,
+            playerBet: 0
+          })
+        );
+
       case types.PLAYER_WINNER_UPDATE:
         return modifyPlayer(
           state,
@@ -276,6 +287,7 @@ const reducers = {
           player => ({
             ...player,
             playerBank: player.playerBank + action.payload.distributionAmount,
+            playerBet: action.payload.distributionAmount,
             playerWinner: true
           })
         );
@@ -289,7 +301,8 @@ const reducers = {
           action,
           player => ({
             ...player,
-            playerBank: player.playerBank + action.payload.distributionAmount
+            playerBank: player.playerBank + action.payload.distributionAmount,
+            playerBet: action.payload.distributionAmount
           })
         );
 
