@@ -4,11 +4,11 @@ import './favicon.ico';
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import configureStore, { history } from './redux/configureStore';
 import Root from './components/Root';
+import store from './redux/appStore';
+import configureStore, { history } from './redux/configureStore';
 import './styles/global.scss';
 
-const store = configureStore();
 
 render(
   <AppContainer>

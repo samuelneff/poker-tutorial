@@ -53,4 +53,8 @@
 1. Open the file `src/components/Root.js`
 2. Following the pattern, add a route to point `/game` to the `Game` component
      
+# 4. Stateless Functional Component
+
+1. Open the file `src/components/PlayInputs.js`
+2. Follow instructions
 

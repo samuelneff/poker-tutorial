@@ -1,6 +1,8 @@
 body {
   margin: 0;
   padding: 0;
+  width: 100vw;
+  height: 100vh;
   font-family: Ubuntu Mono, Consolas, Courier New, monospace;
   font-size: 20px;
   background: black;
@@ -12,6 +14,14 @@ a {
 
   &:hover {
     color: slateblue;
+  }
+}
+button {
+  min-width: 50px;
+  height: 36px;
+
+  &:disabled {
+    opacity: 0.5;
   }
 }
 .root-container {
@@ -285,9 +295,7 @@ $chip-width: 3vw;
 }
 .player-input {
   position: fixed;
-  top: 82vh;
-  left: 1vw;
-  width: 80vh;
-  height: 18vh;
+  bottom: 2vh;
+  left: 2vw;
   color: white;
 }
