@@ -229,6 +229,7 @@ const reducers = {
         );
 
       case types.DEAL_START:
+      case types.GAME_START:
         return state.map(
           player => (
             {

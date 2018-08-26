@@ -115,8 +115,8 @@ export default class Instructions extends Component {
   render() {
     return (
       <div>
-        <h1>Instructions</h1>
+        <h1>Texas Hold'em</h1>
       </div>
-    )
+    );
   }
 }

@@ -40,8 +40,13 @@
 
 # 1. Basic React Component
 
-1. In the IDE open the file `src/components/Instructions.js`
-2. Follow instructions.
+1. Open the file `src/components/Instructions.js`
+2. Follow instructions
  
+# 2. Form Input Component
+
+1. Open the file `src/components/ChoosePlayers.js`
+2. Follow instructions 
+
      
 

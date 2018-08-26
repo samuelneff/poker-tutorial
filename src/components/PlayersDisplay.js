@@ -13,7 +13,7 @@ class PlayersDisplay extends Component {
     } = this.props;    
 
     return players.map(player => (
-      <PlayerDisplay key={player.playerName}
+      <PlayerDisplay key={player.playerIndex}
                      player={player}
                      isDealer={player.playerIndex === dealerPlayerIndex} 
                      isInTurn={player.playerIndex === inTurnPlayerIndex}

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import App from './App';
+import ChoosePlayers from './ChoosePlayers';
 import Components from './Components';
+import Game from './Game';
 import Instructions from './Instructions';
 import Menu from './Menu';
 
@@ -15,15 +16,22 @@ export default class Root extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <div>
+
             <Route exact
                    path="/"
                    component={Menu} />
+
             <Route path="/components"
                    component={Components} />
+
             <Route path="/instructions"
                    component={Instructions} />
+
+            <Route path="/players"
+                   component={ChoosePlayers} />
+
             <Route path="/game"
-                   component={App} />
+                   component={Game} />
           </div>
         </BrowserRouter>
       </Provider>
