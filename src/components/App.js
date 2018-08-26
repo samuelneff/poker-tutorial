@@ -11,11 +11,9 @@ class App extends Component {
   render() {
     return (
       <div className="root-container">
-        <div className="poker-table">
-          <PlayersDisplay />
-          <CommunityCards />
-          <PotDisplay />
-        </div>
+        <PlayersDisplay />
+        <CommunityCards />
+        <PotDisplay />
         <PlayInputs />
       </div>
     );

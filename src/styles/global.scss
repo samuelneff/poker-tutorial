@@ -6,11 +6,6 @@ body {
   background: black;
 }
 .root-container {
-}
-.poker-table {
-  width: 100vw;
-  height: 100vh;
-
   &::before {
     display: block;
     content: ' ';
