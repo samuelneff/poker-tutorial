@@ -3,14 +3,13 @@ body {
   padding: 0;
   font-family: Ubuntu Mono, Consolas, Courier New, monospace;
   font-size: 20px;
-  // background: url(../images/BackgroundFelt.jpg)
+  background: black;
 }
 .root-container {
 }
 .poker-table {
   width: 100vw;
   height: 100vh;
-  filter: invert(100%);
 
   &::before {
     display: block;
@@ -31,7 +30,6 @@ $player-box-width: 25vw;
 $player-box-height: 20vh;
 .player-container {
   position: fixed;
-  background: red;
   width: $player-box-width;
   height: $player-box-height;
 
@@ -92,12 +90,12 @@ $avatar-default-size: 8vw;
   }
   &.player-1 {
     top: -6vw;
-    left: 0;
+    left: 6vw;
   }
 
   &.player-2 {
     top: -6vw;
-    right: 0;
+    right: 6vw;
   }
   &.player-3 {
     bottom: 0;
@@ -105,12 +103,12 @@ $avatar-default-size: 8vw;
   }
   &.player-4 {
     bottom: -8vw;
-    right: 0;
+    right: 6vw;
   }
 
   &.player-5 {
     bottom: -8vw;
-    left: 0;
+    left: 6vw;
   }
 }
 .card-stack {
@@ -126,11 +124,14 @@ $avatar-default-size: 8vw;
   }
   &.player-2 {
     top: 0;
-    right: 10vh;
+    right: 22vh;
   }
   &.player-3 {
     top: -2vh;
-    right: 10vh;
+    right: 12vw;
+    &.flat {
+      right: 26vw;
+    }
   }
   &.player-4 {
     top: 6vh;
@@ -140,35 +141,39 @@ $avatar-default-size: 8vw;
     top: 6vh;
     left: 0;
   }
+  &.community {
+    top: 35vh;
+    left: 30vw;
+  }
 }
 .card {
   position: absolute;
-  width: 6.7vw;
+  width: 6vw;
   height: 13vh;
+  top: 0;
+  left: 0;
 
-  &.card-0 {
+  &:not(.flat) {
+    &.card-1 {
+      top: 1.5vh;
+      left: 3vw;
+    }
+  }
+
+  &.flat {
     top: 0;
-    left: 0;
-  }
-
-  &.card-1 {
-    top: 1.5vh;
-    left: 3vw;
-  }
-
-  &.card-2 {
-    top: 3vh;
-    left: 6vw;
-  }
-
-  &.card-3 {
-    top: 4.5vh;
-    left: 9vw;
-  }
-
-  &.card-4 {
-    top: 6vh;
-    left: 12vw;
+    &.card-1 {
+      left: 6.1vw;
+    }
+    &.card-2 {
+      left: 12.2vw;
+    }
+    &.card-3 {
+      left: 18.3vw;
+    }
+    &.card-4 {
+      left: 24.4vw;
+    }
   }
 }
 $chip-width: 3vw;
@@ -208,7 +213,7 @@ $chip-width: 3vw;
     }
     &.player-3 {
       top: 14vh;
-      left: 16vw;
+      left: 12vw;
     }
     &.player-4 {
       top: 14vh;
@@ -277,8 +282,8 @@ $chip-width: 3vw;
 .player-input {
   position: fixed;
   top: 82vh;
-  left: 20vw;
+  left: 1vw;
   width: 80vh;
   height: 18vh;
-
+  color: white;
 }

@@ -47,15 +47,15 @@ const PlayerDisplay = (
             playerWinner ? ' - WINNER' : ''
           }
         </div>
+        <Avatar className={`avatar ${playerClass} ${isInTurn ? 'in-turn' : ''} ${playerFolded ? 'folded' : ''}`} />
         <Chips className={`player-chips ${playerClass}`}
                amount={playerBank} />
         <Chips className={`player-bet ${playerClass}`}
                amount={playerBet} />
         {
           <CardStack cards={playerHand ? playerHand.cardsInRank.concat(playerHand.kickers) : holeCards}
-                     className={`${playerClass}`} />
+                     className={`${playerClass} ${playerHand ? 'flat': ''}`} />
         }
-        <Avatar className={`avatar ${playerClass} ${isInTurn ? 'in-turn' : ''} ${playerFolded ? 'folded' : ''}`} />
       </div>
     </div>
   );
