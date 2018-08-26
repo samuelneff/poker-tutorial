@@ -26,27 +26,6 @@ const PlayerDisplay = (
   return (
     <div className={`player-container ${playerClass}`}>
       <div className="player-inner-container">
-        <div style={{ display: 'none'}}>
-          Player { playerName } ({ playerIndex })
-          {
-            isDealer ? ' - DEALER' : ''
-          }
-          {
-            isInTurn ? ' - IN TURN' : ''
-          }
-          {
-            (lastRaisePlayerIndex === playerIndex) ? ' - LAST RAISE' : ''
-          }
-          {
-            playerFolded ? ' - FOLDED' : ''
-          }
-          {
-            playerBusted ? ' - BUSTED' : ''
-          }
-          {
-            playerWinner ? ' - WINNER' : ''
-          }
-        </div>
         <Avatar className={`avatar ${playerClass} ${isInTurn ? 'in-turn' : ''} ${playerFolded ? 'folded' : ''}`} />
         <Chips className={`player-chips ${playerClass}`}
                amount={playerBank} />

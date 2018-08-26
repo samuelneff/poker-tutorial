@@ -4,6 +4,15 @@ body {
   font-family: Ubuntu Mono, Consolas, Courier New, monospace;
   font-size: 20px;
   background: black;
+  color: white;
+}
+a {
+  color: cornflowerblue;
+  cursor: pointer;
+
+  &:hover {
+    color: slateblue;
+  }
 }
 .root-container {
   &::before {
