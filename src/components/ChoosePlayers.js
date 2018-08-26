@@ -87,7 +87,7 @@ import * as actions from '../redux/actions';
 
           <button disabled={ expression } />
 
-    12. Finally we want to add another button and method to start the game (and remember
+    15. Finally we want to add another button and method to start the game (and remember
         the constructor binding). Disable the button if less than two players.
 
           startGame() {
@@ -104,6 +104,8 @@ import * as actions from '../redux/actions';
             gameStart();
             history.push('/game');
           }
+
+    16. Test it out. Notice we get a blank page. Next tutorial.
 
 
  */

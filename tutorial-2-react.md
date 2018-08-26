@@ -48,5 +48,9 @@
 1. Open the file `src/components/ChoosePlayers.js`
 2. Follow instructions 
 
+# 3. Routing
+
+1. Open the file `src/components/Root.js`
+2. Following the pattern, add a route to point `/game` to the `Game` component
      
 
