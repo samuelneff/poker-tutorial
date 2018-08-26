@@ -46,10 +46,11 @@ const reducers = {
 
   currentBet(state = initialState.currentBet, action) {
     switch (action.type) {
-      
+
       case types.BET_BLIND:
         return action.payload.blindAmount;
 
+      case types.BET_ALL_IN:
       case types.BET_RAISE:
         return state + action.payload.raiseAmount;
       
@@ -125,6 +126,7 @@ const reducers = {
 
   lastRaiseAmount(state = initialState.lastRaiseAmount, action) {
     switch (action.type) {
+
       case types.BET_BLIND:
         return action.payload.blindAmount;
 
@@ -147,7 +149,8 @@ const reducers = {
         // after the blind to give the big blind a chance to check/raise
         return action.payload.player.playerIndex + 1;
 
-      case types.BET_RAISE:
+      case types.BET_ALL_IN:
+        case types.BET_RAISE:
         return action.payload.player.playerIndex;
 
       default:
@@ -175,6 +178,7 @@ const reducers = {
           }
         );
 
+      case types.BET_ALL_IN:
       case types.BET_RAISE:
         return modifyPlayer(
           state,
@@ -186,6 +190,7 @@ const reducers = {
             playerBet += totalBetAmount;
             return {
               ...player,
+              playerAllIn: playerBank === 0,
               playerBank,
               playerBet
             };

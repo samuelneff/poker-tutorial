@@ -221,8 +221,28 @@ class PlayInputs extends Component {
     await this.goToNextPlayer();
   };
 
-  betAllIn = () => {
+  betAllIn = async () => {
+    const {
+      actions: {
+        betAllIn
+      },
+      currentBet,
+      inTurnPlayerIndex,
+      players
+    } = this.props;
+    const player = players[inTurnPlayerIndex];
+    const {
+      playerBank,
+      playerBet
+    } = player;
+    const raiseAmount = Math.max(0, playerBank - currentBet);
 
+    await betAllIn(
+      player,
+      raiseAmount,
+      playerBank);
+
+    await this.goToNextPlayer();
   };
 
   betFold = async () => {

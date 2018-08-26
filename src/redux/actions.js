@@ -1,4 +1,5 @@
 export const types = {
+  BET_ALL_IN: 'BET_ALL_IN',
   BET_BLIND: 'BET_BLIND',
   BET_CALL: 'BET_CALL',
   BET_FOLD: 'BET_FOLD',
@@ -19,6 +20,17 @@ export const types = {
   POT_DISTRIBUTE: 'POT_DISTRIBUTION',
   POT_UPDATE: 'POT_UPDATE'
 };
+
+export function betAllIn(player, raiseAmount, totalBetAmount) {
+  return {
+    type: types.BET_ALL_IN,
+    payload: {
+      player,
+      raiseAmount,
+      totalBetAmount
+    }
+  };
+}
 
 export function betBlind(player, blindAmount) {
   return {

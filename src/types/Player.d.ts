@@ -1,12 +1,13 @@
 
 interface Player {
-  playerIndex:number;
-  playerName:string;
+  holeCards:Card[];
+  playerAllIn:boolean;
   playerBank:number;
   playerBet:number;
-  holeCards:Card[];
-  playerHand:Hand;
-  playerFolded:boolean;
   playerBusted:boolean;
+  playerFolded:boolean;
+  playerHand:Hand;
+  playerIndex:number;
+  playerName:string;
   playerWinner:boolean;
 }
