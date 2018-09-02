@@ -8,6 +8,178 @@ import avatar3Url from './Avatar3.png';
 import avatar4Url from './Avatar4.png';
 import avatar5Url from './Avatar5.png';
 
+import CardBack01 from './CardBack01.svg';
+import CardBack02 from './CardBack02.svg';
+import CardBack03 from './CardBack03.svg';
+import CardBack04 from './CardBack04.svg';
+import CardBack05 from './CardBack05.svg';
+import CardBack06 from './CardBack06.svg';
+import CardBack07 from './CardBack07.svg';
+import Chip005 from './Chip005.svg';
+import Chip010 from './Chip010.svg';
+import Chip025 from './Chip025.svg';
+import Chip100 from './Chip100.svg';
+import ChipDealer from './ChipDealer.svg';
+import MarkerAllIn from './MarkerAllIn.svg';
+import MarkerBigBlind from './MarkerBigBlind.svg';
+import MarkerSmallBlind from './MarkerSmallBlind.svg';
+
+import Card2C from './cards/2C.svg';
+import Card2D from './cards/2D.svg';
+import Card2H from './cards/2H.svg';
+import Card2S from './cards/2S.svg';
+import Card3C from './cards/3C.svg';
+import Card3D from './cards/3D.svg';
+import Card3H from './cards/3H.svg';
+import Card3S from './cards/3S.svg';
+import Card4C from './cards/4C.svg';
+import Card4D from './cards/4D.svg';
+import Card4H from './cards/4H.svg';
+import Card4S from './cards/4S.svg';
+import Card5C from './cards/5C.svg';
+import Card5D from './cards/5D.svg';
+import Card5H from './cards/5H.svg';
+import Card5S from './cards/5S.svg';
+import Card6C from './cards/6C.svg';
+import Card6D from './cards/6D.svg';
+import Card6H from './cards/6H.svg';
+import Card6S from './cards/6S.svg';
+import Card7C from './cards/7C.svg';
+import Card7D from './cards/7D.svg';
+import Card7H from './cards/7H.svg';
+import Card7S from './cards/7S.svg';
+import Card8C from './cards/8C.svg';
+import Card8D from './cards/8D.svg';
+import Card8H from './cards/8H.svg';
+import Card8S from './cards/8S.svg';
+import Card9C from './cards/9C.svg';
+import Card9D from './cards/9D.svg';
+import Card9H from './cards/9H.svg';
+import Card9S from './cards/9S.svg';
+import Card0C from './cards/0C.svg';
+import Card0D from './cards/0D.svg';
+import Card0H from './cards/0H.svg';
+import Card0S from './cards/0S.svg';
+import CardJC from './cards/JC.svg';
+import CardJD from './cards/JD.svg';
+import CardJH from './cards/JH.svg';
+import CardJS from './cards/JS.svg';
+import CardQC from './cards/QC.svg';
+import CardQD from './cards/QD.svg';
+import CardQH from './cards/QH.svg';
+import CardQS from './cards/QS.svg';
+import CardKC from './cards/KC.svg';
+import CardKD from './cards/KD.svg';
+import CardKH from './cards/KH.svg';
+import CardKS from './cards/KS.svg';
+import CardAC from './cards/AC.svg';
+import CardAD from './cards/AD.svg';
+import CardAH from './cards/AH.svg';
+import CardAS from './cards/AS.svg';
+
+const Avatar0 = ({className}) =>
+  <img className={className || ''}
+       src={avatar0Url} />;
+
+const Avatar1 = ({className}) =>
+  <img className={className || ''}
+       src={avatar1Url} />;
+
+const Avatar2 = ({className}) =>
+  <img className={className || ''}
+       src={avatar2Url} />;
+
+const Avatar3 = ({className}) =>
+  <img className={className || ''}
+       src={avatar3Url} />;
+
+const Avatar4 = ({className}) =>
+  <img className={className || ''}
+       src={avatar4Url} />;
+
+const Avatar5 = ({className}) =>
+  <img className={className || ''}
+       src={avatar5Url} />;
+
+export {
+  Avatar0,
+  Avatar1,
+  Avatar2,
+  Avatar3,
+  Avatar4,
+  Avatar5,
+
+  CardBack01,
+  CardBack02,
+  CardBack03,
+  CardBack04,
+  CardBack05,
+  CardBack06,
+  CardBack07,
+  Chip005,
+  Chip010,
+  Chip025,
+  Chip100,
+  ChipDealer,
+  MarkerAllIn,
+  MarkerBigBlind,
+  MarkerSmallBlind,
+
+  Card2C,
+  Card2D,
+  Card2H,
+  Card2S,
+  Card3C,
+  Card3D,
+  Card3H,
+  Card3S,
+  Card4C,
+  Card4D,
+  Card4H,
+  Card4S,
+  Card5C,
+  Card5D,
+  Card5H,
+  Card5S,
+  Card6C,
+  Card6D,
+  Card6H,
+  Card6S,
+  Card7C,
+  Card7D,
+  Card7H,
+  Card7S,
+  Card8C,
+  Card8D,
+  Card8H,
+  Card8S,
+  Card9C,
+  Card9D,
+  Card9H,
+  Card9S,
+  Card0C,
+  Card0D,
+  Card0H,
+  Card0S,
+  CardJC,
+  CardJD,
+  CardJH,
+  CardJS,
+  CardQC,
+  CardQD,
+  CardQH,
+  CardQS,
+  CardKC,
+  CardKD,
+  CardKH,
+  CardKS,
+  CardAC,
+  CardAD,
+  CardAH,
+  CardAS
+};
+
+/*
 import cardBack01Url from './CardBack01.svg';
 import cardBack02Url from './CardBack02.svg';
 import cardBack03Url from './CardBack03.svg';
@@ -76,30 +248,6 @@ import cardACUrl from './cards/AC.svg';
 import cardADUrl from './cards/AD.svg';
 import cardAHUrl from './cards/AH.svg';
 import cardASUrl from './cards/AS.svg';
-
-export const Avatar0 = ({className}) =>
-  <img className={className || ''}
-       src={avatar0Url} />;
-
-export const Avatar1 = ({className}) =>
-  <img className={className || ''}
-       src={avatar1Url} />;
-
-export const Avatar2 = ({className}) =>
-  <img className={className || ''}
-       src={avatar2Url} />;
-
-export const Avatar3 = ({className}) =>
-  <img className={className || ''}
-       src={avatar3Url} />;
-
-export const Avatar4 = ({className}) =>
-  <img className={className || ''}
-       src={avatar4Url} />;
-
-export const Avatar5 = ({className}) =>
-  <img className={className || ''}
-       src={avatar5Url} />;
 
 export const CardBack01 = ({className}) =>
   <img className={className || ''}
@@ -368,3 +516,4 @@ export const CardAH = ({className}) =>
 export const CardAS = ({className}) =>
   <img className={className || ''}
        src={cardASUrl} />;
+*/
