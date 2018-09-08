@@ -26,6 +26,9 @@ export default class Root extends Component {
             <Route path="/players"
                    component={ChoosePlayers} />
 
+            <Route path="/game"
+                   component={Game} />
+
           </div>
         </BrowserRouter>
       </Provider>

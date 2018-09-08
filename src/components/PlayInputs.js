@@ -14,70 +14,63 @@ import {
 } from '../utils/constants';
 
 
-/* ****************************************************************
+const PlayInputs = ({canDo, controller}) =>
+  <div className="player-input">
 
-    TUTORIAL
+    <button disabled={(canDo & CAN_START_GAME) === 0}
+            onClick={controller.startNewGame}
+            type="button">
+      Start game
+    </button>
 
-    Now we're going to create a component to display buttons to control the game.
-    Since this is a simple component that only needs to display JSX based on its
-    props, we don't need a full component. Instead we can just create a function
-    that accepts the two props and returns JSX.
+    <button disabled={(canDo & CAN_START_HAND) === 0}
+            onClick={controller.startNewHand}
+            type="button">
+      Start hand
+    </button>
 
-    1. Create a function to represent the component. It must be pascal case and
-       accept a single argument, its props. It's common to deconstruct the props
-       inside the argument.
+    <button disabled={(canDo & CAN_DEAL_CARD) === 0}
+            onClick={controller.dealNextCommunityCard}
+            type="button">
+      Deal card
+    </button>
 
-        const PlayInputs = ({canDo, controller}) =>
+    <button disabled={(canDo & CAN_CHECK) === 0}
+            onClick={controller.betCheck}
+            type="button">
+      Check
+    </button>
 
-    2. Add a single `<div>` to contain all the buttons. Add a class `player-inputs`
-       so it picks up the styles that have been defined in global css.
+    <button disabled={(canDo & CAN_CALL) === 0}
+            onClick={controller.betCall}
+            type="button">
+      Call
+    </button>
 
-       <div className="player-input">
+    <button disabled={(canDo & CAN_RAISE) === 0}
+            onClick={controller.betRaise}
+            type="button">
+      Raise
+    </button>
 
-    3. Add a button for each action. The `controller` prop has methods for each
-       available action and the `canDo` prop is a bitwise value that defines which
-       actions are currently available based on the status of the game.
+    <button disabled={(canDo & CAN_ALL_IN) === 0}
+            onClick={controller.betAllIn}
+            type="button">
+      All-in
+    </button>
 
-       Example:
+    <button disabled={(canDo & CAN_FOLD) === 0}
+            onClick={controller.betFold}
+            type="button">
+      Fold
+    </button>
 
-          <button disabled={(canDo & CAN_START_GAME) === 0}
-                  onClick={controller.startNewGame}
-                  type="button">
-
-       Controller has these methods available:
-
-          startNewGame
-          startNewHand
-          dealNextCommunityCard
-          evaluateHands
-          betCheck
-          betCall
-          betRaise
-          betAllIn
-          betFold
-
-       And they all have a CAN_XYZ constant already imported.
-
-    4. Play poker!
-
- */
-
-
-
-const PlayInputs = () => null;
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <button disabled={(canDo & CAN_EVALUATE) === 0}
+            onClick={controller.evaluateHands}
+            type="button">
+      Evaluate
+    </button>
+  </div>;
 
 const mapStateToProps = state => {
   return {

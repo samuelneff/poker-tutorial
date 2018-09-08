@@ -14,6 +14,11 @@ const Menu = () => (
       </Link>
     </h1>
     <h1>
+      <Link to="/players">
+        Choose Players
+      </Link>
+    </h1>
+    <h1>
       <Link to="/game">
         Play Poker!
       </Link>
