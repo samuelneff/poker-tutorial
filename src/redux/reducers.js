@@ -1,30 +1,8 @@
 import { combineReducers } from 'redux';
-import { GAME_STAGE_NEW_HAND } from '../utils/constants';
 import { types } from './actions';
 import initialState from './initialState';
 import cardsEqual from '../utils/cardsEqual';
-
-/**
- * Helper function for reducers that need to modify one player within the players array
- * 
- * @param {Player[]} players 
- * @param {{payload:{player:Player}}} action
- * @param {function(player:Player):Player} modifier 
- */
-function modifyPlayer(players, action, modifier) {
-  const newPlayers = [...players];
-
-  const modifyIndex = action.payload.player.playerIndex;
-  const newPlayer = {...newPlayers[modifyIndex]};
-  
-  // modified can return a new player entirely (complex update) or it can change just one property (scalar change)
-  const maybeModifiedPlayer = modifier(newPlayer);
-  newPlayers[modifyIndex] = maybeModifiedPlayer && maybeModifiedPlayer.playerIndex === modifyIndex
-    ? maybeModifiedPlayer
-    : newPlayer;
-  
-  return newPlayers;
-}
+import { GAME_STAGE_NEW_HAND } from '../utils/constants';
 
 const reducers = {
 
@@ -343,5 +321,28 @@ const reducers = {
   }
 
 };
+
+
+/**
+ * Helper function for reducers that need to modify one player within the players array
+ *
+ * @param {Player[]} players
+ * @param {{payload:{player:Player}}} action
+ * @param {function(player:Player):Player} modifier
+ */
+function modifyPlayer(players, action, modifier) {
+  const newPlayers = [...players];
+
+  const modifyIndex = action.payload.player.playerIndex;
+  const newPlayer = {...newPlayers[modifyIndex]};
+
+  // modified can return a new player entirely (complex update) or it can change just one property (scalar change)
+  const maybeModifiedPlayer = modifier(newPlayer);
+  newPlayers[modifyIndex] = maybeModifiedPlayer && maybeModifiedPlayer.playerIndex === modifyIndex
+                            ? maybeModifiedPlayer
+                            : newPlayer;
+
+  return newPlayers;
+}
 
 export default combineReducers(reducers);
