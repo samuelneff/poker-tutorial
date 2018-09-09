@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Redux Overview</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Calibri, Helvetica, sans-serif;
+        }
+        .slide {
+            width: 100vw;
+            height: 100vh;
+        }
+        h1 {
+            margin: 15px 0 calc(-15px - 1em) 15px;
+        }
+        .pic {
+            position: relative;
+            top: 60px;
+            left: 30px;
+            width: 540px;
+            height: 540px;
+        }
+        .circle {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            filter: drop-shadow(10px 10px 3px #aaa);
+            font-size: 35px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 150px;
+        }
+        .c000 {
+            top: 15px;
+            left: calc(50% - 75px);
+        }
+        .c090 {
+            top: calc(50% - 75px);
+            right: 15px;
+        }
+        .c180 {
+            bottom: 15px;
+            left: calc(50% - 75px);
+        }
+        .c270 {
+            top: calc(50% - 75px);
+            left: 15px;
+        }
+        .c1 { background-color: rgba(115, 160, 166, 1); }
+        .c2 { background-color: rgba(117, 117, 116, 1); }
+        .c3 { background-color: rgba(252, 208, 161, 1); }
+        .c4 { background-color: rgba(153, 93, 129, 1); }
+        .c5 { background-color: rgba(255, 255, 255, 1); }
+
+
+        .arrow {
+            position: relative;
+            height: 0; 
+            width: 0;
+            border: 12px solid;
+            border-color:
+                    #aaa
+                    #aaa
+                    transparent
+                    transparent;
+            transform: rotate(45deg);
+        }
+
+        .arrow:before {
+            content: '';
+            position: absolute;
+            display: block;
+            top: 0;
+            right: 0;
+            height: 12px;
+            width: 16px;
+            background-color: #aaa;
+            transform:
+                    rotate(-45deg)
+                    translate(2px, 1px);
+        }
+        .a045 {
+            top: calc(25% + 25px);
+            left: calc(75% - 40px);
+            transform: rotate(90deg);
+        }
+        .a135 {
+            top: calc(75% - 55px);
+            left: calc(75% - 55px);
+            transform: rotate(180deg);
+        }
+        .a225 {
+            top: calc(75% - 75px);
+            left: calc(25% - 0px);
+            transform: rotate(270deg);
+        }
+        .a325 {
+            top: calc(25% - 50px);
+            left: calc(25% + 15px);
+            transform: none;
+        }
+        .sidebar {
+            position: absolute;
+            top: 60px;
+            left: 600px;
+            right: 15px;
+            bottom: 15px;
+            max-width: 500px;
+            overflow-y: auto;
+            font-size: 30px;
+        }
+        .desc {
+            margin: 10px 0;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="slide1" class="slide">
+
+        <h1>Redux Overview</h1>
+
+        <div class="pic">
+
+            <div class="circle c000 c1">Actions</div>
+
+            <div class="arrow a045"></div>
+
+            <div class="circle c090 c2">Reducers</div>
+
+            <div class="arrow a135"></div>
+
+            <div class="circle c180 c3">Store</div>
+
+            <div class="arrow a225"></div>
+
+            <div class="circle c270 c4">React</div>
+
+            <div class="arrow a325"></div>
+
+        </div>
+
+        <div class="sidebar">
+            <ol>
+                <li>
+                    <code>Actions</code>
+                    <div class="desc">Plain objects that propagate through the app triggering changes and passing source changes.</div>
+                </li>
+                <li>
+                    <code>Reducers</code>
+                    <div class="desc">Pure functions that place data from actions into the application data store, often with some manipulation.</div>
+                </li>
+                <li>
+                    <code>Store</code>
+                    <div class="desc">Immutable single object tree that maintains all application-level data.</div>
+                </li>
+                <li>
+                    <code>React</code>
+                    <div class="desc">View components that present an interface to the user, visualize Redux Store, provide controls for the user to kick off actions.</div>
+                </li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
