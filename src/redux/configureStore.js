@@ -6,15 +6,19 @@ import {
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import createHistory from 'history/createBrowserHistory';
 import { routerMiddleware } from 'react-router-redux';
+import apiMiddleware from './middleware';
 import reducers from './reducers';
 
 export const history = createHistory();
+
 function configureStoreProd(initialState) {
   const reactRouterMiddleware = routerMiddleware(history);
   const middlewares = [
     // Add other middleware on this line...
 
     reactRouterMiddleware,
+    apiMiddleware
+
   ];
 
   return createStore(
@@ -33,6 +37,7 @@ function configureStoreDev(initialState) {
     reduxImmutableStateInvariant(),
 
     reactRouterMiddleware,
+    apiMiddleware
   ];
 
   // eslint-disable-next-line no-underscore-dangle

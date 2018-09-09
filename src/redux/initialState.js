@@ -1,4 +1,15 @@
 import { GAME_STAGE_NOT_STARTED } from '../utils/constants';
+
+/*
+
+        Tutorial: Redux Store
+
+
+        The initial state represents the object structure of the store.
+
+        Discussion of store and propagation to components.
+ */
+
 /**
  * @constant
  * @type {InitialState}

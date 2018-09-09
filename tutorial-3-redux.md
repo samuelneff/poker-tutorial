@@ -49,32 +49,32 @@
  
 # 3. Redux Actions
 
-1. Open the file `src/`
+1. Open the file `src/redux/actions.js`
 2. Follow instructions
  
 # 4. Redux Reducers
 
-1. Open the file `src/`
+1. Open the file `src/redux/reducers.js`
 2. Follow instructions
  
 # 5. Redux Store
 
-1. Open the file `src/`
-2. Follow instructions
+1. Open the file `src/redux/initialState.js`
+2. Discussion on Redux store
  
 # 6. Hooking it up
 
-1. Open the file `src/`
+1. Open the file `src/components/ChoosePlayers.js`
 2. Follow instructions
  
 # 7. Making an HTTP Call 1
 
-1. Open the file `src/`
+1. Open the file `src/redux/controller.js`
 2. Follow instructions
  
 # 8. Making an HTTP Call 2
 
-1. Open the file `src/`
+1. Open the file `src/redux/middleware.js`
 2. Follow instructions
  
 

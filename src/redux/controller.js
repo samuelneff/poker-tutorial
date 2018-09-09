@@ -1,3 +1,17 @@
+/*
+
+      Tutorial: HTTP API Call 1
+
+      There is no single prescribed mechanism to integrate API calls with a Redux application. We'll explore
+      two common methods.
+
+      The first is to make an API call before calling into the Redux action. Here we call one of our own
+      functions, it does the API call, and then dispatches an action.
+
+      Scroll down to the startNewGame() method and follow instructions.
+
+
+ */
 import { bindActionCreators } from 'redux';
 
 import * as actionCreators from '../redux/actions';
@@ -47,7 +61,28 @@ const controller = {
       actions
     };
   },
-  
+
+
+  /*
+
+        Tutorial: Player names
+
+
+        Here we have a shortcut method that adds six players with hard-coded names and then
+        starts the game.
+
+        Let's change this method to instead call out to the same sample data endpoint
+        we used in tutorial 1 to get a list of users, and use those to create players.
+
+            https://jsonplaceholder.typicode.com/users
+
+        Use these concepts from the first tutorial
+
+            async/await
+            fetch
+            forEach
+
+   */
   startNewGame() {
     const {
       actions: {

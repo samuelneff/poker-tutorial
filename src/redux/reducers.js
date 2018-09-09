@@ -49,8 +49,19 @@ import { GAME_STAGE_NEW_HAND } from '../utils/constants';
           If the action is not one of the two we just created, then ignore it and return
           the passed-in state exactly as was provided.
 
-          Refer to ChoosePlayers.js for how to create a new players array while modifying
-          the name of one player without modifying the original array at all.
+          Remember in ChoosePlayers.js how we created a new players array while modifying
+          the name of one player without modifying the original array at all. We need
+          to do almost the same thing here.
+
+              // Code originally from ChoosePlayers, we need something similar
+              // but not exactly the same
+              const { players } = this.state;
+              const newPlayers = [...players];
+              newPlayers[player.playerIndex] = {
+                ...player,
+                playerName: event.target.value
+              };
+              this.setState({ players: newPlayers });
 
           When done, review the combineReducers() call at the end of the file.
 */
