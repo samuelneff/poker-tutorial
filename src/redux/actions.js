@@ -1,3 +1,53 @@
+/*
+
+     
+          Tutorial: Actions
+     
+          Actions are plain JavaScript objects that contain
+          information about what is changing in the app.
+     
+          Every action by conventions has three properties,
+          referred to as a Flux Standard Action
+     
+              {
+                  type: SOME_CONSTANT,   // string
+                  payload: {},           // object
+                  meta: {},              // optional object
+                  error: true            // optional, indicates the action represents an error
+              }
+     
+          Types are always defined as constants and are used to identify actions.
+     
+          Payload contains the data related to an action.
+     
+          Meta is object that contains more information about the action (rare).
+     
+     
+     
+          For this tutorial we're going to wire up the ChoosePlayers form which involves adding new players
+          and updating their names.
+
+          We're going to need two new actions, PLAYER_ADD and PLAYER_NAME_UPDATE.
+
+          PLAYER_ADD needs no arguments and should have a payload with the default player object
+          like we did in ChoosePlayers
+
+              {
+                  player: {
+                      playerName: '',
+                      playerBank: 1000
+                  }
+              }
+
+          PLAYER_NAME_UPDATE needs a single argument, the playerName, and passes that along in the payload
+
+              {
+                  player: {
+                      playerName,
+                  }
+              }
+*/
+
 export const types = {
   BET_ALL_IN: 'BET_ALL_IN',
   BET_BLIND: 'BET_BLIND',
@@ -11,7 +61,6 @@ export const types = {
   GAME_START: 'GAME_START',
   GAME_STAGE_UPDATE: 'GAME_STAGE_UPDATE',
   IN_TURN_PLAYER_INDEX_UPDATE: 'IN_TURN_PLAYER_INDEX_UPDATE',
-  PLAYER_ADD: 'PLAYER_ADD',
   PLAYER_BUST: 'PLAYER_BUST',
   PLAYER_HAND_UPDATE: 'PLAYER_HAND_UPDATE',
   PLAYER_LOST: 'PLAYER_LOST',
@@ -148,15 +197,6 @@ export function inTurnPlayerIndexUpdate(playerIndex) {
     type: types.IN_TURN_PLAYER_INDEX_UPDATE,
     payload: {
       playerIndex
-    }
-  };
-}
-
-export function playerAdd(player) {
-  return {
-    type: types.PLAYER_ADD,
-    payload: {
-      player
     }
   };
 }

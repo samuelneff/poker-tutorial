@@ -4,6 +4,57 @@ import initialState from './initialState';
 import cardsEqual from '../utils/cardsEqual';
 import { GAME_STAGE_NEW_HAND } from '../utils/constants';
 
+
+/*
+          Tutorial: Reducers
+
+          Reducers are pure functions--they take in arguments, return a consistent value,
+          and have no side effects.
+
+          Reducers always take two arguments: state and action.
+
+          state is the present value for that particular reducer.
+
+              Sometimes each reducer managers a small object, but even better when each
+              reducer manages an individual scalar value or array of values.
+
+              state is generally undefined on first call and each return must be
+              a non-undefined value. null is ok.
+
+          action is the object from actions.js
+
+              The action object is always be defined and always has a type property.
+
+              It will not always have a payload or meta. Redux itself sends out actions
+              of its own and some libraries will send out actions. You'll usually ignore
+              these actions but need to be aware they may not have a payload.
+
+          Every reducer is called with every action. If the data the reducer manages is
+          not modified by the action, then it must return the state argument as is. If
+          the reducer does make a change based on the action, it must return a new object.
+          state must be treated as immutable.
+
+          Reducers can be arranged as one function per file or as a single object with
+          keys corresponding to names of state properties and functions to generate
+          the data from actions.
+
+          Redux provides a helper called combineReducers to create a single reducer function
+          from an object of key/function pairs.
+
+          Here we already have an object with reducers. We're going to add a single new
+          reducer to manage the players array.
+
+          The initial (default) state for the players array should be an empty array.
+
+          If the action is not one of the two we just created, then ignore it and return
+          the passed-in state exactly as was provided.
+
+          Refer to ChoosePlayers.js for how to create a new players array while modifying
+          the name of one player without modifying the original array at all.
+
+          When done, review the combineReducers() call at the end of the file.
+*/
+
 const reducers = {
 
   communityCards(state = initialState.communityCards, action) {
@@ -136,165 +187,6 @@ const reducers = {
     }
   },
 
-  players(state = initialState.players, action) {
-    switch (action.type) {
-
-      case types.BET_BLIND:
-        return modifyPlayer(
-          state,
-          action,
-          player => {
-            let { playerBank, playerBet } = player;
-            const { blindAmount } = action.payload;
-            playerBank -= blindAmount;
-            playerBet += blindAmount;
-            return {
-              ...player,
-              playerBank,
-              playerBet
-            };
-          }
-        );
-
-      case types.BET_ALL_IN:
-      case types.BET_RAISE:
-        return modifyPlayer(
-          state,
-          action,
-          player => {
-            let { playerBank, playerBet } = player;
-            const { totalBetAmount } = action.payload;
-            playerBank -= totalBetAmount;
-            playerBet += totalBetAmount;
-            return {
-              ...player,
-              playerAllIn: playerBank === 0,
-              playerBank,
-              playerBet
-            };
-          }
-        );
-
-      case types.BET_CALL:
-        return modifyPlayer(
-          state,
-          action,
-          player => {
-            let { playerBank, playerBet } = player;
-            const { callAmount } = action.payload;
-            if (callAmount === 0) {
-              return player;
-            }
-            playerBank -= callAmount;
-            playerBet += callAmount;
-            return {
-              ...player,
-              playerBank,
-              playerBet
-            };
-          }
-        );
-
-      case types.BET_FOLD:
-        return modifyPlayer(
-          state,
-          action,
-          player => ({
-            ...player,
-            holeCards: [],
-            playerFolded: true
-          })
-        );
-
-      case types.DEAL_START:
-      case types.GAME_START:
-        return state.map(
-          player => (
-            {
-              ...player,
-              holeCards: [],
-              playerBet: 0,
-              playerFolded: false,
-              playerHand: null,
-              playerWinner: false
-            }
-          )
-        );
-
-      case types.DEAL_TO_PLAYER:
-        return modifyPlayer(
-          state,
-          action,
-          player => ({
-            ...player,
-            holeCards: [ ...player.holeCards, action.payload.card ]
-          })
-        );
-
-      case types.PLAYER_BUST:
-        return modifyPlayer(
-          state,
-          action,
-          player => ({
-            ...player,
-            playerBusted: true
-          })
-        );
-
-      case types.PLAYER_ADD:
-        return [...state, action.payload.player];
-
-      case types.PLAYER_HAND_UPDATE:
-        return modifyPlayer(
-          state,
-          action,
-          player => ({
-            ...player,
-            playerHand: action.payload.player.playerHand
-          })
-        );
-
-      case types.PLAYER_LOST:
-        return modifyPlayer(
-          state,
-          action,
-          player => ({
-            ...player,
-            playerBet: 0
-          })
-        );
-
-      case types.PLAYER_WINNER_UPDATE:
-        return modifyPlayer(
-          state,
-          action,
-          player => ({
-            ...player,
-            playerBank: player.playerBank + action.payload.distributionAmount,
-            playerBet: action.payload.distributionAmount,
-            playerWinner: true
-          })
-        );
-
-      case types.PLAYERS_CLEAR:
-        return [];
-
-      case types.POT_DISTRIBUTE:
-        return modifyPlayer(
-          state,
-          action,
-          player => ({
-            ...player,
-            playerBank: player.playerBank + action.payload.distributionAmount,
-            playerBet: action.payload.distributionAmount
-          })
-        );
-
-      default:
-        return state;
-    }
-  },
-
   pot(state = initialState.pot, action) {
     switch (action.type) {
       case types.BET_BLIND:
@@ -321,28 +213,5 @@ const reducers = {
   }
 
 };
-
-
-/**
- * Helper function for reducers that need to modify one player within the players array
- *
- * @param {Player[]} players
- * @param {{payload:{player:Player}}} action
- * @param {function(player:Player):Player} modifier
- */
-function modifyPlayer(players, action, modifier) {
-  const newPlayers = [...players];
-
-  const modifyIndex = action.payload.player.playerIndex;
-  const newPlayer = {...newPlayers[modifyIndex]};
-
-  // modified can return a new player entirely (complex update) or it can change just one property (scalar change)
-  const maybeModifiedPlayer = modifier(newPlayer);
-  newPlayers[modifyIndex] = maybeModifiedPlayer && maybeModifiedPlayer.playerIndex === modifyIndex
-                            ? maybeModifiedPlayer
-                            : newPlayer;
-
-  return newPlayers;
-}
 
 export default combineReducers(reducers);
