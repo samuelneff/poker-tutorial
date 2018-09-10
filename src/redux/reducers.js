@@ -49,9 +49,21 @@ import { GAME_STAGE_NEW_HAND } from '../utils/constants';
           If the action is not one of the two we just created, then ignore it and return
           the passed-in state exactly as was provided.
 
+          When we add a new player, we'll get a partial player object from the action. We
+          need to make sure all the default properties are there as well.
+
+              player: {
+                playerIndex: ?,
+                playerName: '',
+                playerBank: 1000,
+                playerBet: 0,
+                holeCards: [],
+                playerBusted: false
+              }
+
           Remember in ChoosePlayers.js how we created a new players array while modifying
           the name of one player without modifying the original array at all. We need
-          to do almost the same thing here.
+          to do almost the same thing here when updating the player name.
 
               // Code originally from ChoosePlayers, we need something similar
               // but not exactly the same

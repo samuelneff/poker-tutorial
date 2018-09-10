@@ -4,8 +4,7 @@ import { withRouter } from 'react-router';
 import { playerAdd, playerNameUpdate } from '../redux/actions';
 
 /*
-
-      Tutorial: Hooking it up
+    Tutorial: Hook it up
 
       Now we want to modify our ChoosePlayers component to use Redux and
       global state.
@@ -15,7 +14,82 @@ import { playerAdd, playerNameUpdate } from '../redux/actions';
       using global state.
 
       All interaction between React components and Redux is through props passed
-      into the component. Redux uses two functions that you create to tell Redux
+      into the component. Redux is going to send us what we want from the global
+      state as well as action creators to call for dispatching actions. We'll
+      get to how at the end of this file.
+ */
+
+class ChoosePlayers extends Component {
+  constructor(props) {
+    super(props);
+    this.startGame = this.startGame.bind(this);
+  }
+
+  /*
+        Tutorial: startGame
+
+        Here I've already completed the changes needed for the startGame method.
+
+        It pulls out `actions` which is provided from Redux and `history` from the
+        router and uses those to start the game and then redirect.
+   */
+  startGame() {
+    const {
+      actions,
+      history
+    } = this.props;
+
+    actions.gameStart();
+    history.push('/game');
+  }
+
+
+  render() {
+
+    /*
+          Tutorial: Wire up render()
+
+          The render method is mostly as we left it at the end of the last tutorial.
+
+          You'll need to deconstruct the `players` array and `actions` from props and then
+          fill in the event handlers to directly call into the actions.
+     */
+
+    return (
+      <div>
+        <button type="button"
+                disabled={players.length >= 6 }
+                onClick={}>
+          Add Player
+        </button>
+        {
+          players.map(
+            player => (
+              <div key={player.playerIndex}>
+                Player {player.playerIndex + 1}
+                <input type="text"
+                       value={player.playerName}
+                       onChange={} />
+              </div>
+            )
+          )
+        }
+        <button type="button"
+                disabled={players.length < 2}
+                onClick={this.startGame}>
+          Start Game
+        </button>
+      </div>
+    );
+  }
+}
+
+
+/*
+
+      Tutorial: Redux magic
+
+Redux uses two functions that you create to tell Redux
       which data from the global state and which actions it should pass into
       the component.
 
@@ -60,8 +134,8 @@ function mapDispatchToProps(dispatch) {
         Propagate that through Redux with dispatch(playerAdd()).
 
         Fill in the rest of this function to return an object with a single key
-        `actions` and two functions that wrap the previously created playerAdd()
-        and playerNameUpdate() functions from actions.js.
+        `actions` and three functions that wrap the previously created playerAdd()
+        and playerNameUpdate() functions as well as gameStart() from actions.js.
 
    */
   return {
@@ -102,86 +176,6 @@ const connected = connector(ChoosePlayers);
  */
 
 export default withRouter(connected);
-
-
-
-
-
-
-class ChoosePlayers extends Component {
-  constructor(props) {
-    super(props);
-    this.startGame = this.startGame.bind(this);
-  }
-
-  /*
-        Tutorial: startGame
-
-        Here I've already completed the changes needed for the startGame method.
-
-        It pulls out `actions` which we provided from Redux and `history` from the
-        router and uses those to start the game and then redirect.
-   */
-  startGame() {
-    const {
-      actions,
-      history
-    } = this.props;
-
-    actions.gameStart();
-    history.push('/game');
-  }
-
-
-  render() {
-
-    /*
-          Tutorial: Wire up render()
-
-          The render method is mostly as we left it at the end of the last tutorial.
-
-          You'll need to extract the data we need and actions from props and then
-          fill in the event handlers to directly call into the actions.
-
-          Once this is done you can run the app and choose players.
-
-          npm start
-
-          select Choose players
-     */
-
-
-
-    return (
-      <div>
-        <button type="button"
-                disabled={players.length >= 6 }
-                onClick={}>
-          Add Player
-        </button>
-        {
-          players.map(
-            player => (
-              <div key={player.playerIndex}>
-                Player {player.playerIndex + 1}
-                <input type="text"
-                       value={player.playerName}
-                       onChange={} />
-              </div>
-            )
-          )
-        }
-        <button type="button"
-                disabled={players.length < 2}
-                onClick={this.startGame}>
-          Start Game
-        </button>
-      </div>
-    );
-  }
-}
-
-
 
 
 

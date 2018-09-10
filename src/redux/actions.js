@@ -39,10 +39,11 @@
                   }
               }
 
-          PLAYER_NAME_UPDATE needs a single argument, the playerName, and passes that along in the payload
+          PLAYER_NAME_UPDATE needs two arguments argument, the playerIndex and playerName, and passes that along in the payload
 
               {
                   player: {
+                      playerIndex,
                       playerName,
                   }
               }
